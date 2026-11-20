@@ -1,5 +1,5 @@
 // Informe o número comercial com o código do país e DDD para direcionar os pedidos.
-const numeroWhatsApp = "";
+const numeroWhatsApp = "5528992745086";
 const menu = document.querySelector("#menu");
 const alternar = document.querySelector(".alternar");
 const janela = document.querySelector("#detalhes");
