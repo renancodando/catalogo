@@ -71,102 +71,231 @@ function atualizarNavegacao() {
 }
 window.addEventListener("scroll", atualizarNavegacao, {passive:true});
 
-// A refração desloca a fotografia só nas áreas molhadas. A imagem de fundo
-// preserva a composição quando a aceleração gráfica está indisponível.
-function animarCenario() {
-  const tela = document.querySelector(".cenario canvas");
-  const reduzir = matchMedia("(prefers-reduced-motion: reduce)");
-  const celular = matchMedia("(max-width: 600px)");
-  const contexto = tela.getContext("webgl", {alpha:false, antialias:false, powerPreference:"low-power"});
-  if (!contexto) return;
-  const vertices = `
-    attribute vec2 ponto;
-    varying vec2 posicao;
-    void main() {
-      posicao = vec2(ponto.x * .5 + .5, .5 - ponto.y * .5);
-      gl_Position = vec4(ponto, 0., 1.);
-    }`;
-  const fragmentos = `
-    precision mediump float;
-    varying vec2 posicao;
-    uniform sampler2D fotografia;
-    uniform float tempo;
-    uniform float compacto;
-    void main() {
-      vec2 uv = posicao;
-      vec2 centro = mix(vec2(.62,.45),vec2(.66,.425),compacto);
-      vec2 local = uv - centro;
-      float lago = smoothstep(mix(.78,.72,compacto),.91,uv.y);
-      float faixa = local.y - local.x * .75 - .06;
-      float anel = exp(-faixa * faixa * 580.) * (1.-smoothstep(.18,.34,abs(local.x)));
-      float esfera = 1.-smoothstep(.12,.21,length(local * vec2(1.4,.65)));
-      uv.x += .0028 * lago * sin(uv.y*110. - tempo*1.25);
-      uv.y += lago * .0022 * sin(uv.y*90. + uv.x*12. - tempo);
-      uv += anel * vec2(.0022*sin(uv.x*57.-tempo*1.4),.0026*cos(uv.x*43.-tempo*1.4));
-      uv += esfera * vec2(.0018*sin(tempo*.46),.0022*cos(tempo*.51));
-      vec3 cor = texture2D(fotografia,uv).rgb;
-      float luz = .07*anel*sin(uv.x*38.-tempo*1.5) + .04*lago*sin(uv.y*84.-tempo);
-      gl_FragColor = vec4(cor*(1.+luz),1.);
-    }`;
-  function compilar(tipo, fonte) {
-    const etapa = contexto.createShader(tipo);
-    contexto.shaderSource(etapa, fonte);
-    contexto.compileShader(etapa);
-    return etapa;
+// Cada placa de vidro orienta a normal e o ponto de brilho pelo contato local.
+const movimentoReduzido = matchMedia("(prefers-reduced-motion: reduce)");
+for (const base of document.querySelectorAll(".base-modelo")) {
+  const placa = base.querySelector(".modelo");
+  function iluminar(evento) {
+    if (movimentoReduzido.matches) return;
+    const limites = base.getBoundingClientRect();
+    const x = (evento.clientX - limites.left) / limites.width;
+    const y = (evento.clientY - limites.top) / limites.height;
+    placa.style.setProperty("--horizontal", (x - .5) * 17 + "deg");
+    placa.style.setProperty("--vertical", (.5 - y) * 14 + "deg");
+    placa.style.setProperty("--luz-x", x * 100 + "%");
+    placa.style.setProperty("--luz-y", y * 100 + "%");
   }
-  const programa = contexto.createProgram();
-  contexto.attachShader(programa, compilar(contexto.VERTEX_SHADER, vertices));
-  contexto.attachShader(programa, compilar(contexto.FRAGMENT_SHADER, fragmentos));
-  contexto.linkProgram(programa);
-  if (!contexto.getProgramParameter(programa, contexto.LINK_STATUS)) return;
-  contexto.useProgram(programa);
-  contexto.bindBuffer(contexto.ARRAY_BUFFER, contexto.createBuffer());
-  contexto.bufferData(contexto.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),contexto.STATIC_DRAW);
-  const ponto = contexto.getAttribLocation(programa,"ponto");
-  contexto.enableVertexAttribArray(ponto);
-  contexto.vertexAttribPointer(ponto,2,contexto.FLOAT,false,0,0);
-  contexto.bindTexture(contexto.TEXTURE_2D,contexto.createTexture());
-  for (const parametro of [contexto.TEXTURE_WRAP_S,contexto.TEXTURE_WRAP_T])
-    contexto.texParameteri(contexto.TEXTURE_2D,parametro,contexto.CLAMP_TO_EDGE);
-  contexto.texParameteri(contexto.TEXTURE_2D,contexto.TEXTURE_MIN_FILTER,contexto.LINEAR);
-  const tempo = contexto.getUniformLocation(programa,"tempo");
-  let quadro = 0, visivel = true, pronta = false, anterior = -100;
-  function desenhar(instante) {
-    if (instante-anterior >= 32) {
-      anterior = instante;
-      contexto.uniform1f(tempo,(instante/1000)%3600);
-      contexto.drawArrays(contexto.TRIANGLE_STRIP,0,4);
+  function repousar() {
+    for (const nome of ["--horizontal","--vertical","--luz-x","--luz-y"]) placa.style.removeProperty(nome);
+  }
+  base.addEventListener("pointermove", iluminar);
+  base.addEventListener("pointerdown", iluminar);
+  for (const evento of ["pointerleave","pointercancel","pointerup"]) base.addEventListener(evento, repousar);
+}
+
+// Todas as coordenadas da cena são medidas no espaço da fotografia (1280 × 720).
+// Assim, o toque continua coincidindo com a água após uma mudança de orientação.
+function iniciarEnseada() {
+  const pagina = document.querySelector(".pagina");
+  const ambiente = document.querySelector(".ambiente");
+  const vista = document.querySelector(".vista-planeta");
+  const controle = vista.querySelector("button");
+  const tela = ambiente.querySelector("canvas");
+  const compacto = matchMedia("(max-width:980px)");
+  const foto = new Image();
+  let recorte, visivel = true, quadro = 0, anterior = 0, tempo = 0;
+  let direcao = 0, giro = 0, inclinacao = 0, altura = 0, impulso = 0, ultimaOnda = -10;
+  let arrasto = null, ultimaPosicao = 0;
+  const ondas = new Float32Array(12);
+  for (let i = 2; i < ondas.length; i += 3) ondas[i] = -10;
+  let proximaOnda = 0;
+  function posicionar() {
+    recorte = compacto.matches ? [510,40,490,320] : [0,0,1280,720];
+    (compacto.matches ? vista : pagina).prepend(ambiente);
+  }
+  posicionar();
+  compacto.addEventListener("change", posicionar);
+  function criarOnda(x,y) {
+    ondas.set([x,y,tempo],proximaOnda*3);
+    proximaOnda = (proximaOnda+1)%4;
+    ultimaOnda = tempo;
+    impulso = 1;
+  }
+  function coordenadas(evento) {
+    const caixa = ambiente.getBoundingClientRect();
+    return [recorte[0] + (evento.clientX-caixa.left)*recorte[2]/caixa.width,
+      recorte[1] + (evento.clientY-caixa.top)*recorte[3]/caixa.height];
+  }
+  pagina.addEventListener("pointerdown", evento => {
+    if (evento.target.closest("a,button") && !controle.contains(evento.target)) return;
+    const [x,y] = coordenadas(evento);
+    if (y>=306 || controle.contains(evento.target)) criarOnda(x,y);
+  });
+  pagina.addEventListener("pointermove", evento => {
+    const [x,y] = coordenadas(evento);
+    if (controle.contains(evento.target)) {
+      if (arrasto === evento.pointerId) {
+        direcao = Math.max(-.95,Math.min(.95,direcao+(evento.clientX-ultimaPosicao)*.012));
+        ultimaPosicao = evento.clientX;
+      } else {direcao = Math.max(-.5,Math.min(.5,(x-752)/300));}
+      inclinacao = Math.max(-.18,Math.min(.18,(y-202)/480));
+    } else if (y>317 && y<700 && tempo-ultimaOnda>.32 && !evento.target.closest("button,a") && evento.pointerType==="mouse") {
+      criarOnda(x,y);
     }
-    quadro = requestAnimationFrame(desenhar);
+  });
+  controle.addEventListener("pointerdown", evento => {
+    arrasto = evento.pointerId;
+    ultimaPosicao = evento.clientX;
+    controle.setPointerCapture(arrasto);
+  });
+  function largar() {arrasto=null;direcao=0;inclinacao=0;}
+  controle.addEventListener("lostpointercapture",largar);
+  controle.addEventListener("pointerleave",() => {if (arrasto===null) largar();});
+  controle.addEventListener("click", evento => {
+    if (evento.detail===0) {criarOnda(751,317);direcao = direcao>.2 ? -.6 : .6;}
+  });
+  controle.addEventListener("keydown", evento => {
+    if (!["ArrowLeft","ArrowRight"].includes(evento.key)) return;
+    evento.preventDefault();
+    direcao = Math.max(-.95,Math.min(.95,direcao+(evento.key==="ArrowLeft"?-.16:.16)));
+    criarOnda(751,317);
+  });
+  const gl = location.protocol === "file:" ? null : tela.getContext("webgl",{alpha:false,antialias:false,powerPreference:"low-power"});
+  let desenhar;
+  if (gl) {
+    const programa = gl.createProgram();
+    const fontes = [
+      [gl.VERTEX_SHADER,`attribute vec2 ponto;
+        varying vec2 uv;
+        void main(){uv=vec2(.5+.5*ponto.x,.5-.5*ponto.y);gl_Position=vec4(ponto,0.,1.);}`],
+      [gl.FRAGMENT_SHADER,`
+        precision highp float;
+        varying vec2 uv;
+        uniform sampler2D foto;
+        uniform vec4 janela;
+        uniform vec3 ondas[4];
+        uniform vec4 animacao;
+        const vec2 tamanho = vec2(1280.,720.);
+        vec3 amostra(vec2 p){return texture2D(foto,clamp(p/tamanho,0.,1.)).rgb;}
+        void main(){
+          float t=animacao.x;
+          vec2 p=janela.xy+uv*janela.zw;
+          vec2 q=p;
+          // Projeção do anel elíptico no plano inclinado da fotografia.
+          vec2 d=p-vec2(750.,201.);
+          vec2 e=vec2(dot(d,vec2(.952,.306)),dot(d,vec2(-.306,.952)))/vec2(225.,77.);
+          float raio=length(e);
+          float aro=1.-smoothstep(.06,.28,abs(raio-1.));
+          vec2 normal=(p-vec2(751.,202.))/vec2(124.,115.);
+          float r2=dot(normal,normal);
+          float disco=1.-smoothstep(.87,1.,r2);
+          aro*=1.-disco*(1.-smoothstep(-.08,.3,e.y));
+          // Reprojeção esférica com profundidade por pixel; preserva a borda do globo.
+          float z=sqrt(max(0.,1.-r2));
+          float angulo=(.072*sin(t*.54)+animacao.y*.56)*z;
+          vec2 giro=vec2(normal.x*(cos(angulo)-1.)+z*sin(angulo),z*animacao.z);
+          q-=giro*vec2(124.,115.)*disco*(1.-aro);
+          // Ondas de superfície e frentes concêntricas geradas pelo visitante.
+          float agua=smoothstep(307.,335.,p.y)*smoothstep(65.,170.,p.x)*(1.-smoothstep(1080.,1220.,p.x));
+          vec2 ondulacao=vec2(sin(p.y*.081+t*1.6)+.55*cos(p.x*.021+p.y*.12-t),sin(p.y*.13+p.x*.012-t*1.35));
+          q+=agua*ondulacao*vec2(2.2,1.65);
+          float brilho=0.;
+          for(int i=0;i<4;i++){
+            float idade=t-ondas[i].z;
+            vec2 delta=(p-ondas[i].xy)*vec2(.82,1.7);
+            float distancia=length(delta);
+            float fase=distancia-idade*130.;
+            float frente=exp(-abs(fase)*.029)*exp(-idade*1.15)*step(0.,idade);
+            float pulso=frente*sin(fase*.24);
+            q+=pulso*delta/max(1.,distancia)*7.*max(agua,aro*.65);
+            brilho+=pulso*.14*agua;
+          }
+          // Duas fases de advecção se alternam para transportar a espuma sem saltos.
+          float fase=fract(t*.53);
+          float outra=fract(fase+.5);
+          vec2 tangente=normalize(vec2(-e.y*.952-e.x*.105,-e.y*.306+e.x*.328)+.0001);
+          vec2 fluxo=tangente*(11.+4.*sin(e.x*11.+e.y*8.)+animacao.w*9.)*aro;
+          q+=aro*vec2(sin(e.x*11.-t*1.9)*1.8,cos(e.x*8.+t*1.6)*2.1);
+          vec3 cor=mix(amostra(q-fluxo*(fase-.5)),amostra(q-fluxo*(outra-.5)),abs(2.*fase-1.));
+          float reflexo=agua*.055*sin(p.y*.12+p.x*.006-t*1.5);
+          gl_FragColor=vec4(cor*(1.+reflexo+brilho)+vec3(.1,.35,.42)*max(brilho,0.),1.);
+        }`]
+    ];
+    for (const [tipo,fonte] of fontes) {
+      const etapa=gl.createShader(tipo);
+      gl.shaderSource(etapa,fonte);gl.compileShader(etapa);gl.attachShader(programa,etapa);
+    }
+    gl.linkProgram(programa);
+    if (!gl.getProgramParameter(programa,gl.LINK_STATUS)) return;
+    gl.useProgram(programa);
+    gl.bindBuffer(gl.ARRAY_BUFFER,gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+    const posicao=gl.getAttribLocation(programa,"ponto");
+    gl.enableVertexAttribArray(posicao);gl.vertexAttribPointer(posicao,2,gl.FLOAT,false,0,0);
+    gl.bindTexture(gl.TEXTURE_2D,gl.createTexture());
+    for(const eixo of [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T]) gl.texParameteri(gl.TEXTURE_2D,eixo,gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+    const parametros=Object.fromEntries(["janela","ondas[0]","animacao"].map(nome=>[nome,gl.getUniformLocation(programa,nome)]));
+    desenhar = () => {
+      gl.viewport(0,0,tela.width,tela.height);
+      gl.uniform4fv(parametros.janela,recorte);
+      gl.uniform3fv(parametros["ondas[0]"],ondas);
+      gl.uniform4f(parametros.animacao,tempo,giro,altura,impulso);
+      gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+    };
+  } else {
+    // Também anima em navegadores sem WebGL, com faixas amostradas em Canvas 2D.
+    const tinta=tela.getContext("2d");
+    if (!tinta) return;
+    desenhar = () => {
+      const [x,y,w,h]=recorte;
+      tinta.setTransform(tela.width/w,0,0,tela.height/h,-x*tela.width/w,-y*tela.height/h);
+      tinta.drawImage(foto,0,0,1280,720);
+      const escala=foto.naturalWidth/1280;
+      for(let linha=96;linha<Math.min(720,y+h);linha+=3) {
+        const lago=linha>310;
+        const largura=lago?980:440;
+        const esquerda=lago?105:530;
+        const deslocamento=lago?Math.sin(linha*.08+tempo*1.8)*2:Math.sin(linha*.027+tempo*1.1)*1.9+giro*5;
+        tinta.drawImage(foto,esquerda*escala,linha*escala,largura*escala,3*escala,esquerda+deslocamento,linha,largura,3.2);
+      }
+      for(let i=0;i<4;i++) {
+        const idade=tempo-ondas[i*3+2];
+        if(idade>=2.2) continue;
+        tinta.strokeStyle='rgba(153,227,231,'+(.36*Math.exp(-2*idade))+')';
+        tinta.beginPath();tinta.ellipse(ondas[i*3],ondas[i*3+1],1+idade*115,1+idade*37,0,0,Math.PI*2);tinta.stroke();
+      }
+    };
+  }
+  function redimensionar() {
+    const densidade=Math.min(1.6,window.devicePixelRatio||1);
+    tela.width=Math.max(1,Math.round(tela.clientWidth*densidade));
+    tela.height=Math.max(1,Math.round(tela.clientHeight*densidade));
+  }
+  function animar(agora) {
+    quadro=requestAnimationFrame(animar);
+    if (agora-anterior<30) return;
+    const intervalo=Math.min(.08,(agora-anterior)/1000);
+    anterior=agora;tempo+=intervalo;
+    const resposta=1-Math.exp(-9*intervalo);
+    giro+=(direcao-giro)*resposta;altura+=(inclinacao-altura)*resposta;impulso*=1-resposta*.35;
+    desenhar();tela.style.opacity="1";
   }
   function atualizar() {
     cancelAnimationFrame(quadro);
-    tela.style.opacity = pronta && !reduzir.matches ? "1" : "0";
-    if (pronta && visivel && !document.hidden && !reduzir.matches) quadro = requestAnimationFrame(desenhar);
+    if (movimentoReduzido.matches) tela.style.opacity="0";
+    else if (foto.complete && foto.naturalWidth && visivel && !document.hidden) {
+      anterior=performance.now();quadro=requestAnimationFrame(animar);
+    }
   }
-  function carregar() {
-    const imagem = new Image();
-    const menor = celular.matches;
-    pronta = false;
-    atualizar();
-    imagem.onload = () => {
-      if (menor !== celular.matches) return;
-      contexto.texImage2D(contexto.TEXTURE_2D,0,contexto.RGB,contexto.RGB,contexto.UNSIGNED_BYTE,imagem);
-      contexto.uniform1f(contexto.getUniformLocation(programa,"compacto"),Number(menor));
-      pronta = true;
-      atualizar();
-    };
-    imagem.src = "recursos/" + (menor ? "cenario" : "panorama") + ".webp";
-  }
-  new ResizeObserver(() => {
-    tela.width = Math.min(1920,Math.round(tela.clientWidth*devicePixelRatio));
-    tela.height = Math.max(1,Math.round(tela.width*tela.clientHeight/(tela.clientWidth||1)));
-    contexto.viewport(0,0,tela.width,tela.height);
-  }).observe(tela);
-  new IntersectionObserver(([entrada]) => {visivel = entrada.isIntersecting;atualizar();}).observe(tela);
-  celular.addEventListener("change",carregar);
-  reduzir.addEventListener("change",atualizar);
+  foto.onload=() => {
+    if (gl) gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,foto);
+    redimensionar();atualizar();
+  };
+  foto.src="recursos/enseada.webp";
+  new ResizeObserver(redimensionar).observe(ambiente);
+  new IntersectionObserver(([entrada])=>{visivel=entrada.isIntersecting;atualizar();}).observe(ambiente);
+  movimentoReduzido.addEventListener("change",atualizar);
   document.addEventListener("visibilitychange",atualizar);
-  carregar();
 }
-animarCenario();
+iniciarEnseada();
