@@ -14,6 +14,7 @@ const modelos = {
   odontologia: ["Odontologia", "Avaliação odontológica", "Tratamentos estéticos", "Cuidados preventivos"],
   restaurante: ["Restaurante", "Entradas e porções", "Pratos principais", "Sobremesas"],
   escritorio: ["Escritório", "Áreas de atuação", "Consultoria especializada", "Atendimento personalizado"],
+  lavajato: ["Lava-jato e Estética Automotiva", "Tipos de lavagem", "Higienização interna", "Estética e proteção"],
 };
 const demonstracoes = {
   assistencia: [
@@ -22,6 +23,14 @@ const demonstracoes = {
       descricao: "Smartphone desmontado em camadas 3D, serviços filtráveis e orçamento pelo WhatsApp.",
       endereco: "demos/techcell/",
       miniatura: "recursos/demos/techcell.webp",
+    },
+  ],
+  lavajato: [
+    {
+      nome: "LavaCar Premium — Estética Automotiva",
+      descricao: "Jato de água simulado em tempo real sobre o carro, com espuma, bolhas e mira pelo cursor ou toque.",
+      endereco: "demos/lavacar/",
+      miniatura: "recursos/demos/lavacar.webp",
     },
   ],
 };
