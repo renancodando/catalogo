@@ -35,3 +35,13 @@ Quadros sucessivos confirmaram variação na área da esfera com animação e es
 ## Indicadores e conteúdo
 
 A faixa comunica as quatro categorias, as três soluções, as três frentes de serviço e o atendimento pelo WhatsApp. São informações conferíveis na página. A oferta comercial existente, suas condições e os contatos foram preservados.
+
+## Água e vida sob os cartões
+
+A revisão mantém o traço verde da marca no cabeçalho e no globo. A trajetória da corrente é definida por 16 estações medidas na fotografia. Um mapa de direção transporta os detalhes de espuma ao longo da corrente e conserva as oclusões da esfera. A luz e o relevo usam o mesmo percurso. A comparação de quadros confirmou movimento na crista frontal, na espuma lateral e no piso em WebGL e em Canvas 2D; o recorte central da marca permaneceu estável na mesma comparação.
+
+O catálogo tem um plano de água na altura da base de cada fileira. A imagem das placas sofre refração abaixo do menisco. Seis peixes de textura fotográfica gerada seguem trajetórias curvas, com batimento de cauda, articulação progressiva do corpo e reação local ao toque. As partes emersas das placas ocultam os peixes que passam atrás delas. A cena usa composição 2,5D e movimento procedural.
+
+A gravação abaixo veio da página renderizada no Chromium. Os testes também compararam os pixels da camada do catálogo em quadros sucessivos, verificaram sua imobilidade com movimento reduzido e repetiram os percursos de navegação e orçamento.
+
+[Ver a gravação da água e do cardume](agua-em-movimento.mp4)

@@ -22,14 +22,22 @@
   let pisoVisivel = false;
   let precisaMedir = true;
 
+  const imersao = criarAguaDoCatalogo(atualizar);
+
   function instalarReflexo(base) {
     const foto = base.querySelector("img");
     const reflexo = document.createElement("canvas");
     reflexo.className = "reflexo-placa";
     reflexo.setAttribute("aria-hidden", "true");
     base.append(reflexo);
+    const janelaMolhada = document.createElement("canvas");
+    janelaMolhada.className = "vidro-imerso";
+    janelaMolhada.setAttribute("aria-hidden", "true");
+    base.querySelector(".modelo").append(janelaMolhada);
     const placa = {
       base,
+      janelaMolhada,
+      refracao: janelaMolhada.getContext("2d"),
       foto,
       reflexo,
       tinta: reflexo.getContext("2d"),
@@ -64,6 +72,8 @@
       const altura = Math.max(1, Math.round((largura * base.clientHeight) / base.clientWidth));
       superficie.width = largura;
       superficie.height = altura;
+      placa.janelaMolhada.width = largura;
+      placa.janelaMolhada.height = Math.ceil(altura * 0.17);
       reflexo.width = largura;
       reflexo.height = Math.max(12, Math.round(altura * 0.25));
       const tinta = superficie.getContext("2d");
@@ -108,6 +118,7 @@
         piso.style.opacity = "1";
       }
     }
+    imersao.medir();
     precisaMedir = false;
   }
 
@@ -125,6 +136,22 @@
       const origem = Math.max(0, superficie.height * (1 - distancia) - 4);
       tinta.globalAlpha = Math.pow(1 - distancia, 1.6) * (0.57 + 0.14 * onda);
       tinta.drawImage(superficie, 0, origem, w, 4, desvio, y, w, 2);
+    }
+    // A janela inferior mostra a própria placa refratada pelo líquido. O
+    // deslocamento cresce abaixo do menisco, onde o percurso óptico é maior.
+    const submersa = placa.refracao;
+    const profundidade = placa.janelaMolhada.height;
+    for (let faixa = 0; faixa < profundidade; faixa += 2) {
+      const v = faixa / profundidade;
+      const normal =
+        Math.sin(faixa * 0.29 - segundos * 2.2 + placa.fase) +
+        0.48 * Math.cos(faixa * 0.51 + segundos * 1.21);
+      const desvio = v * normal * (2.7 + placa.impulso * 2);
+      const origem = Math.min(
+        superficie.height - 3,
+        superficie.height - profundidade + faixa * 0.83 + normal,
+      );
+      submersa.drawImage(superficie, 0, origem, w, 3, -3 + desvio, faixa, w + 6, 2.2);
     }
     placa.impulso *= 0.95;
   }
@@ -170,6 +197,7 @@
     while (perturbacoes.length && segundos - perturbacoes[0].tempo > 3) perturbacoes.shift();
     for (const placa of placas) refletir(placa);
     desenharCosta();
+    imersao.desenhar(segundos);
   }
 
   function atualizar() {
@@ -180,9 +208,10 @@
     if (reduzir.matches) {
       for (const placa of placas) refletir(placa);
       desenharCosta();
+      imersao.desenhar(segundos);
       return;
     }
-    if (placas.some((placa) => placa.visivel) || (pisoVisivel && compacto.matches)) {
+    if (imersao.ativa() || placas.some((placa) => placa.visivel) || (pisoVisivel && compacto.matches)) {
       anterior = performance.now();
       pedido = requestAnimationFrame(desenhar);
     }
