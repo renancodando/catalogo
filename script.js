@@ -15,6 +15,16 @@ const modelos = {
   restaurante: ["Restaurante", "Entradas e porções", "Pratos principais", "Sobremesas"],
   escritorio: ["Escritório", "Áreas de atuação", "Consultoria especializada", "Atendimento personalizado"],
 };
+const demonstracoes = {
+  assistencia: [
+    {
+      nome: "TechCell — Assistência Técnica",
+      descricao: "Smartphone desmontado em camadas 3D, serviços filtráveis e orçamento pelo WhatsApp.",
+      endereco: "demos/techcell/",
+      miniatura: "recursos/demos/techcell.webp",
+    },
+  ],
+};
 // As apresentações comerciais possuem identidade própria e orientam o visitante até o orçamento.
 const secoes = {
   sobre: [
@@ -189,6 +199,30 @@ function abrirPainel(conteudo) {
   janela.querySelector(".fechar").focus();
 }
 const botaoPedido = '<button class="botao primario" data-orcamento>Solicitar Orçamento</button>';
+function listaDemonstracoes(chave) {
+  const lista = demonstracoes[chave];
+  if (!lista) return "";
+  return (
+    '<div class="demos-painel"><p class="rotulo">Demonstrações ao vivo</p>' +
+    lista
+      .map(
+        (demo) =>
+          '<a class="demo-painel" href="' +
+          demo.endereco +
+          '" target="_blank" rel="noopener"><img src="' +
+          demo.miniatura +
+          '" alt="Captura da demonstração ' +
+          demo.nome +
+          '" loading="lazy" width="960" height="540"><span class="demo-texto"><strong>' +
+          demo.nome +
+          "</strong><span>" +
+          demo.descricao +
+          '</span><span class="demo-abrir">Abrir demonstração <svg class="icone" aria-hidden="true"><use href="#i-diagonal"/></svg></span></span></a>',
+      )
+      .join("") +
+    "</div>"
+  );
+}
 function mostrarModelo(chave) {
   const [nome, ...itens] = modelos[chave];
   const lista = itens.map((item) => "<li>" + item + "</li>").join("");
@@ -201,7 +235,9 @@ function mostrarModelo(chave) {
       document.querySelector('[data-modelo="' + chave + '"] .legenda>span').textContent +
       '</p><ul class="itens-modelo">' +
       lista +
-      '</ul><button class="botao primario" data-orcamento="' +
+      "</ul>" +
+      listaDemonstracoes(chave) +
+      '<button class="botao primario" data-orcamento="' +
       chave +
       '">Quero este modelo</button></section>',
   );
@@ -296,3 +332,19 @@ for (const base of document.querySelectorAll(".base-modelo")) {
   for (const evento of ["pointerleave", "pointercancel", "pointerup"])
     base.addEventListener(evento, repousar);
 }
+
+for (const [chave, lista] of Object.entries(demonstracoes)) {
+  const cartao = document.querySelector('[data-modelo="' + chave + '"]');
+  if (!cartao) continue;
+  const selo = document.createElement("span");
+  selo.className = "selo-ao-vivo";
+  selo.textContent = lista.length > 1 ? lista.length + " demos ao vivo" : "Demo ao vivo";
+  cartao.append(selo);
+  cartao.setAttribute("aria-label", cartao.getAttribute("aria-label") + " — com demonstração ao vivo");
+}
+function abrirPeloEndereco() {
+  const chave = location.hash.replace("#modelo-", "");
+  if (location.hash.startsWith("#modelo-") && modelos[chave]) mostrarModelo(chave);
+}
+addEventListener("hashchange", abrirPeloEndereco);
+abrirPeloEndereco();

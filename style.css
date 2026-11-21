@@ -1772,3 +1772,104 @@ dialog.janela-modelo {
     line-height: 0.98;
   }
 }
+
+/* Demonstrações ao vivo dentro do painel do modelo */
+.selo-ao-vivo {
+  position: absolute;
+  z-index: 3;
+  top: 9%;
+  right: 6%;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px 3px 7px;
+  border: 1px solid #ffc28f66;
+  border-radius: 99px;
+  background: #061519cc;
+  color: #ffd9b5;
+  font-size: clamp(9px, 0.72vw, 13px);
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+.selo-ao-vivo::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cobre);
+  box-shadow: 0 0 0 0 #ffa35e99;
+  animation: pulsar-ao-vivo 2s ease-out infinite;
+}
+@keyframes pulsar-ao-vivo {
+  to {
+    box-shadow: 0 0 0 7px #ffa35e00;
+  }
+}
+.demos-painel {
+  display: grid;
+  gap: 10px;
+  margin-top: 22px;
+}
+.demos-painel .rotulo {
+  margin: 0;
+}
+.demo-painel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #b496756e;
+  border-radius: 14px;
+  background: #061519b3;
+  color: var(--texto);
+  text-decoration: none;
+  transition:
+    border-color 0.3s,
+    transform 0.3s,
+    background-color 0.3s;
+}
+.demo-painel:is(:hover, :focus-visible) {
+  border-color: var(--cobre);
+  background: #0a1f24;
+  transform: translateY(-2px);
+}
+.demo-painel img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 9px;
+  box-shadow: 0 8px 22px #0008;
+}
+.demo-texto {
+  display: grid;
+  gap: 6px;
+}
+.demo-texto strong {
+  font-size: 17px;
+  line-height: 1.2;
+}
+.demo-texto > span:not(.demo-abrir) {
+  color: #cbd6d5;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.demo-abrir {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  color: #ffc28f;
+  font-weight: 650;
+  font-size: 14px;
+}
+.demo-abrir .icone {
+  width: 15px;
+  height: 15px;
+}
+@media (max-width: 520px) {
+  .demo-painel {
+    grid-template-columns: 1fr;
+  }
+}
