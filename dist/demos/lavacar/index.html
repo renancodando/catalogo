@@ -138,6 +138,20 @@
                 <feGaussianBlur stdDeviation="7" result="b" />
                 <feMerge><feMergeNode in="b" /><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
               </filter>
+              <linearGradient id="g-reflexo-mascara" x1="0" y1="596" x2="0" y2="690" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#fff" stop-opacity=".62" />
+                <stop offset=".55" stop-color="#fff" stop-opacity=".18" />
+                <stop offset="1" stop-color="#fff" stop-opacity="0" />
+              </linearGradient>
+              <mask id="m-reflexo" maskUnits="userSpaceOnUse" x="0" y="594" width="1254" height="96">
+                <rect x="0" y="594" width="1254" height="96" fill="url(#g-reflexo-mascara)" />
+              </mask>
+              <filter id="f-poca" filterUnits="userSpaceOnUse" x="0" y="590" width="1254" height="100">
+                <feTurbulence type="fractalNoise" baseFrequency="0.006 0.11" numOctaves="2" seed="3" result="ruido">
+                  <animate attributeName="baseFrequency" dur="7s" values="0.006 0.11;0.008 0.14;0.006 0.11" repeatCount="indefinite" />
+                </feTurbulence>
+                <feDisplacementMap in="SourceGraphic" in2="ruido" scale="14" xChannelSelector="R" yChannelSelector="G" />
+              </filter>
               <clipPath id="c-carroceria"><path id="silhueta" d="M232 408C222 418 206 432 203 450c-4 26-4 60 0 88 2 14 7 26 14 34h548c12-30 26-46 46-48 4-6 12-10 24-10 20 0 30 12 36 32h120c6-26 18-40 32-40 10 0 18 8 22 20 6-28 6-62 2-92l-20-18c-10-26-34-52-62-66-36-18-80-26-120-26-30 0-88 2-120 4-60 4-118 14-160 40L360 360c-40 10-90 26-128 48Z" /></clipPath>
             </defs>
 
@@ -149,7 +163,7 @@
               <path class="arco arco-3" d="M432 690C420 450 520 180 760 0" stroke="url(#g-arco)" />
             </g>
 
-            <g class="carro">
+            <g class="carro" id="carro-desenho">
               <g class="carro-volume">
                 <use href="#silhueta" fill="url(#g-carroceria)" />
                 <path class="vidro" d="M428 346 552 266c90-6 220-10 316-8l18 92c-140-4-300-6-458 6Z" fill="url(#g-vidro)" />
@@ -183,6 +197,10 @@
                 <path class="farol" d="M228 410c30 4 64 12 92 24l-8 12c-30-4-58-12-80-22Z" fill="url(#g-farol)" />
                 <path class="farol" d="M600 430c66-10 140-20 202-26l-10 18c-20 14-44 26-66 32-42-2-86-8-122-14Z" fill="url(#g-farol)" />
               </g>
+            </g>
+
+            <g class="reflexo-carro" mask="url(#m-reflexo)" filter="url(#f-poca)">
+              <use href="#carro-desenho" transform="matrix(1 0 0 -1 0 1188)" />
             </g>
 
             <g class="lanca">
