@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#6e1410" />
+    <meta name="description" content="Comida de verdade, com sabor de casa: pratos do dia, ingredientes de qualidade e ambiente acolhedor." />
+    <title>Sabor da Casa — Restaurante</title>
+    <link rel="preload" href="fontes/fraunces-700-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="estilo.css" />
+    <script src="configuracao.js" defer></script>
+    <script src="principal.js" defer></script>
+  </head>
+  <body>
+    <svg class="simbolos" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-chapeu" viewBox="0 0 120 92"><path d="M30 62C15 62 7 50 9 38 11 26 23 19 33 24 35 12 47 5 60 6 73 6 83 12 86 22 98 18 112 26 111 40 110 52 103 62 90 62V80H30Z" /><path d="M30 68h60" /><path d="M60 58c-3-4-10-6-12-1-2 6 8 11 12 14 4-3 14-8 12-14-2-5-9-3-12 1Z" /></symbol>
+      <symbol id="i-whats" viewBox="0 0 24 24"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3.5 20.5l1.4-4.3a8.5 8.5 0 1 1 15.6-4.5Z" /><path d="M9 8.2c.3-.6.6-.6.9-.6h.6c.2 0 .4.1.5.4l.8 1.8c.1.3 0 .5-.1.7l-.6.7c.6 1.2 1.6 2.2 2.9 2.9l.7-.7c.2-.2.4-.2.7-.1l1.8.8c.3.1.4.3.4.6 0 .9-.7 1.9-1.8 2-1.6.2-3.8-.6-5.6-2.4S8.2 10.3 8.6 9Z" /></symbol>
+      <symbol id="i-talheres" viewBox="0 0 24 24"><path d="M5 2.5v6a2.5 2.5 0 0 0 5 0v-6M7.5 2.5v19M17 21.5v-19c-3 1.5-4 5-4 9 0 1.5 1 2.5 2 2.5h2" /></symbol>
+      <symbol id="i-local" viewBox="0 0 24 24"><path d="M12 21.5s7-6.2 7-11.5a7 7 0 0 0-14 0c0 5.3 7 11.5 7 11.5Z" /><circle cx="12" cy="10" r="2.6" /></symbol>
+      <symbol id="i-cloche" viewBox="0 0 24 24"><path d="M3.5 17a8.5 8.5 0 0 1 17 0Z" /><path d="M2 19h20M12 8.5V7" /><circle cx="12" cy="5.8" r="1.2" /></symbol>
+      <symbol id="i-folha" viewBox="0 0 24 24"><path d="M20 4C9 4 4 9 4 16c0 2 .5 3.5 1 4 8 0 15-5 15-16Z" /><path d="M4.5 19.5C9 14 13 10.5 17 8" /></symbol>
+      <symbol id="i-coracao" viewBox="0 0 24 24"><path d="M12 20.5S3 15 3 9a4.8 4.8 0 0 1 9-2.4A4.8 4.8 0 0 1 21 9c0 6-9 11.5-9 11.5Z" /></symbol>
+      <symbol id="i-seta" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" /></symbol>
+      <symbol id="i-relogio" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3.5 2" /></symbol>
+      <symbol id="i-salao" viewBox="0 0 24 24"><path d="M3 10h18M5 10v10m14-10v10M8 14h8M12 10V6m-3-2h6" /></symbol>
+      <symbol id="i-retirada" viewBox="0 0 24 24"><path d="M5 8h14l-1.5 12h-11Z" /><path d="M9 8V6a3 3 0 0 1 6 0v2" /></symbol>
+      <symbol id="i-entrega" viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7" /><circle cx="7" cy="17.5" r="1.8" /><circle cx="17" cy="17.5" r="1.8" /></symbol>
+      <symbol id="i-sacola" viewBox="0 0 24 24"><path d="M4.5 8h15l-1 13h-13Z" /><path d="M8.5 10V6.5a3.5 3.5 0 0 1 7 0V10" /></symbol>
+      <symbol id="i-fechar" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></symbol>
+    </svg>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="topo">
+      <div class="topo-interno">
+        <a class="marca" href="#inicio" aria-label="Sabor da Casa Restaurante, página inicial">
+          <svg class="marca-chapeu" aria-hidden="true"><use href="#i-chapeu" /></svg>
+          <span class="marca-nome" data-marca="nome">Sabor da Casa</span>
+          <span class="marca-complemento"><span data-marca="complemento">Restaurante</span></span>
+        </a>
+        <span class="divisor-topo" aria-hidden="true"></span>
+        <nav class="navegacao" id="navegacao" aria-label="Navegação principal">
+          <a href="#inicio" class="ativo">Início</a>
+          <a href="#cardapio">Cardápio</a>
+          <a href="#sobre">Sobre nós</a>
+          <a href="#contato">Contato</a>
+          <a class="botao botao-contorno menu-pedido" href="#pedido"><svg aria-hidden="true"><use href="#i-whats" /></svg>Fazer pedido</a>
+        </nav>
+        <a class="botao botao-contorno topo-pedido" href="#pedido"><svg aria-hidden="true"><use href="#i-whats" /></svg>Fazer pedido</a>
+        <button class="alternar-menu" type="button" aria-controls="navegacao" aria-expanded="false" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <section class="abertura" id="inicio" aria-labelledby="titulo-principal">
+        <div class="abertura-fundo" aria-hidden="true">
+          <span class="raio raio-1"></span><span class="raio raio-2"></span><span class="luz-ambiente"></span>
+          <svg class="ondas" viewBox="0 0 1600 220" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="g-ouro-onda" x1="0" x2="1"><stop offset="0" stop-color="#f3b55a" /><stop offset=".5" stop-color="#d98a2b" /><stop offset="1" stop-color="#f0a845" /></linearGradient>
+              <linearGradient id="g-creme" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6e2c8" /><stop offset="1" stop-color="#fbeedd" /></linearGradient>
+            </defs>
+            <path class="onda onda-ouro" d="M0 130C300 70 560 150 860 120S1300 40 1600 70V220H0Z" fill="url(#g-ouro-onda)" />
+            <path class="onda onda-creme" d="M0 150C320 100 600 175 900 145S1340 80 1600 110V220H0Z" fill="url(#g-creme)" />
+          </svg>
+        </div>
+
+        <div class="abertura-texto">
+          <p class="rotulo chegar" data-texto="inicio.rotulo">Cozinha caseira</p>
+          <h1 id="titulo-principal" class="chegar">
+            <span data-texto="inicio.tituloLinha1">Comida de verdade,</span>
+            <span><span data-texto="inicio.tituloAntes">com</span> <em data-texto="inicio.tituloDestaque">sabor de casa</em></span>
+          </h1>
+          <p class="descricao chegar" data-texto="inicio.descricao"></p>
+          <div class="acoes chegar">
+            <a class="botao botao-ouro" href="#cardapio"><svg aria-hidden="true"><use href="#i-talheres" /></svg><span data-texto="inicio.botaoPrincipal">Ver cardápio</span><svg class="seta" aria-hidden="true"><use href="#i-seta" /></svg></a>
+            <a class="botao botao-contorno" href="#contato" data-mapa><svg aria-hidden="true"><use href="#i-local" /></svg><span data-texto="inicio.botaoSecundario">Como chegar</span></a>
+          </div>
+        </div>
+
+        <div class="mesa-posta" id="mesa-posta" aria-hidden="true">
+          <div class="mesa-camadas">
+            <div class="guardanapo"><span class="pesponto"></span><span class="trama"></span></div>
+            <div class="prato">
+              <span class="prato-sombra"></span>
+              <span class="prato-aba"></span>
+              <span class="prato-fundo"></span>
+              <span class="prato-filete"></span>
+              <span class="prato-brilho"></span>
+              <svg class="prato-desenho" viewBox="0 0 200 200">
+                <defs>
+                  <linearGradient id="g-floreio" x1="0" x2="1"><stop offset="0" stop-color="#e9a443" stop-opacity="0" /><stop offset=".35" stop-color="#f2b456" /><stop offset=".8" stop-color="#d98a2b" /><stop offset="1" stop-color="#f6c06a" /></linearGradient>
+                </defs>
+                <g class="chapeu" transform="translate(40 52)">
+                  <path pathLength="1" d="M30 62C15 62 7 50 9 38 11 26 23 19 33 24 35 12 47 5 60 6 73 6 83 12 86 22 98 18 112 26 111 40 110 52 103 62 90 62V80H30Z" />
+                  <path pathLength="1" d="M30 80h60" />
+                  <path pathLength="1" class="coracao" d="M60 58c-3-4-10-6-12-1-2 6 8 11 12 14 4-3 14-8 12-14-2-5-9-3-12 1Z" />
+                </g>
+                <path class="floreio" pathLength="1" d="M52 152c22-10 58-14 86-8 6 2 10 4 12 2l8-6c-6 10-16 14-28 12-22-4-50-6-78 0Z" fill="url(#g-floreio)" />
+              </svg>
+            </div>
+            <svg class="talher garfo" viewBox="0 0 56 440">
+              <defs>
+                <linearGradient id="g-metal" x1="0" x2="1">
+                  <stop offset="0" stop-color="#7a4510" />
+                  <stop offset=".22" stop-color="#d48a2e" />
+                  <stop offset=".42" stop-color="#ffe0a0" />
+                  <stop offset=".55" stop-color="#f4b956" />
+                  <stop offset=".8" stop-color="#b86a1c" />
+                  <stop offset="1" stop-color="#6a3a0c" />
+                </linearGradient>
+                <linearGradient id="g-reflexo" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#fff" stop-opacity="0" />
+                  <stop offset=".5" stop-color="#fff6dc" stop-opacity=".85" />
+                  <stop offset="1" stop-color="#fff" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <path class="metal" d="M4 2q0-2 2-2h4q2 0 2 2v116h4V2q0-2 2-2h4q2 0 2 2v116h4V2q0-2 2-2h4q2 0 2 2v116h4V2q0-2 2-2h4q2 0 2 2v126c0 24-10 36-15 50-3 9-3 20-3 34 0 70 7 160 7 200 0 16-7 26-16 26s-16-10-16-26c0-40 7-130 7-200 0-14 0-25-3-34C14 164 4 152 4 128Z" fill="url(#g-metal)" />
+              <rect class="reflexo" x="-10" y="0" width="80" height="120" fill="url(#g-reflexo)" />
+            </svg>
+            <svg class="talher faca" viewBox="0 0 56 440">
+              <path class="metal" d="M30 0c14 10 20 56 18 168l-4 52H16l-2-180C14 20 20 6 30 0Z M14 226h32l-3 12c0 60 7 140 7 176 0 16-8 26-17 26s-17-10-17-26c0-36 7-116 7-176Z" fill="url(#g-metal)" />
+              <rect class="reflexo" x="-10" y="0" width="80" height="120" fill="url(#g-reflexo)" />
+            </svg>
+          </div>
+        </div>
+
+        <ul class="diferenciais chegar" data-lista="diferenciais"></ul>
+      </section>
+
+      <section class="pratos-dia" aria-labelledby="titulo-dia">
+        <div class="largura dia-grade">
+          <div class="revelar">
+            <p class="rotulo">Pratos do dia</p>
+            <h2 id="titulo-dia">Todo dia tem <em>comida fresquinha</em>.</h2>
+            <p class="texto-secao">Veja o prato de hoje ou escolha outro dia da semana. <span class="aviso-demo">Cardápio semanal demonstrativo</span></p>
+          </div>
+          <div class="semana revelar">
+            <div class="dias" role="tablist" aria-label="Dias da semana" data-lista="dias"></div>
+            <article class="prato-dia" role="tabpanel" aria-live="polite">
+              <span class="selo-hoje" hidden>Hoje</span>
+              <h3 class="prato-dia-nome"></h3>
+              <p class="prato-dia-texto"></p>
+              <button class="botao botao-ouro" type="button" data-adicionar-dia>Adicionar ao pedido</button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="cardapio" id="cardapio" aria-labelledby="titulo-cardapio">
+        <div class="largura">
+          <div class="cabecalho-secao revelar">
+            <p class="rotulo">Cardápio</p>
+            <h2 id="titulo-cardapio">Do jeitinho que a gente <em>gosta</em>.</h2>
+            <p class="texto-secao">Escolha os pratos, ajuste as quantidades e envie o pedido pelo WhatsApp. <span class="aviso-demo" data-aviso-cardapio>Itens e preços demonstrativos</span></p>
+          </div>
+          <div class="cardapio-grade" data-lista="cardapio"></div>
+        </div>
+      </section>
+
+      <section class="pedido" id="pedido" aria-labelledby="titulo-pedido">
+        <div class="largura pedido-grade">
+          <div class="revelar">
+            <p class="rotulo">Pedidos</p>
+            <h2 id="titulo-pedido">Seu pedido, <em>do seu jeito</em>.</h2>
+            <ul class="atendimento" data-lista="atendimento"></ul>
+          </div>
+          <div class="comanda revelar">
+            <div class="comanda-topo"><svg aria-hidden="true"><use href="#i-sacola" /></svg><h3>Comanda</h3><span class="comanda-contagem">0 itens</span></div>
+            <ul class="comanda-itens" aria-live="polite"></ul>
+            <p class="comanda-vazia">Adicione pratos pelo cardápio.</p>
+            <p class="comanda-total" hidden></p>
+            <form class="formulario" novalidate>
+              <label>Seu nome<input name="nome" autocomplete="name" required maxlength="80" /></label>
+              <label>Como prefere?<select name="modo" data-lista="modos"></select></label>
+              <label class="largo">Observações<input name="obs" maxlength="200" placeholder="Ex.: sem cebola, ponto da carne" /></label>
+              <p class="formulario-erro largo" role="alert" hidden></p>
+              <button class="botao botao-ouro largo" type="submit"><svg aria-hidden="true"><use href="#i-whats" /></svg>Enviar pedido pelo WhatsApp</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="sobre" id="sobre" aria-labelledby="titulo-sobre">
+        <div class="largura sobre-grade">
+          <div class="sobre-selo revelar" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <defs><path id="circulo-texto" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0" /></defs>
+              <circle cx="100" cy="100" r="94" class="selo-aro" />
+              <text class="selo-texto"><textPath href="#circulo-texto">• FEITO COM CARINHO • RECEITAS DE FAMÍLIA </textPath></text>
+              <use href="#i-chapeu" x="58" y="62" width="84" height="66" class="selo-chapeu" />
+            </svg>
+          </div>
+          <div class="revelar">
+            <p class="rotulo">Sobre nós</p>
+            <h2 id="titulo-sobre" data-texto="sobre.titulo"></h2>
+            <p class="texto-secao" data-texto="sobre.texto"></p>
+            <ul class="sobre-numeros" data-lista="sobre"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="contato" id="contato" aria-labelledby="titulo-contato">
+        <div class="largura contato-grade revelar">
+          <div>
+            <p class="rotulo">Contato</p>
+            <h2 id="titulo-contato">Venha nos <em>visitar</em>.</h2>
+            <ul class="infos">
+              <li><svg aria-hidden="true"><use href="#i-local" /></svg><div><strong data-texto="endereco.rua"></strong><span data-texto="endereco.cidade"></span><small data-texto="endereco.referencia"></small></div></li>
+              <li><svg aria-hidden="true"><use href="#i-relogio" /></svg><div data-lista="horarios"></div></li>
+            </ul>
+            <div class="contato-acoes">
+              <a class="botao botao-ouro" href="#contato" data-mapa data-mapa-principal><svg aria-hidden="true"><use href="#i-local" /></svg>Como chegar</a>
+              <button class="botao botao-contorno" type="button" data-whatsapp><svg aria-hidden="true"><use href="#i-whats" /></svg>Falar no WhatsApp</button>
+            </div>
+          </div>
+          <div class="mapa" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <div class="largura rodape-interno">
+        <a class="marca" href="#inicio">
+          <svg class="marca-chapeu" aria-hidden="true"><use href="#i-chapeu" /></svg>
+          <span class="marca-nome" data-marca="nome">Sabor da Casa</span>
+          <span class="marca-complemento"><span data-marca="complemento">Restaurante</span></span>
+        </a>
+        <nav aria-label="Rodapé"><a href="#cardapio">Cardápio</a><a href="#sobre">Sobre nós</a><a href="#pedido">Pedidos</a><a href="#contato">Contato</a></nav>
+        <p class="rodape-nota">© <span data-ano></span> <span data-texto="nomeEmpresa"></span>. Site demonstrativo — cardápio e conteúdos ilustrativos.</p>
+      </div>
+    </footer>
+
+    <dialog class="aviso" id="aviso" aria-labelledby="aviso-titulo">
+      <button class="aviso-fechar" type="button" aria-label="Fechar"><svg><use href="#i-fechar" /></svg></button>
+      <p class="rotulo">Demonstração</p>
+      <h2 id="aviso-titulo">WhatsApp ainda não configurado</h2>
+      <p>Informe o número em <code>configuracao.js</code> para que este botão abra a conversa. A mensagem preparada seria:</p>
+      <blockquote class="aviso-mensagem"></blockquote>
+    </dialog>
+  </body>
+</html>

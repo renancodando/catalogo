@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#140b08" />
+    <meta name="description" content="Restaurante de cozinha contemporânea: pratos autorais, ingredientes selecionados e um ambiente pensado para bons encontros." />
+    <title>Sabor &amp; Mesa — Restaurante Contemporâneo</title>
+    <link rel="preload" href="fontes/playfair-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="estilo.css" />
+    <script src="configuracao.js" defer></script>
+    <script src="principal.js" defer></script>
+    <script type="module" src="mesa.js"></script>
+  </head>
+  <body>
+    <svg class="simbolos" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-chapeu" viewBox="0 0 64 48"><path d="M18 40V30C9 30 4 24 4 17.5S9 6 16 6.5c2-3.5 6-5 10.5-4.5C29 .5 35 .5 38 2.5 42.5 2 46.5 3.5 48.5 7 55 6.5 60 11 60 17.5S55 30 46 30v10Z" /><path d="M18 34h28M24 30v-6m8 6v-8m8 8v-6" /></symbol>
+      <symbol id="i-whats" viewBox="0 0 24 24"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3.5 20.5l1.4-4.3a8.5 8.5 0 1 1 15.6-4.5Z" /><path d="M9 8.2c.3-.6.6-.6.9-.6h.6c.2 0 .4.1.5.4l.8 1.8c.1.3 0 .5-.1.7l-.6.7c.6 1.2 1.6 2.2 2.9 2.9l.7-.7c.2-.2.4-.2.7-.1l1.8.8c.3.1.4.3.4.6 0 .9-.7 1.9-1.8 2-1.6.2-3.8-.6-5.6-2.4S8.2 10.3 8.6 9Z" /></symbol>
+      <symbol id="i-agenda" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" /><path d="M3.5 10h17M8 3v4m8-4v4M8 14h.01M12 14h.01M16 14h.01M8 17.2h.01M12 17.2h.01" /></symbol>
+      <symbol id="i-livro" viewBox="0 0 24 24"><path d="M3 5.5c3-1.4 6-1.4 9 .5v14c-3-1.9-6-1.9-9-.5Z" /><path d="M21 5.5c-3-1.4-6-1.4-9 .5v14c3-1.9 6-1.9 9-.5Z" /><path d="M15 9.5h3.5M15 12.5h3.5M5.5 9.5H9" /></symbol>
+      <symbol id="i-cloche" viewBox="0 0 24 24"><path d="M3.5 17.5a8.5 8.5 0 0 1 17 0Z" /><path d="M2 19.5h20M12 9V7.2" /><circle cx="12" cy="6" r="1.3" /></symbol>
+      <symbol id="i-pessoas" viewBox="0 0 24 24"><circle cx="12" cy="7" r="3" /><path d="M6 20v-1.5a6 6 0 0 1 12 0V20" /><circle cx="4.8" cy="9.5" r="2.2" /><circle cx="19.2" cy="9.5" r="2.2" /><path d="M1.5 18.5a4 4 0 0 1 3.5-4.3m17.5 4.3a4 4 0 0 0-3.5-4.3" /></symbol>
+      <symbol id="i-seta" viewBox="0 0 24 24"><path d="M4 12h15m-5.5-6 6 6-6 6" /></symbol>
+      <symbol id="i-taca" viewBox="0 0 24 24"><path d="M7 3h10c0 5-1.5 9-5 9S7 8 7 3Z" /><path d="M12 12v8m-4 0h8M7.5 7h9" /></symbol>
+      <symbol id="i-local" viewBox="0 0 24 24"><path d="M12 21.5s7-6.2 7-11.5a7 7 0 0 0-14 0c0 5.3 7 11.5 7 11.5Z" /><circle cx="12" cy="10" r="2.6" /></symbol>
+      <symbol id="i-relogio" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3.5 2" /></symbol>
+      <symbol id="i-fechar" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></symbol>
+    </svg>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="topo">
+      <div class="topo-interno">
+        <a class="marca" href="#inicio" aria-label="Sabor & Mesa Restaurante, página inicial">
+          <svg class="marca-chapeu" aria-hidden="true"><use href="#i-chapeu" /></svg>
+          <span class="marca-texto"><strong data-marca="nome">Sabor &amp; Mesa</strong><small data-marca="complemento">Restaurante</small></span>
+        </a>
+        <nav class="navegacao" id="navegacao" aria-label="Navegação principal">
+          <a href="#inicio" class="ativo">Início</a>
+          <a href="#cardapio">Cardápio</a>
+          <a href="#sobre">Sobre</a>
+          <a href="#eventos">Eventos</a>
+          <a href="#contato">Contato</a>
+          <button class="botao botao-linha menu-contato" type="button" data-whatsapp><svg aria-hidden="true"><use href="#i-whats" /></svg>Fale conosco</button>
+        </nav>
+        <button class="botao botao-linha topo-contato" type="button" data-whatsapp><svg aria-hidden="true"><use href="#i-whats" /></svg>Fale conosco</button>
+        <button class="alternar-menu" type="button" aria-controls="navegacao" aria-expanded="false" aria-label="Abrir menu"><span></span><span></span></button>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <section class="abertura" id="inicio" aria-labelledby="titulo-principal">
+        <div class="abertura-fundo" aria-hidden="true">
+          <span class="brilho-quente"></span>
+          <svg class="dunas" viewBox="0 0 1600 1000" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="g-duna-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a2a1a" /><stop offset=".28" stop-color="#3f130d" /><stop offset=".55" stop-color="#130a07" /></linearGradient>
+              <linearGradient id="g-duna-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93361f" /><stop offset=".3" stop-color="#4c170f" /><stop offset=".6" stop-color="#130a07" /></linearGradient>
+              <linearGradient id="g-duna-c" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3b120d" /><stop offset=".6" stop-color="#8a3420" /><stop offset="1" stop-color="#5a1c13" /></linearGradient>
+              <linearGradient id="g-borda" x1="0" x2="1"><stop offset="0" stop-color="#ff9a4a" stop-opacity="0" /><stop offset=".35" stop-color="#ffb070" /><stop offset="1" stop-color="#ff8a3d" stop-opacity=".3" /></linearGradient>
+              <filter id="f-veludo" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="r" /><feColorMatrix in="r" type="saturate" values="0" /><feComponentTransfer><feFuncA type="table" tableValues="0 .09" /></feComponentTransfer><feComposite in2="SourceGraphic" operator="in" /><feBlend in="SourceGraphic" mode="multiply" /></filter>
+            </defs>
+            <path class="duna duna-topo" d="M1180 0C1300 90 1420 120 1600 110V0Z" fill="url(#g-duna-c)" />
+            <path class="duna-linha" d="M1120 0C1260 120 1420 150 1600 140" stroke="url(#g-borda)" />
+            <path class="duna duna-fundo" d="M560 720C760 690 900 760 1060 730S1380 560 1600 500V1000H560Z" fill="url(#g-duna-a)" filter="url(#f-veludo)" />
+            <path class="duna-linha" d="M560 720C760 690 900 760 1060 730S1380 560 1600 500" stroke="url(#g-borda)" />
+            <path class="duna duna-frente" d="M0 770C260 690 520 640 760 700S1180 820 1600 720V1000H0Z" fill="url(#g-duna-b)" filter="url(#f-veludo)" />
+            <path class="duna-linha fina" d="M0 770C260 690 520 640 760 700S1180 820 1600 720" stroke="url(#g-borda)" />
+          </svg>
+        </div>
+
+        <div class="abertura-texto">
+          <p class="rotulo surgir" data-texto="inicio.rotulo">Cozinha contemporânea</p>
+          <h1 id="titulo-principal" class="surgir"><span data-texto="inicio.titulo">Experiências</span> <em data-texto="inicio.tituloDestaque">à mesa</em></h1>
+          <p class="descricao surgir" data-texto="inicio.descricao"></p>
+          <div class="acoes surgir">
+            <button class="botao botao-cobre" type="button" data-reservar><svg aria-hidden="true"><use href="#i-agenda" /></svg><span data-texto="inicio.botaoPrincipal">Reserve sua mesa</span><svg class="seta" aria-hidden="true"><use href="#i-seta" /></svg></button>
+            <a class="botao botao-linha" href="#cardapio"><svg aria-hidden="true"><use href="#i-livro" /></svg><span data-texto="inicio.botaoSecundario">Ver cardápio</span></a>
+          </div>
+        </div>
+
+        <div class="cena-mesa" id="cena-mesa">
+          <span class="disco" aria-hidden="true"></span>
+          <svg class="folhas" viewBox="0 0 200 260" aria-hidden="true">
+            <g class="ramo">
+              <path d="M150 250C140 200 120 160 96 128" />
+              <path class="folha folha-1" d="M118 156C80 150 46 126 26 96c40-4 76 18 92 60Z" />
+              <path d="M118 156C90 138 56 118 26 96" class="nervura" />
+              <path class="folha folha-2" d="M104 138C98 96 74 60 40 38c-8 40 18 80 64 100Z" />
+              <path d="M104 138C88 104 66 70 40 38" class="nervura" />
+              <path class="folha folha-3" d="M124 168c14-36 40-62 74-76-2 40-34 68-74 76Z" />
+              <path d="M124 168c22-28 46-52 74-76" class="nervura" />
+            </g>
+          </svg>
+          <svg class="mesa-reserva" viewBox="0 0 600 420" aria-hidden="true">
+            <defs><linearGradient id="g-reserva" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6a3a1e" /><stop offset="1" stop-color="#2a140b" /></linearGradient></defs>
+            <path d="M140 300C140 210 210 160 300 160S460 210 460 300Z" fill="url(#g-reserva)" stroke="#f3a25b" stroke-width="3" />
+            <circle cx="300" cy="148" r="14" fill="#4a2814" stroke="#f3a25b" stroke-width="3" />
+            <path d="M100 306h400l-30 16H130Z" fill="#3a1d10" stroke="#f3a25b" stroke-width="3" />
+            <path d="M470 120h60c0 70-12 100-30 100s-30-30-30-100Z M500 220v90m-26 0h52" fill="none" stroke="#f3a25b" stroke-width="3" />
+          </svg>
+          <canvas class="tela-mesa" aria-hidden="true"></canvas>
+        </div>
+
+        <ul class="destaques surgir" data-lista="destaques"></ul>
+      </section>
+
+      <section class="cardapio" id="cardapio" aria-labelledby="titulo-cardapio">
+        <div class="largura">
+          <div class="cabecalho-secao centro revelar">
+            <p class="rotulo">Cardápio</p>
+            <h2 id="titulo-cardapio">Sabores para <em>cada momento</em>.</h2>
+            <p class="aviso-demo" data-aviso-cardapio>Cardápio demonstrativo — pratos e valores definidos pelo restaurante.</p>
+          </div>
+          <div class="abas-cardapio revelar" role="tablist" aria-label="Seções do cardápio" data-lista="abas"><span class="sublinhado" aria-hidden="true"></span></div>
+          <div class="pratos" role="tabpanel" aria-live="polite" data-lista="pratos"></div>
+        </div>
+      </section>
+
+      <section class="especiais" aria-labelledby="titulo-especiais">
+        <div class="largura especiais-topo revelar">
+          <div>
+            <p class="rotulo">Pratos especiais</p>
+            <h2 id="titulo-especiais">Ocasiões que merecem <em>algo a mais</em>.</h2>
+          </div>
+          <div class="especiais-setas">
+            <button type="button" class="seta-carrossel" data-carrossel="-1" aria-label="Anterior"><svg><use href="#i-seta" /></svg></button>
+            <button type="button" class="seta-carrossel" data-carrossel="1" aria-label="Próximo"><svg><use href="#i-seta" /></svg></button>
+          </div>
+        </div>
+        <div class="carrossel" tabindex="0" aria-label="Pratos especiais" data-lista="especiais"></div>
+      </section>
+
+      <section class="experiencia" aria-labelledby="titulo-experiencia">
+        <div class="largura">
+          <div class="cabecalho-secao revelar">
+            <p class="rotulo">Experiência gastronômica</p>
+            <h2 id="titulo-experiencia">Um jantar em quatro <em>tempos</em>.</h2>
+          </div>
+          <ol class="tempos" data-lista="tempos"></ol>
+        </div>
+      </section>
+
+      <section class="sobre" id="sobre" aria-labelledby="titulo-sobre">
+        <div class="largura sobre-grade">
+          <div class="revelar">
+            <p class="rotulo">Sobre o restaurante</p>
+            <h2 id="titulo-sobre" data-texto="sobre.titulo"></h2>
+            <p class="sobre-texto" data-texto="sobre.texto"></p>
+          </div>
+          <div class="ambiente revelar" id="eventos" aria-labelledby="titulo-ambiente">
+            <h3 id="titulo-ambiente">Ambientes e eventos</h3>
+            <ul data-lista="ambientes"></ul>
+            <button class="botao botao-linha" type="button" data-whatsapp="Gostaria de informações sobre eventos.">Consultar eventos</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="reservas" id="contato" aria-labelledby="titulo-reservas">
+        <div class="largura reservas-grade">
+          <div class="reserva-cartao revelar">
+            <p class="rotulo">Reservas</p>
+            <h2 id="titulo-reservas">Reserve sua <em>mesa</em>.</h2>
+            <form class="formulario" novalidate>
+              <label class="largo">Nome<input name="nome" autocomplete="name" required maxlength="80" /></label>
+              <label>Data<input name="data" type="date" required /></label>
+              <label>Horário<select name="horario" required data-lista="horarios-reserva"></select></label>
+              <label>Pessoas
+                <span class="contador"><button type="button" data-pessoas="-1" aria-label="Menos uma pessoa">−</button><input name="pessoas" type="number" min="1" max="20" value="2" inputmode="numeric" aria-label="Número de pessoas" /><button type="button" data-pessoas="1" aria-label="Mais uma pessoa">+</button></span>
+              </label>
+              <label>Ocasião<select name="ocasiao"><option>Jantar</option><option>Aniversário</option><option>Encontro</option><option>Negócios</option></select></label>
+              <p class="formulario-erro largo" role="alert" hidden></p>
+              <button class="botao botao-cobre largo" type="submit"><svg aria-hidden="true"><use href="#i-whats" /></svg>Solicitar reserva pelo WhatsApp</button>
+            </form>
+          </div>
+          <div class="informacoes revelar">
+            <div class="bloco-info"><svg aria-hidden="true"><use href="#i-relogio" /></svg><div><h3>Horários</h3><div data-lista="horarios"></div></div></div>
+            <div class="bloco-info" id="localizacao"><svg aria-hidden="true"><use href="#i-local" /></svg><div><h3>Localização</h3><p><strong data-texto="endereco.rua"></strong><br /><span data-texto="endereco.cidade"></span><br /><small data-texto="endereco.referencia"></small></p>
+              <a class="link-mapa" href="#localizacao" data-mapa>Como chegar <svg aria-hidden="true"><use href="#i-seta" /></svg></a></div></div>
+            <div class="bloco-info"><svg aria-hidden="true"><use href="#i-whats" /></svg><div><h3>Contato</h3><p>Reservas e eventos pelo WhatsApp.</p><button class="link-mapa" type="button" data-whatsapp>Falar com o restaurante <svg aria-hidden="true"><use href="#i-seta" /></svg></button></div></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <div class="largura rodape-interno">
+        <a class="marca" href="#inicio">
+          <svg class="marca-chapeu" aria-hidden="true"><use href="#i-chapeu" /></svg>
+          <span class="marca-texto"><strong data-marca="nome">Sabor &amp; Mesa</strong><small data-marca="complemento">Restaurante</small></span>
+        </a>
+        <nav aria-label="Rodapé"><a href="#cardapio">Cardápio</a><a href="#sobre">Sobre</a><a href="#eventos">Eventos</a><a href="#contato">Contato</a></nav>
+        <p class="rodape-nota">© <span data-ano></span> <span data-texto="nomeEmpresa"></span>. Site demonstrativo — cardápio e conteúdos ilustrativos.</p>
+      </div>
+    </footer>
+
+    <dialog class="aviso" id="aviso" aria-labelledby="aviso-titulo">
+      <button class="aviso-fechar" type="button" aria-label="Fechar"><svg><use href="#i-fechar" /></svg></button>
+      <p class="rotulo">Demonstração</p>
+      <h2 id="aviso-titulo">WhatsApp ainda não configurado</h2>
+      <p>Informe o número em <code>configuracao.js</code> para que este botão abra a conversa. A mensagem preparada seria:</p>
+      <blockquote class="aviso-mensagem"></blockquote>
+    </dialog>
+  </body>
+</html>

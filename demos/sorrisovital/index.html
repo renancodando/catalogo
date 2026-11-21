@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f4f8fe" />
+    <meta name="description" content="Tratamentos odontológicos completos, com tecnologia, conforto e atendimento humanizado." />
+    <title>Clínica SorrisoVital — Odontologia</title>
+    <link rel="preload" href="fontes/jakarta-800.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="estilo.css" />
+    <script src="configuracao.js" defer></script>
+    <script src="principal.js" defer></script>
+    <script type="module" src="dente.js"></script>
+  </head>
+  <body>
+    <svg class="simbolos" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-logo" viewBox="0 0 48 52"><path d="M24 9C17 2 4 2 3.5 15c-.3 8 3.5 13 5.5 21 1.6 6.5 2.5 13 6 13 4 0 3-13 9-13s5 13 9 13c3.5 0 4.4-6.5 6-13 2-8 5.8-13 5.5-21C44 2 31 2 24 9Z" /><path d="M24 9c3 2.2 6 3 9.5 2.6" /></symbol>
+      <symbol id="i-dente" viewBox="0 0 24 24"><path d="M12 5.3C8.7 2 3 2 2.8 8c-.1 3.7 1.7 6 2.6 9.7.7 3 1.2 5.8 2.8 5.8 1.9 0 1.4-6 3.8-6s1.9 6 3.8 6c1.6 0 2.1-2.8 2.8-5.8.9-3.7 2.7-6 2.6-9.7C21 2 15.3 2 12 5.3Z" /></symbol>
+      <symbol id="i-whats" viewBox="0 0 24 24"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3.5 20.5l1.4-4.3a8.5 8.5 0 1 1 15.6-4.5Z" /><path d="M9 8.2c.3-.6.6-.6.9-.6h.6c.2 0 .4.1.5.4l.8 1.8c.1.3 0 .5-.1.7l-.6.7c.6 1.2 1.6 2.2 2.9 2.9l.7-.7c.2-.2.4-.2.7-.1l1.8.8c.3.1.4.3.4.6 0 .9-.7 1.9-1.8 2-1.6.2-3.8-.6-5.6-2.4S8.2 10.3 8.6 9Z" /></symbol>
+      <symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 2.5 4.5 5.5v6c0 4.7 3.2 8.4 7.5 10 4.3-1.6 7.5-5.3 7.5-10v-6Z" /><path d="m8.5 12 2.5 2.5 4.5-5" /></symbol>
+      <symbol id="i-agenda" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" /><path d="M3.5 10h17M8 3v4m8-4v4" /><path d="m8.8 14.8 2.2 2.2 4.2-4.2" /></symbol>
+      <symbol id="i-calendario" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" /><path d="M3.5 10h17M8 3v4m8-4v4M8 14h.01M12 14h.01M16 14h.01M8 17.2h.01M12 17.2h.01" /></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5Z" /></symbol>
+      <symbol id="i-seta" viewBox="0 0 24 24"><path d="M4 12h15m-5.5-6 6 6-6 6" /></symbol>
+      <symbol id="i-brilho" viewBox="0 0 24 24"><path d="M12 2.5c.6 4.6 2.9 6.9 7.5 7.5-4.6.6-6.9 2.9-7.5 7.5-.6-4.6-2.9-6.9-7.5-7.5 4.6-.6 6.9-2.9 7.5-7.5Z" /></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" /></symbol>
+      <symbol id="i-mais" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+      <symbol id="i-local" viewBox="0 0 24 24"><path d="M12 21.5s7-6.2 7-11.5a7 7 0 0 0-14 0c0 5.3 7 11.5 7 11.5Z" /><circle cx="12" cy="10" r="2.6" /></symbol>
+      <symbol id="i-relogio" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3.5 2" /></symbol>
+      <symbol id="i-fechar" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></symbol>
+    </svg>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="topo">
+      <div class="topo-interno">
+        <a class="marca" href="#inicio" aria-label="Clínica SorrisoVital, página inicial">
+          <svg class="marca-icone" aria-hidden="true"><use href="#i-logo" /></svg>
+          <span class="marca-texto"><small data-marca="prefixo">Clínica</small><strong><span data-marca="nome">Sorriso</span><em data-marca="destaque">Vital</em></strong></span>
+        </a>
+        <nav class="navegacao" id="navegacao" aria-label="Navegação principal">
+          <span class="pilula" aria-hidden="true"></span>
+          <a href="#inicio" class="ativo">Início</a>
+          <a href="#tratamentos">Tratamentos</a>
+          <a href="#sobre">Sobre a Clínica</a>
+          <a href="#duvidas">Dúvidas</a>
+          <a href="#contato">Contato</a>
+          <button class="botao botao-marinho menu-acao" type="button" data-agendar><svg aria-hidden="true"><use href="#i-whats" /></svg>Agendar consulta</button>
+        </nav>
+        <button class="botao botao-marinho topo-acao" type="button" data-agendar><svg aria-hidden="true"><use href="#i-whats" /></svg>Agendar consulta</button>
+        <button class="alternar-menu" type="button" aria-controls="navegacao" aria-expanded="false" aria-label="Abrir menu"><span></span><span></span></button>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <section class="abertura" id="inicio" aria-labelledby="titulo-principal">
+        <div class="abertura-fundo" aria-hidden="true">
+          <span class="curva curva-1"></span><span class="curva curva-2"></span><span class="curva curva-3"></span>
+          <svg class="ondas" viewBox="0 0 1600 260" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="g-onda-a" x1="0" x2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".95" /><stop offset="1" stop-color="#dbe9fb" stop-opacity=".7" /></linearGradient>
+              <linearGradient id="g-onda-b" x1="0" x2="1"><stop offset="0" stop-color="#2c6ed8" /><stop offset=".6" stop-color="#7fb2f0" /><stop offset="1" stop-color="#1c4fb5" /></linearGradient>
+              <linearGradient id="g-onda-c" x1="0" x2="1"><stop offset="0" stop-color="#0d3c99" /><stop offset=".5" stop-color="#2f74dd" /><stop offset="1" stop-color="#0b3489" /></linearGradient>
+            </defs>
+            <path class="onda onda-c" d="M0 210C300 150 520 250 820 205S1320 120 1600 150V260H0Z" fill="url(#g-onda-c)" />
+            <path class="onda onda-b" d="M0 180C260 120 560 230 860 190S1350 110 1600 120V260H0Z" fill="url(#g-onda-b)" opacity=".55" />
+            <path class="onda onda-a" d="M0 200C320 150 600 250 900 215S1380 160 1600 190V260H0Z" fill="url(#g-onda-a)" />
+          </svg>
+        </div>
+
+        <div class="abertura-texto">
+          <p class="rotulo chegar" data-texto="inicio.rotulo">Saúde bucal e confiança</p>
+          <h1 id="titulo-principal" class="chegar">
+            <span data-texto="inicio.tituloAntes">Cuidamos do seu</span>
+            <span class="linha"><em class="destaque"><span data-texto="inicio.tituloDestaque">sorriso</span><svg class="sorriso-traco" viewBox="0 0 200 30" aria-hidden="true"><path d="M8 8C60 34 140 34 192 6" /></svg></em> <span data-texto="inicio.tituloDepois">em todas</span></span>
+            <span data-texto="inicio.tituloFim">as fases da vida</span>
+          </h1>
+          <p class="descricao chegar" data-texto="inicio.descricao"></p>
+          <div class="acoes chegar">
+            <button class="botao botao-marinho botao-grande" type="button" data-agendar><svg aria-hidden="true"><use href="#i-calendario" /></svg><span data-texto="inicio.botaoPrincipal">Agendar avaliação</span><svg class="seta" aria-hidden="true"><use href="#i-seta" /></svg></button>
+            <a class="botao botao-vidro botao-grande" href="#tratamentos"><svg class="icone-play" aria-hidden="true"><use href="#i-play" /></svg><span data-texto="inicio.botaoSecundario">Conheça os tratamentos</span></a>
+          </div>
+        </div>
+
+        <div class="cena-dente" id="cena-dente">
+          <svg class="dente-reserva" viewBox="-1.3 -1.25 2.6 2.4" aria-hidden="true">
+            <defs>
+              <linearGradient id="g-reserva" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" /><stop offset=".5" stop-color="#9fd0ff" /><stop offset="1" stop-color="#e8f6ff" /></linearGradient>
+              <radialGradient id="g-reserva-corpo" cx=".35" cy=".35" r=".8"><stop offset="0" stop-color="#cfe7ff" stop-opacity=".45" /><stop offset="1" stop-color="#2c6ed8" stop-opacity=".1" /></radialGradient>
+            </defs>
+            <path class="reserva-corpo" d="M0.16 -0.7C0.24 -0.713 0.297 -0.812 0.38 -0.86C0.463 -0.908 0.57 -0.99 0.66 -0.99C0.75 -0.99 0.862 -0.938 0.92 -0.86C0.978 -0.782 1.007 -0.657 1.01 -0.52C1.013 -0.383 0.972 -0.187 0.94 -0.04C0.908 0.107 0.86 0.24 0.82 0.36C0.78 0.48 0.74 0.583 0.7 0.68C0.66 0.777 0.62 0.888 0.58 0.94C0.54 0.992 0.497 0.997 0.46 0.99C0.423 0.983 0.39 0.955 0.36 0.9C0.33 0.845 0.31 0.73 0.28 0.66C0.25 0.59 0.22 0.52 0.18 0.48C0.14 0.44 0.09 0.425 0.04 0.42C-0.01 0.415 -0.077 0.427 -0.12 0.45C-0.163 0.473 -0.187 0.502 -0.22 0.56C-0.253 0.618 -0.29 0.733 -0.32 0.8C-0.35 0.867 -0.372 0.93 -0.4 0.96C-0.428 0.99 -0.46 1 -0.49 0.98C-0.52 0.96 -0.548 0.923 -0.58 0.84C-0.612 0.757 -0.64 0.607 -0.68 0.48C-0.72 0.353 -0.772 0.217 -0.82 0.08C-0.868 -0.057 -0.94 -0.22 -0.97 -0.34C-1 -0.46 -1.015 -0.558 -1 -0.64C-0.985 -0.722 -0.943 -0.785 -0.88 -0.83C-0.817 -0.875 -0.707 -0.9 -0.62 -0.91C-0.533 -0.92 -0.447 -0.912 -0.36 -0.89C-0.273 -0.868 -0.187 -0.812 -0.1 -0.78C-0.013 -0.748 0.08 -0.687 0.16 -0.7Z" fill="url(#g-reserva-corpo)" stroke="url(#g-reserva)" stroke-width=".07" stroke-linejoin="round" />
+            <ellipse class="reserva-orbita" cx="0" cy="-.05" rx="1.22" ry=".26" transform="rotate(-10)" />
+          </svg>
+          <canvas class="tela-dente" aria-hidden="true"></canvas>
+        </div>
+
+        <ul class="garantias chegar" data-lista="garantias"></ul>
+      </section>
+
+      <section class="tratamentos" id="tratamentos" aria-labelledby="titulo-tratamentos">
+        <div class="largura">
+          <div class="cabecalho-secao revelar">
+            <p class="rotulo">Tratamentos</p>
+            <h2 id="titulo-tratamentos">Cuidado completo, do preventivo ao <em>estético</em>.</h2>
+            <p>Os tratamentos são indicados após avaliação clínica individual. Os resultados variam de pessoa para pessoa.</p>
+          </div>
+          <div class="grade-tratamentos" data-lista="tratamentos"></div>
+        </div>
+      </section>
+
+      <section class="fases" aria-labelledby="titulo-fases">
+        <div class="largura fases-grade">
+          <div class="cabecalho-secao revelar">
+            <p class="rotulo">Em todas as fases</p>
+            <h2 id="titulo-fases">Cada fase da vida pede um cuidado diferente.</h2>
+          </div>
+          <div class="linha-vida revelar">
+            <div class="linha-vida-botoes" role="tablist" aria-label="Fases da vida" data-lista="fases"></div>
+            <div class="linha-vida-painel" role="tabpanel" aria-live="polite"><p class="fase-idade"></p><p class="fase-texto"></p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sobre" id="sobre" aria-labelledby="titulo-sobre">
+        <div class="largura sobre-grade">
+          <div class="sobre-arte revelar" aria-hidden="true">
+            <span class="esfera esfera-1"></span><span class="esfera esfera-2"></span><span class="esfera esfera-3"></span>
+            <div class="cartao-plano">
+              <div class="plano-topo"><span class="plano-avatar"><svg><use href="#i-dente" /></svg></span><span><b>Plano de cuidado</b><small>Exemplo ilustrativo</small></span></div>
+              <ul>
+                <li style="--progresso: 1"><svg><use href="#i-check" /></svg><span>Avaliação inicial</span><i></i></li>
+                <li style="--progresso: 1"><svg><use href="#i-check" /></svg><span>Limpeza e prevenção</span><i></i></li>
+                <li style="--progresso: .62"><svg><use href="#i-check" /></svg><span>Tratamento indicado</span><i></i></li>
+                <li style="--progresso: .18"><svg><use href="#i-check" /></svg><span>Acompanhamento</span><i></i></li>
+              </ul>
+            </div>
+          </div>
+          <div class="revelar">
+            <p class="rotulo">Sobre a clínica</p>
+            <h2 id="titulo-sobre" data-texto="sobre.titulo"></h2>
+            <p class="sobre-texto" data-texto="sobre.texto"></p>
+            <ul class="sobre-pontos" data-lista="sobre"></ul>
+          </div>
+        </div>
+        <ul class="largura diferenciais" data-lista="diferenciais"></ul>
+      </section>
+
+      <section class="duvidas" id="duvidas" aria-labelledby="titulo-duvidas">
+        <div class="largura duvidas-grade">
+          <div class="cabecalho-secao revelar">
+            <p class="rotulo">Dúvidas</p>
+            <h2 id="titulo-duvidas">Perguntas frequentes.</h2>
+            <p>Não encontrou sua dúvida? Fale com a equipe pelo WhatsApp.</p>
+          </div>
+          <div class="lista-perguntas" data-lista="perguntas"></div>
+        </div>
+      </section>
+
+      <section class="contato" id="contato" aria-labelledby="titulo-contato">
+        <div class="largura contato-cartao revelar">
+          <div>
+            <p class="rotulo">Contato</p>
+            <h2 id="titulo-contato">Agende sua avaliação.</h2>
+            <form class="formulario" novalidate>
+              <label>Nome<input name="nome" autocomplete="name" required maxlength="80" /></label>
+              <label>Telefone<input name="telefone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="20" placeholder="(00) 00000-0000" /></label>
+              <label class="largo">Interesse<select name="interesse" required data-lista="opcoes"><option value="">Selecione</option></select></label>
+              <label class="largo">Melhor período<select name="periodo"><option>Manhã</option><option>Tarde</option><option>Noite</option></select></label>
+              <p class="formulario-erro largo" role="alert" hidden></p>
+              <button class="botao botao-marinho largo" type="submit"><svg aria-hidden="true"><use href="#i-whats" /></svg>Enviar pelo WhatsApp</button>
+            </form>
+          </div>
+          <div class="localizacao" id="localizacao">
+            <div class="mapa" aria-hidden="true"><span></span><span></span><span></span><i></i></div>
+            <ul class="dados">
+              <li><svg aria-hidden="true"><use href="#i-local" /></svg><div><strong data-texto="endereco.rua"></strong><span data-texto="endereco.cidade"></span><small data-texto="endereco.referencia"></small></div></li>
+              <li><svg aria-hidden="true"><use href="#i-relogio" /></svg><div data-lista="horarios"></div></li>
+            </ul>
+            <a class="botao botao-vidro" href="#localizacao" data-mapa><svg aria-hidden="true"><use href="#i-local" /></svg>Como chegar</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <div class="largura rodape-interno">
+        <a class="marca" href="#inicio">
+          <svg class="marca-icone" aria-hidden="true"><use href="#i-logo" /></svg>
+          <span class="marca-texto"><small data-marca="prefixo">Clínica</small><strong><span data-marca="nome">Sorriso</span><em data-marca="destaque">Vital</em></strong></span>
+        </a>
+        <nav aria-label="Rodapé"><a href="#tratamentos">Tratamentos</a><a href="#sobre">Sobre a Clínica</a><a href="#duvidas">Dúvidas</a><a href="#contato">Contato</a></nav>
+        <p class="rodape-nota"><span data-texto="responsavelTecnico"></span><br />© <span data-ano></span> <span data-texto="nomeEmpresa"></span>. Site demonstrativo — conteúdos ilustrativos, sem promessa de resultados.</p>
+      </div>
+    </footer>
+
+    <dialog class="aviso" id="aviso" aria-labelledby="aviso-titulo">
+      <button class="aviso-fechar" type="button" aria-label="Fechar"><svg><use href="#i-fechar" /></svg></button>
+      <p class="rotulo">Demonstração</p>
+      <h2 id="aviso-titulo">WhatsApp ainda não configurado</h2>
+      <p>Informe o número em <code>configuracao.js</code> para que este botão abra a conversa. A mensagem preparada seria:</p>
+      <blockquote class="aviso-mensagem"></blockquote>
+    </dialog>
+  </body>
+</html>

@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f3f7fc" />
+    <meta name="description" content="Lavagem, higienização e estética automotiva com qualidade, segurança e atenção aos detalhes." />
+    <title>LavaCar Premium — Estética Automotiva</title>
+    <link rel="preload" href="fontes/montserrat-800.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="estilo.css" />
+    <script src="configuracao.js" defer></script>
+    <script src="principal.js" defer></script>
+    <script src="lavagem.js" defer></script>
+  </head>
+  <body>
+    <svg class="simbolos" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-carro-logo" viewBox="0 0 64 30"><path d="M4 24c-1.5 0-2.5-1-2.5-2.5v-4c0-1.6.9-2.6 2.4-3l9.6-2.6 7.3-6.4C23 4.4 25.2 3.5 27.6 3.5h13c2.4 0 4.3.9 6 2.6l5.6 5.7 6.3 1.3c2.3.5 3.5 1.9 3.5 4.1v4.3c0 1.5-1 2.5-2.5 2.5" /><path d="M13 11.6h37.5M24 4.6l-1.8 7m16.8-7.8.8 7.8" /><circle cx="16" cy="24" r="4.2" /><circle cx="49" cy="24" r="4.2" /><path d="M20.4 24.5h24.2" /></symbol>
+      <symbol id="i-whats" viewBox="0 0 24 24"><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.4L3.5 20.5l1.4-4.3a8.5 8.5 0 1 1 15.6-4.5Z" /><path d="M9 8.2c.3-.6.6-.6.9-.6h.6c.2 0 .4.1.5.4l.8 1.8c.1.3 0 .5-.1.7l-.6.7c.6 1.2 1.6 2.2 2.9 2.9l.7-.7c.2-.2.4-.2.7-.1l1.8.8c.3.1.4.3.4.6 0 .9-.7 1.9-1.8 2-1.6.2-3.8-.6-5.6-2.4S8.2 10.3 8.6 9Z" /></symbol>
+      <symbol id="i-gota" viewBox="0 0 24 24"><path d="M12 2.8s6.5 7.2 6.5 11.7a6.5 6.5 0 0 1-13 0C5.5 10 12 2.8 12 2.8Z" /><path d="M9 15a3 3 0 0 0 3 3" /></symbol>
+      <symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 2.5 4.5 5.5v6c0 4.7 3.2 8.4 7.5 10 4.3-1.6 7.5-5.3 7.5-10v-6Z" /><path d="m8.5 12 2.5 2.5 4.5-5" /></symbol>
+      <symbol id="i-carro" viewBox="0 0 24 24"><path d="M3.5 16.5v-3.2l1.8-4.6A2 2 0 0 1 7.2 7.4h9.6a2 2 0 0 1 1.9 1.3l1.8 4.6v3.2" /><path d="M2.5 16.5h19v2.5h-19zM3.5 13.3h17" /><circle cx="7.5" cy="16" r="1" /><circle cx="16.5" cy="16" r="1" /><path d="M5.5 19v1.5m13-1.5v1.5" /></symbol>
+      <symbol id="i-calendario" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" /><path d="M3.5 10h17M8 3v4m8-4v4M8 14h.01M12 14h.01M16 14h.01M8 17h.01M12 17h.01" /></symbol>
+      <symbol id="i-assento" viewBox="0 0 24 24"><path d="M7 3.5h5.5a2 2 0 0 1 2 2.2L13.6 14H6.4L5 5.8a2 2 0 0 1 2-2.3Z" /><path d="M5.5 14h11a2.5 2.5 0 0 1 2.5 2.5V18H5.5zM8 18v3m8-3v3" /></symbol>
+      <symbol id="i-brilho" viewBox="0 0 24 24"><path d="M12 2.5c.6 4.6 2.9 6.9 7.5 7.5-4.6.6-6.9 2.9-7.5 7.5-.6-4.6-2.9-6.9-7.5-7.5 4.6-.6 6.9-2.9 7.5-7.5Z" /><path d="M19 15.5c.3 2 1.2 2.9 3 3.2-1.8.3-2.7 1.2-3 3.2-.3-2-1.2-2.9-3-3.2 1.8-.3 2.7-1.2 3-3.2Z" /></symbol>
+      <symbol id="i-relogio" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3.5 2" /></symbol>
+      <symbol id="i-local" viewBox="0 0 24 24"><path d="M12 21.5s7-6.2 7-11.5a7 7 0 0 0-14 0c0 5.3 7 11.5 7 11.5Z" /><circle cx="12" cy="10" r="2.6" /></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" /></symbol>
+      <symbol id="i-seta" viewBox="0 0 24 24"><path d="M4 12h15m-5.5-6 6 6-6 6" /></symbol>
+      <symbol id="i-mais" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+      <symbol id="i-fechar" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></symbol>
+    </svg>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="topo">
+      <div class="topo-interno">
+        <a class="marca" href="#inicio" aria-label="LavaCar Premium, página inicial">
+          <svg class="marca-carro" aria-hidden="true"><use href="#i-carro-logo" /></svg>
+          <span class="marca-nome" data-marca="nome">LavaCar</span>
+          <span class="marca-complemento" data-marca="complemento">Premium</span>
+        </a>
+        <nav class="navegacao" id="navegacao" aria-label="Navegação principal">
+          <a href="#inicio" class="ativo">Início</a>
+          <a href="#servicos">Serviços</a>
+          <a href="#beneficios">Benefícios</a>
+          <a href="#como-funciona">Como Funciona</a>
+          <a href="#contato">Contato</a>
+          <button class="botao botao-escuro menu-whats" type="button" data-whatsapp>
+            <svg aria-hidden="true"><use href="#i-whats" /></svg>Fale no WhatsApp
+          </button>
+        </nav>
+        <button class="botao botao-escuro topo-whats" type="button" data-whatsapp>
+          <svg aria-hidden="true"><use href="#i-whats" /></svg>Fale no WhatsApp
+        </button>
+        <button class="alternar-menu" type="button" aria-controls="navegacao" aria-expanded="false" aria-label="Abrir menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <section class="abertura" id="inicio" aria-labelledby="titulo-principal">
+        <div class="abertura-fundo" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="abertura-texto">
+          <p class="selo entrar" data-texto="inicio.selo">Lava Car Profissional</p>
+          <h1 id="titulo-principal" class="entrar">
+            <span data-texto="inicio.tituloLinha1">Cuidado completo</span><br />
+            <span data-texto="inicio.tituloLinha2">para o</span> <em data-texto="inicio.tituloDestaque">seu carro</em>
+          </h1>
+          <p class="descricao entrar" data-texto="inicio.descricao">
+            Lavagem, higienização e estética automotiva com qualidade, segurança e atenção aos detalhes.
+          </p>
+          <ul class="vantagens entrar" data-lista="vantagens"></ul>
+          <div class="acoes entrar">
+            <button class="botao botao-azul" type="button" data-agendar>
+              <svg aria-hidden="true"><use href="#i-whats" /></svg><span data-texto="inicio.botaoPrincipal">Agendar lavagem</span>
+            </button>
+            <a class="botao botao-claro" href="#servicos"
+              ><svg aria-hidden="true"><use href="#i-calendario" /></svg><span data-texto="inicio.botaoSecundario">Ver serviços</span></a
+            >
+          </div>
+        </div>
+
+        <div class="lavagem" id="cena-lavagem">
+          <svg class="lavagem-arte" viewBox="0 0 1254 690" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <defs>
+              <linearGradient id="g-painel" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#7db6f6" />
+                <stop offset=".45" stop-color="#3d82e6" />
+                <stop offset="1" stop-color="#2160d2" />
+              </linearGradient>
+              <radialGradient id="g-luz-painel" cx=".78" cy=".22" r=".7">
+                <stop offset="0" stop-color="#bfe2ff" stop-opacity=".55" />
+                <stop offset="1" stop-color="#bfe2ff" stop-opacity="0" />
+              </radialGradient>
+              <linearGradient id="g-arco" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#fff" stop-opacity=".95" />
+                <stop offset=".6" stop-color="#e8f3ff" stop-opacity=".35" />
+                <stop offset="1" stop-color="#e8f3ff" stop-opacity="0" />
+              </linearGradient>
+              <linearGradient id="g-carroceria" x1="0" y1="0" x2=".7" y2="1">
+                <stop offset="0" stop-color="#8fc4ff" stop-opacity=".42" />
+                <stop offset=".5" stop-color="#3f7fe0" stop-opacity=".22" />
+                <stop offset="1" stop-color="#1e4fb8" stop-opacity=".45" />
+              </linearGradient>
+              <linearGradient id="g-vidro" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#1b4aa6" stop-opacity=".55" />
+                <stop offset=".55" stop-color="#2a63c9" stop-opacity=".3" />
+                <stop offset="1" stop-color="#9ccaff" stop-opacity=".35" />
+              </linearGradient>
+              <linearGradient id="g-farol" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#fff" />
+                <stop offset="1" stop-color="#cfe9ff" />
+              </linearGradient>
+              <linearGradient id="g-pneu" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#173e95" stop-opacity=".9" />
+                <stop offset="1" stop-color="#0d2c75" stop-opacity=".95" />
+              </linearGradient>
+              <linearGradient id="g-varredura" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#fff" stop-opacity="0" />
+                <stop offset=".5" stop-color="#fff" stop-opacity=".55" />
+                <stop offset="1" stop-color="#fff" stop-opacity="0" />
+              </linearGradient>
+              <linearGradient id="g-lanca" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#3c5c96" />
+                <stop offset=".4" stop-color="#1a2f5e" />
+                <stop offset="1" stop-color="#0e1c3d" />
+              </linearGradient>
+              <linearGradient id="g-chao" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#d9ebff" stop-opacity=".2" />
+                <stop offset=".35" stop-color="#eaf4ff" stop-opacity=".85" />
+                <stop offset="1" stop-color="#f6faff" />
+              </linearGradient>
+              <filter id="f-brilho" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3.2" result="b" />
+                <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+              <filter id="f-farol" x="-40%" y="-200%" width="180%" height="500%">
+                <feGaussianBlur stdDeviation="7" result="b" />
+                <feMerge><feMergeNode in="b" /><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+              <clipPath id="c-carroceria"><path id="silhueta" d="M232 408C222 418 206 432 203 450c-4 26-4 60 0 88 2 14 7 26 14 34h548c12-30 26-46 46-48 4-6 12-10 24-10 20 0 30 12 36 32h120c6-26 18-40 32-40 10 0 18 8 22 20 6-28 6-62 2-92l-20-18c-10-26-34-52-62-66-36-18-80-26-120-26-30 0-88 2-120 4-60 4-118 14-160 40L360 360c-40 10-90 26-128 48Z" /></clipPath>
+            </defs>
+
+            <g class="painel">
+              <path class="painel-fundo" d="M300 0H1254V690H150C170 430 220 200 300 0Z" fill="url(#g-painel)" />
+              <path d="M300 0H1254V690H150C170 430 220 200 300 0Z" fill="url(#g-luz-painel)" />
+              <path class="arco arco-1" d="M330 690C310 410 430 140 650 0" stroke="url(#g-arco)" />
+              <path class="arco arco-2" d="M238 690C228 410 360 130 560 0" stroke="url(#g-arco)" />
+              <path class="arco arco-3" d="M432 690C420 450 520 180 760 0" stroke="url(#g-arco)" />
+            </g>
+
+            <g class="carro">
+              <g class="carro-volume">
+                <use href="#silhueta" fill="url(#g-carroceria)" />
+                <path class="vidro" d="M428 346 552 266c90-6 220-10 316-8l18 92c-140-4-300-6-458 6Z" fill="url(#g-vidro)" />
+                <path class="vidro" d="M874 262c40 2 82 14 110 32l28 58-118 2Z" fill="url(#g-vidro)" />
+                <ellipse cx="852" cy="522" rx="44" ry="68" fill="url(#g-pneu)" />
+                <ellipse cx="1060" cy="508" rx="28" ry="56" fill="url(#g-pneu)" />
+                <g clip-path="url(#c-carroceria)"><rect class="varredura" x="-260" y="200" width="220" height="420" fill="url(#g-varredura)" transform="skewX(-18)" /></g>
+              </g>
+              <g class="carro-linhas" filter="url(#f-brilho)">
+                <path pathLength="1" d="M232 408c38-22 88-38 128-48l68-14c42-26 100-36 160-40 32-2 90-4 120-4 40 0 84 8 120 26 28 14 52 40 62 66l20 18c4 30 4 64-2 92" />
+                <path pathLength="1" d="M428 346 552 266c90-6 220-10 316-8l18 92" />
+                <path pathLength="1" d="M868 258c12 30 20 62 18 92" />
+                <path pathLength="1" d="M874 262c40 2 82 14 110 32l28 58-118 2" />
+                <path pathLength="1" d="M372 334c14-8 40-10 56-6 6 8 6 18 2 24-18 4-40 4-54 2-6-6-8-14-4-20Z" />
+                <path pathLength="1" d="M900 330c18-6 50-6 64 2 8 8 12 18 10 26-18 4-46 4-66 2-6-10-12-20-8-30Z" />
+                <path pathLength="1" d="M232 408c90-6 200-4 300 6 90-2 190-8 278-16" />
+                <path pathLength="1" d="M300 392c70-16 150-26 240-24M560 370c60 4 120 2 200-8" />
+                <path pathLength="1" d="M232 408C222 418 206 432 203 450c-4 26-4 60 0 88 2 14 7 26 14 34h548" />
+                <path pathLength="1" d="M810 400c6 14 6 36 0 54-8 26-28 60-38 118" />
+                <path pathLength="1" d="M276 490h448l-30 62H310Z" />
+                <path pathLength="1" d="M300 520h400M248 572c160 8 360 8 516 0" />
+                <path pathLength="1" d="M206 470c20 10 44 14 70 14M790 476c-16 8-36 12-60 12" />
+                <path pathLength="1" d="M800 456c10-18 30-26 52-26 30 0 50 26 56 60M836 590c-26-6-38-40-34-80" />
+                <path pathLength="1" d="M852 454c24 0 42 30 42 68s-18 68-42 68-42-30-42-68 18-68 42-68Z" />
+                <path pathLength="1" d="M896 470c40-6 100-4 130-4M900 560h120" />
+                <path pathLength="1" d="M1022 470c4-16 18-24 34-24 18 0 32 16 36 40" />
+                <path pathLength="1" d="M1060 452c16 0 28 26 28 56s-12 56-28 56-28-26-28-56 12-56 28-56Z" />
+                <path pathLength="1" d="M810 400c80-6 180-8 270-4l16 24" />
+              </g>
+              <g class="farois" filter="url(#f-farol)">
+                <path class="farol" d="M228 410c30 4 64 12 92 24l-8 12c-30-4-58-12-80-22Z" fill="url(#g-farol)" />
+                <path class="farol" d="M600 430c66-10 140-20 202-26l-10 18c-20 14-44 26-66 32-42-2-86-8-122-14Z" fill="url(#g-farol)" />
+              </g>
+            </g>
+
+            <g class="lanca">
+              <path class="mangueira" d="M1110 100c60-16 110-60 150-110" />
+              <path class="mangueira" d="M1092 112c40 40 70 120 70 210 0 120-30 230 92 370" />
+              <g class="lanca-corpo" transform="rotate(-27 1040 128)">
+                <rect x="976" y="114" width="110" height="28" rx="12" fill="url(#g-lanca)" />
+                <rect x="960" y="118" width="24" height="20" rx="5" fill="#0d1a36" />
+                <rect x="1078" y="108" width="34" height="40" rx="10" fill="#22396b" />
+                <rect x="986" y="117" width="88" height="5" rx="2.5" fill="#8fb4ee" opacity=".5" />
+              </g>
+            </g>
+          </svg>
+          <canvas class="agua" aria-hidden="true"></canvas>
+          <p class="lavagem-dica" aria-hidden="true">Mova o cursor ou toque para mirar o jato</p>
+        </div>
+      </section>
+
+      <section class="faixa-servicos" id="servicos" aria-labelledby="titulo-servicos">
+        <div class="ondas-topo" aria-hidden="true">
+          <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><defs><linearGradient id="g-onda" x1="0" x2="1"><stop offset="0" stop-color="#f3f7fd" /><stop offset="1" stop-color="#e3edf9" /></linearGradient></defs><path class="onda onda-1" d="M0 70C240 20 480 120 720 70S1200 20 1440 70V120H0Z" /><path class="onda onda-2" d="M0 86C200 50 520 130 760 86S1180 50 1440 90V120H0Z" /></svg>
+        </div>
+        <div class="largura">
+          <div class="cabecalho-secao revelar">
+            <p class="rotulo">Serviços</p>
+            <h2 id="titulo-servicos">Cada parte do carro com o cuidado certo.</h2>
+            <p>Escolha uma frente de serviço para ver o que está incluído.</p>
+          </div>
+          <div class="estacao revelar">
+            <div class="estacao-menu" role="tablist" aria-label="Frentes de serviço" data-lista="abas"></div>
+            <div class="estacao-painel" role="tabpanel" aria-live="polite">
+              <span class="enchimento" aria-hidden="true"></span>
+              <div class="estacao-conteudo" data-lista="detalhe"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pacotes" aria-labelledby="titulo-pacotes">
+        <div class="largura">
+          <div class="cabecalho-secao centro revelar">
+            <p class="rotulo">Pacotes</p>
+            <h2 id="titulo-pacotes">Escolha o nível de cuidado.</h2>
+            <p class="aviso-demo" data-aviso-pacotes>Pacotes demonstrativos — valores definidos pela empresa.</p>
+          </div>
+          <div class="grade-pacotes" data-lista="pacotes"></div>
+        </div>
+      </section>
+
+      <section class="beneficios" id="beneficios" aria-labelledby="titulo-beneficios">
+        <div class="largura beneficios-grade">
+          <div class="cabecalho-secao revelar">
+            <p class="rotulo">Benefícios</p>
+            <h2 id="titulo-beneficios">Brilho que dura mais. Pintura que sofre menos.</h2>
+            <p>Processos pensados para limpar sem agredir, com produtos e ferramentas adequados a cada superfície.</p>
+            <svg class="gota-grande" viewBox="0 0 200 260" aria-hidden="true">
+              <defs>
+                <radialGradient id="g-gota" cx=".38" cy=".62" r=".7"><stop offset="0" stop-color="#e9f5ff" /><stop offset=".35" stop-color="#8fc3ff" /><stop offset=".8" stop-color="#3b84ec" /><stop offset="1" stop-color="#1f58c7" /></radialGradient>
+                <linearGradient id="g-gota-luz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95" /><stop offset="1" stop-color="#fff" stop-opacity="0" /></linearGradient>
+              </defs>
+              <ellipse class="gota-sombra" cx="100" cy="248" rx="58" ry="9" />
+              <g class="gota-corpo">
+                <path d="M100 8C100 8 22 108 22 160a78 78 0 0 0 156 0C178 108 100 8 100 8Z" fill="url(#g-gota)" />
+                <path d="M62 132c-8 18-10 38-4 56" stroke="url(#g-gota-luz)" stroke-width="12" stroke-linecap="round" fill="none" />
+                <ellipse cx="128" cy="196" rx="16" ry="9" fill="#fff" opacity=".35" transform="rotate(-30 128 196)" />
+              </g>
+            </svg>
+          </div>
+          <ul class="lista-beneficios" data-lista="beneficios"></ul>
+        </div>
+      </section>
+
+      <section class="como-funciona" id="como-funciona" aria-labelledby="titulo-como">
+        <div class="largura">
+          <div class="cabecalho-secao centro revelar">
+            <p class="rotulo">Como funciona</p>
+            <h2 id="titulo-como">Do agendamento ao carro brilhando.</h2>
+          </div>
+          <div class="trajeto">
+            <svg class="trajeto-onda" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+              <path id="caminho-gota" d="M0 60C150 0 300 120 450 60S750 0 900 60 1050 120 1200 60" />
+              <circle class="gota-viajante" r="7"><animateMotion dur="7s" repeatCount="indefinite"><mpath href="#caminho-gota" /></animateMotion></circle>
+            </svg>
+            <ol class="etapas" data-lista="etapas"></ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="contato" id="contato" aria-labelledby="titulo-contato">
+        <div class="largura contato-grade">
+          <div class="agendamento revelar">
+            <p class="rotulo">Agendamento</p>
+            <h2 id="titulo-contato">Agende sua lavagem.</h2>
+            <p>Escolha o serviço e o melhor horário. A mensagem segue pronta para o WhatsApp.</p>
+            <form class="formulario" novalidate>
+              <label>Seu nome<input name="nome" autocomplete="name" required maxlength="80" /></label>
+              <label>Veículo<input name="veiculo" placeholder="Ex.: hatch prata" required maxlength="60" /></label>
+              <label>Serviço<select name="servico" required data-lista="opcoes-servico"><option value="">Selecione</option></select></label>
+              <label>Data<input name="data" type="date" required /></label>
+              <fieldset class="largo periodos">
+                <legend>Período</legend>
+                <label><input type="radio" name="periodo" value="Manhã" checked /><span>Manhã</span></label>
+                <label><input type="radio" name="periodo" value="Tarde" /><span>Tarde</span></label>
+              </fieldset>
+              <p class="formulario-erro largo" role="alert" hidden></p>
+              <button class="botao botao-azul largo" type="submit"><svg aria-hidden="true"><use href="#i-whats" /></svg>Enviar pelo WhatsApp</button>
+            </form>
+          </div>
+          <div class="localizacao revelar" id="localizacao">
+            <div class="mapa" aria-hidden="true">
+              <span class="mapa-rua r1"></span><span class="mapa-rua r2"></span><span class="mapa-rua r3"></span><span class="mapa-agua"></span>
+              <span class="mapa-pino"><svg><use href="#i-local" /></svg></span>
+            </div>
+            <ul class="dados">
+              <li><svg aria-hidden="true"><use href="#i-local" /></svg><div><strong data-texto="endereco.rua"></strong><span data-texto="endereco.cidade"></span><small data-texto="endereco.referencia"></small></div></li>
+              <li><svg aria-hidden="true"><use href="#i-relogio" /></svg><div data-lista="horarios"></div></li>
+            </ul>
+            <a class="botao botao-claro" href="#localizacao" data-mapa><svg aria-hidden="true"><use href="#i-local" /></svg>Como chegar</a>
+            <div class="perguntas">
+              <h3>Dúvidas frequentes</h3>
+              <div data-lista="perguntas"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <div class="largura rodape-interno">
+        <a class="marca marca-clara" href="#inicio">
+          <svg class="marca-carro" aria-hidden="true"><use href="#i-carro-logo" /></svg>
+          <span class="marca-nome" data-marca="nome">LavaCar</span><span class="marca-complemento" data-marca="complemento">Premium</span>
+        </a>
+        <nav aria-label="Rodapé"><a href="#servicos">Serviços</a><a href="#beneficios">Benefícios</a><a href="#como-funciona">Como Funciona</a><a href="#contato">Contato</a></nav>
+        <p class="rodape-nota">© <span data-ano></span> <span data-texto="nomeEmpresa"></span>. Site demonstrativo — conteúdos e valores ilustrativos.</p>
+      </div>
+    </footer>
+
+    <dialog class="aviso" id="aviso" aria-labelledby="aviso-titulo">
+      <button class="aviso-fechar" type="button" aria-label="Fechar"><svg><use href="#i-fechar" /></svg></button>
+      <p class="rotulo">Demonstração</p>
+      <h2 id="aviso-titulo">WhatsApp ainda não configurado</h2>
+      <p>Informe o número em <code>configuracao.js</code> para que este botão abra a conversa. A mensagem preparada seria:</p>
+      <blockquote class="aviso-mensagem"></blockquote>
+    </dialog>
+  </body>
+</html>
