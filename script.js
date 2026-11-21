@@ -33,6 +33,14 @@ const demonstracoes = {
       miniatura: "recursos/demos/sorrisovital.webp",
     },
   ],
+  restaurante: [
+    {
+      nome: "Sabor & Mesa — Restaurante Contemporâneo",
+      descricao: "Cloche em 3D com vapor animado, cardápio em abas, pratos especiais e reservas.",
+      endereco: "demos/sabor-e-mesa/",
+      miniatura: "recursos/demos/sabor-e-mesa.webp",
+    },
+  ],
   lavajato: [
     {
       nome: "LavaCar Premium — Estética Automotiva",
