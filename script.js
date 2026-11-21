@@ -25,6 +25,14 @@ const demonstracoes = {
       miniatura: "recursos/demos/techcell.webp",
     },
   ],
+  odontologia: [
+    {
+      nome: "SorrisoVital — Clínica Odontológica",
+      descricao: "Dente de vidro em 3D com órbita luminosa, tratamentos, fases da vida e agendamento.",
+      endereco: "demos/sorrisovital/",
+      miniatura: "recursos/demos/sorrisovital.webp",
+    },
+  ],
   lavajato: [
     {
       nome: "LavaCar Premium — Estética Automotiva",
