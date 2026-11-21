@@ -261,6 +261,10 @@ function iniciar() {
     return;
   }
   renderizador.setClearColor(0x000000, 0);
+  let falhou = false;
+  renderizador.debug.onShaderError = () => {
+    falhou = true;
+  };
   const cena = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 50);
   camera.position.set(0, 0, 6);
@@ -534,7 +538,15 @@ function iniciar() {
     cancelAnimationFrame(quadro);
   }
 
-  ajustar();
+  try {
+    ajustar();
+  } catch (erro) {
+    falhou = true;
+  }
+  if (falhou || renderizador.getContext().isContextLost()) {
+    renderizador.dispose();
+    return;
+  }
   new ResizeObserver(ajustar).observe(cena3d);
   cena3d.classList.add("webgl-ativo");
   tela.addEventListener("webglcontextlost", (evento) => {

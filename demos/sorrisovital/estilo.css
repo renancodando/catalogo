@@ -1516,43 +1516,44 @@ h2 em {
     margin: 8px 0 0;
   }
   .abertura {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
-      "texto"
       "cena"
+      "texto"
       "garantias";
     min-height: 0;
+    padding-top: calc(clamp(70px, 5.8vw, 96px) + 4px);
     padding-bottom: clamp(110px, 18vw, 170px);
   }
   .cena-dente {
     min-height: 0;
-    aspect-ratio: 1.12;
-    margin: 6px calc(var(--margem) * -1) 0;
+    aspect-ratio: 1.5;
+    max-height: 56svh;
+    margin: 0 calc(var(--margem) * -1) clamp(4px, 2vw, 18px);
   }
   .curva-1 {
-    right: -70vw;
-    top: auto;
-    bottom: -40vw;
-    width: 150vw;
-    height: 150vw;
+    right: -103vw;
+    top: calc(clamp(70px, 5.8vw, 96px) - 25vw);
+    width: 154vw;
+    height: 100vw;
   }
   .curva-2 {
-    right: -50vw;
-    top: auto;
-    bottom: -30vw;
-    width: 130vw;
-    height: 130vw;
+    right: -108vw;
+    top: calc(clamp(70px, 5.8vw, 96px) - 31vw);
+    width: 166vw;
+    height: 112vw;
   }
   .curva-3 {
-    right: -10%;
-    top: auto;
-    bottom: 20%;
-    width: 110vw;
-    height: 110vw;
+    right: -32vw;
+    left: -32vw;
+    top: calc(clamp(70px, 5.8vw, 96px) - 22vw);
+    width: auto;
+    height: 112vw;
+    background: radial-gradient(ellipse 46% 40% at 50% 46%, #1d61d5 0%, #3a82e6 32%, #7fb4f3 58%, rgba(196, 222, 252, 0.6) 72%, rgba(230, 240, 253, 0) 86%);
   }
   .garantias {
     justify-content: center;
-    margin-top: -6%;
+    margin-top: clamp(28px, 6vw, 44px);
     padding: 18px clamp(14px, 3vw, 28px);
     border-radius: 24px;
     background: rgba(255, 255, 255, 0.86);
@@ -1584,7 +1585,7 @@ h2 em {
     flex: 1 1 100%;
   }
   .cena-dente {
-    aspect-ratio: 0.98;
+    aspect-ratio: 1.18;
   }
   .garantias {
     display: grid;
