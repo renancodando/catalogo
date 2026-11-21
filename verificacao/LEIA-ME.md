@@ -35,3 +35,17 @@ Quadros sucessivos confirmaram variação na área da esfera com animação e es
 ## Indicadores e conteúdo
 
 A faixa comunica as quatro categorias, as três soluções, as três frentes de serviço e o atendimento pelo WhatsApp. São informações conferíveis na página. A oferta comercial existente, suas condições e os contatos foram preservados.
+
+## Demonstrativos ao vivo
+
+Cada demonstração fica em `demos/<nome>/` com `configuracao.js` (dados da empresa e parâmetros de animação), fontes e bibliotecas locais. O catálogo lista as demos no painel de cada categoria, com miniatura capturada da própria demo (`recursos/demos/`) e link `#modelo-<categoria>`.
+
+| Demo | Categoria | Objeto central | Técnica |
+| --- | --- | --- | --- |
+| TechCell | Assistência Técnica | Smartphone desmontado em camadas | CSS 3D e SVG |
+| LavaCar Premium | Lava-jato | Carro e água em tempo real | SVG e simulação em Canvas 2D |
+| SorrisoVital | Odontologia | Dente de vidro com órbita | Three.js com shaders e reserva em SVG |
+| Sabor & Mesa | Restaurante | Cloche com vapor | Three.js com shaders e reserva em SVG |
+| Sabor da Casa | Restaurante | Prato, guardanapo e talheres | CSS 3D e SVG |
+
+As demos foram verificadas no Chromium em 320, 360, 375, 390, 414, 430, 480, 600, 768, 820, 1024, 1280, 1440, 1920 e 2560 px, sem rolagem horizontal. Os testes cobriram menus, navegação, formulários, mensagens do WhatsApp (com e sem número configurado), teclado, movimento reduzido, quadros sucessivos das animações e, nas cenas WebGL, o funcionamento sem WebGL. As capturas estão em `verificacao/demos/`. Números, depoimentos, cardápios e endereços das demos são demonstrativos.

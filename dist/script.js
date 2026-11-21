@@ -40,6 +40,12 @@ const demonstracoes = {
       endereco: "demos/sabor-e-mesa/",
       miniatura: "recursos/demos/sabor-e-mesa.webp",
     },
+    {
+      nome: "Sabor da Casa — Restaurante Tradicional",
+      descricao: "Mesa posta em CSS 3D, pratos do dia por semana e pedido montado pelo cardápio para o WhatsApp.",
+      endereco: "demos/sabor-da-casa/",
+      miniatura: "recursos/demos/sabor-da-casa.webp",
+    },
   ],
   lavajato: [
     {
