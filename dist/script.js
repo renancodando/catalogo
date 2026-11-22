@@ -60,6 +60,12 @@ const demonstracoes = {
       endereco: "demos/alvarenga/",
       miniatura: "recursos/demos/alvarenga.webp",
     },
+    {
+      nome: "ESCRITÓRIO_ — Consultoria & Gestão",
+      descricao: "Visual de terminal com cubo isométrico em wireframe, painel de status, serviços e agendamento pelo WhatsApp.",
+      endereco: "demos/escritorio/",
+      miniatura: "recursos/demos/escritorio.webp",
+    },
   ],
   lavajato: [
     {

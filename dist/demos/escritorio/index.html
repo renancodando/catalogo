@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#131313" />
+    <meta name="description" content="Consultoria e gestão: apoio especializado para organizar, estruturar e fazer o seu negócio evoluir." />
+    <title>Escritório — Consultoria &amp; Gestão</title>
+    <link rel="preload" href="fontes/mono-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fontes/mono-500-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="estilo.css" />
+    <script src="configuracao.js" defer></script>
+    <script src="principal.js" defer></script>
+    <script src="../rncweb/assinatura.js" defer></script>
+  </head>
+  <body>
+    <svg class="simbolos" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-seta" viewBox="0 0 24 24"><path d="M4 12h15M13.5 6.5 19 12l-5.5 5.5" /></symbol>
+      <symbol id="i-diagonal" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></symbol>
+      <symbol id="i-camadas" viewBox="0 0 24 24"><path d="m12 3.5 9 4.6-9 4.6-9-4.6Z" /><path d="m3 12.2 9 4.6 9-4.6M3 16.2l9 4.6 9-4.6" /></symbol>
+      <symbol id="i-barras" viewBox="0 0 24 24"><rect x="3" y="12" width="4.2" height="8.5" /><rect x="9.9" y="8" width="4.2" height="12.5" /><rect x="16.8" y="3.5" width="4.2" height="17" /></symbol>
+      <symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.6c0 4.5 3.1 8 7.5 9.4 4.4-1.4 7.5-4.9 7.5-9.4V6Z" /><path d="m8.6 12 2.4 2.4 4.6-4.8" /></symbol>
+      <symbol id="i-documentos" viewBox="0 0 24 24"><path d="M8 3.5h9.5v15H8Z" /><path d="M5 6.5v14.5h10" /><path d="M10.5 8h4.5M10.5 11h4.5M10.5 14h3" /></symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M4 20l1.2-3.7A8.3 8.3 0 1 1 8.2 19Z" /><path d="M9 8.6c0 3.2 2.5 6 5.9 6.4l1-1.2-1.7-1-1 .8c-1-.5-1.8-1.3-2.3-2.3l.8-1-1-1.7Z" /></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.3 4.3L19 7.2" /></symbol>
+      <symbol id="i-fechar" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></symbol>
+      <symbol id="i-local" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z" /><circle cx="12" cy="10" r="2.4" /></symbol>
+      <symbol id="i-relogio" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" /></symbol>
+    </svg>
+
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="topo">
+      <a class="marca" href="#inicio" aria-label="Início">
+        <svg class="marca-icone" viewBox="0 0 48 48" aria-hidden="true">
+          <path d="M18 4H4v40h14M30 4h14v40H30" fill="none" stroke="currentColor" stroke-width="5" />
+          <path d="M14 20h20v8H14Z" fill="currentColor" />
+          <circle cx="24" cy="24" r="3" fill="#131313" />
+        </svg>
+        <span class="marca-texto"><strong><span data-marca="nome">Escritório</span><span class="cursor">_</span></strong><small data-marca="subtitulo">Consultoria &amp; Gestão</small></span>
+      </a>
+      <nav class="menu" id="menu" aria-label="Navegação principal">
+        <a href="#inicio" class="ativo"><span>[01]</span> Início</a>
+        <a href="#servicos"><span>[02]</span> Serviços</a>
+        <a href="#sobre"><span>[03]</span> Sobre</a>
+        <a href="#contato"><span>[04]</span> Contato</a>
+        <button class="botao-contorno-laranja menu-acao" type="button" data-whatsapp>[ Agendar reunião <svg aria-hidden="true"><use href="#i-diagonal" /></svg> ]</button>
+      </nav>
+      <div class="topo-acao-caixa">
+        <button class="botao-contorno-laranja topo-acao" type="button" data-whatsapp>[ Agendar reunião <svg aria-hidden="true"><use href="#i-diagonal" /></svg> ]</button>
+      </div>
+      <button class="alternar-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><svg aria-hidden="true"><use href="#i-menu" /></svg></button>
+    </header>
+
+    <main id="conteudo">
+      <section class="abertura" id="inicio" aria-labelledby="titulo-principal">
+        <div class="painel-principal">
+          <div class="destaque-topo">
+            <div class="abertura-texto">
+              <p class="comando"><span class="prompt">&gt;</span> <span data-comando></span><span class="bloco" aria-hidden="true"></span></p>
+              <h1 id="titulo-principal">
+                <span class="linha-titulo" data-texto="inicio.tituloLinha1">Gestão, estratégia</span>
+                <span class="linha-titulo"><span data-texto="inicio.tituloLinha2">e</span> <em data-texto="inicio.tituloDestaque">resultados</em><span class="cursor">_</span></span>
+              </h1>
+              <p class="descricao" data-texto="inicio.descricao"></p>
+              <div class="acoes">
+                <a class="botao botao-laranja" href="#servicos">[ <span data-texto="inicio.botaoPrincipal">Nossos serviços</span> <svg aria-hidden="true"><use href="#i-seta" /></svg> ]</a>
+                <button class="botao botao-branco" type="button" data-whatsapp>[ <span data-texto="inicio.botaoSecundario">Falar com um especialista</span> ]</button>
+              </div>
+            </div>
+            <div class="cubo" aria-hidden="true"><canvas></canvas></div>
+            <dl class="estado" aria-label="Painel do escritório">
+              <dt class="estado-titulo">// <span data-marca="nome">Escritório</span></dt>
+              <div><dt>status:</dt><dd class="online" data-indicador="status">online</dd></div>
+              <div><dt>clientes:</dt><dd data-contador="clientes">+0</dd></div>
+              <div><dt>projetos:</dt><dd data-contador="projetos">+0</dd></div>
+              <div><dt>áreas:</dt><dd data-indicador="areas">04</dd></div>
+              <dd class="estado-canto" aria-hidden="true"></dd>
+              <dd class="aviso-demo" data-aviso-numeros>números ilustrativos</dd>
+            </dl>
+          </div>
+          <div class="servicos-faixa">
+            <p class="titulo-colchete">[ Serviços ]</p>
+            <ul class="servicos-lista" data-lista="servicos-resumo"></ul>
+          </div>
+        </div>
+
+        <aside class="lateral" aria-label="Áreas e indicadores">
+          <p class="barras-deco" aria-hidden="true">/////</p>
+          <ul class="areas" data-lista="areas"></ul>
+          <div class="numeros">
+            <p><strong data-contador="clientes">+0</strong><span>Clientes atendidos</span></p>
+            <p><strong data-contador="projetos">+0</strong><span>Projetos concluídos</span></p>
+          </div>
+          <div class="grafico" aria-hidden="true" data-grafico></div>
+        </aside>
+
+        <div class="faixa">
+          <div class="faixa-marca">
+            <p class="barras-deco" aria-hidden="true">//////////</p>
+            <p class="faixa-nome">Escritório<br />profissional</p>
+            <span class="faixa-traco" aria-hidden="true"></span>
+          </div>
+          <button class="chamada" type="button" data-whatsapp>
+            <span class="chamada-icone" aria-hidden="true">[ <svg><use href="#i-seta" /></svg> ]</span>
+            <span class="chamada-titulo" data-chamada-titulo></span>
+            <span class="chamada-texto" data-chamada-texto></span>
+          </button>
+          <div class="pontos-chamada" role="tablist" aria-label="Mensagens" data-pontos-chamada></div>
+        </div>
+      </section>
+
+      <section class="servicos" id="servicos" aria-labelledby="titulo-servicos">
+        <div class="largura">
+          <p class="comando-secao">&gt; listar servicos --detalhado</p>
+          <h2 id="titulo-servicos">Serviços<span class="laranja">_</span></h2>
+          <div class="servicos-grade" data-lista="servicos-detalhe"></div>
+        </div>
+      </section>
+
+      <section class="sobre" id="sobre" aria-labelledby="titulo-sobre">
+        <div class="largura sobre-grade">
+          <div>
+            <p class="comando-secao">&gt; sobre --escritorio</p>
+            <h2 id="titulo-sobre" data-texto="sobre.titulo"></h2>
+            <p class="texto-secao" data-texto="sobre.texto"></p>
+            <ol class="etapas" data-lista="etapas"></ol>
+          </div>
+          <div class="terminal" aria-label="Exemplo de diagnóstico">
+            <div class="terminal-topo"><span></span><span></span><span></span><b>diagnostico.log</b></div>
+            <pre class="terminal-corpo" data-terminal></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="contato" id="contato" aria-labelledby="titulo-contato">
+        <div class="largura contato-grade">
+          <div>
+            <p class="comando-secao">&gt; agendar --reuniao</p>
+            <h2 id="titulo-contato">Vamos conversar<span class="laranja">_</span></h2>
+            <p class="texto-secao">Preencha os dados e continue pelo WhatsApp com a mensagem pronta.</p>
+            <ul class="contato-lista">
+              <li><svg aria-hidden="true"><use href="#i-local" /></svg><span><strong data-endereco="rua"></strong><span data-endereco="cidade"></span><small data-endereco="referencia"></small></span></li>
+              <li><svg aria-hidden="true"><use href="#i-relogio" /></svg><span class="horarios" data-lista="horarios"></span></li>
+            </ul>
+            <a class="botao botao-branco" href="#contato" data-mapa>[ Como chegar ]</a>
+          </div>
+          <form class="formulario" novalidate>
+            <label><span>nome:</span><input name="nome" autocomplete="name" required /></label>
+            <label><span>empresa:</span><input name="empresa" autocomplete="organization" /></label>
+            <label><span>servico:</span><select name="servico" required data-opcoes-servico><option value="">selecione</option></select></label>
+            <label><span>mensagem:</span><textarea name="mensagem" rows="3" placeholder="opcional"></textarea></label>
+            <p class="erro" role="alert" hidden>erro: preencha nome e serviço.</p>
+            <button class="botao botao-laranja" type="submit">[ Enviar pelo WhatsApp <svg aria-hidden="true"><use href="#i-seta" /></svg> ]</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <div class="largura rodape-interno">
+        <a class="marca" href="#inicio">
+          <svg class="marca-icone" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M18 4H4v40h14M30 4h14v40H30" fill="none" stroke="currentColor" stroke-width="5" />
+            <path d="M14 20h20v8H14Z" fill="currentColor" />
+          </svg>
+          <span class="marca-texto"><strong><span data-marca="nome">Escritório</span><span class="cursor">_</span></strong><small data-marca="subtitulo">Consultoria &amp; Gestão</small></span>
+        </a>
+        <p class="rodape-nota">© <span data-ano></span> <span data-texto="nomeEmpresa"></span>. Site demonstrativo — conteúdos e números ilustrativos.</p>
+      </div>
+    </footer>
+
+    <dialog class="aviso" id="aviso" aria-labelledby="aviso-titulo">
+      <button class="aviso-fechar" type="button" aria-label="Fechar"><svg><use href="#i-fechar" /></svg></button>
+      <p class="comando-secao">&gt; demonstracao</p>
+      <h3 id="aviso-titulo">Contato ainda não configurado</h3>
+      <p class="aviso-texto"></p>
+      <button class="botao botao-laranja aviso-ok" type="button">[ Entendi ]</button>
+    </dialog>
+  </body>
+</html>
