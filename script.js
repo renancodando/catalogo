@@ -32,6 +32,12 @@ const demonstracoes = {
       endereco: "demos/sorrisovital/",
       miniatura: "recursos/demos/sorrisovital.webp",
     },
+    {
+      nome: "SorrisoViva — Odontologia Moderna",
+      descricao: "Dente em relevo de vidro com paralaxe, barra lateral, tratamentos e agendamento pelo WhatsApp.",
+      endereco: "demos/sorrisoviva/",
+      miniatura: "recursos/demos/sorrisoviva.webp",
+    },
   ],
   restaurante: [
     {

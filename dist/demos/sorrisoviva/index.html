@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#faefeb" />
+    <meta name="description" content="Odontologia moderna com tratamentos completos, tecnologia avançada e atendimento humanizado." />
+    <title>SorrisoViva Odontologia</title>
+    <link rel="preload" href="fontes/jakarta-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fontes/jakarta-800-italic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="estilo.css" />
+    <script src="configuracao.js" defer></script>
+    <script src="principal.js" defer></script>
+    <script src="../rncweb/assinatura.js" defer></script>
+  </head>
+  <body>
+    <svg class="simbolos" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g-logo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7d5c" /><stop offset=".55" stop-color="#f36d7a" /><stop offset="1" stop-color="#1d3bd8" /></linearGradient>
+      </defs>
+      <symbol id="i-dente" viewBox="0 0 24 24"><path d="M12 5.4C10.4 4 8.6 3.4 7 3.6 4.6 3.9 3.3 6 3.5 8.6c.2 2.3 1.2 4 1.7 6.3.5 2.5.8 5.6 2.4 5.6s1.6-4.3 2.5-5.6c.5-.8 1.3-.8 1.8 0 .9 1.3.9 5.6 2.5 5.6s1.9-3.1 2.4-5.6c.5-2.3 1.5-4 1.7-6.3.2-2.6-1.1-4.7-3.5-5-1.6-.2-3.4.4-5 1.8Z" /></symbol>
+      <symbol id="i-casa" viewBox="0 0 24 24"><path d="M3.5 11 12 4l8.5 7M5.5 9.5V20h4.5v-5.5h4V20h4.5V9.5" /></symbol>
+      <symbol id="i-calendario" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" /><path d="M3.5 10h17M8 3v4M16 3v4" /><path class="pontos" d="M8 13.6h.01M12 13.6h.01M16 13.6h.01M8 17h.01M12 17h.01M16 17h.01" /></symbol>
+      <symbol id="i-pessoas" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5" /><path d="M2.8 20c.6-3.6 3-5.5 6.2-5.5s5.6 1.9 6.2 5.5" /><path d="M15.5 4.8a3.3 3.3 0 0 1 0 6.4M17.6 14.8c2 .6 3.3 2.3 3.6 5.2" /></symbol>
+      <symbol id="i-local" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z" /><circle cx="12" cy="10" r="2.4" /></symbol>
+      <symbol id="i-seta" viewBox="0 0 24 24"><path d="M4.5 12h15M13.5 6l6 6-6 6" /></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5Z" /></symbol>
+      <symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.6c0 4.5 3.1 8 7.5 9.4 4.4-1.4 7.5-4.9 7.5-9.4V6Z" /><path d="m8.6 12 2.4 2.4 4.6-4.8" /></symbol>
+      <symbol id="i-cubo" viewBox="0 0 24 24"><path d="m12 3 8 4.2v9.6L12 21l-8-4.2V7.2Z" /><path d="m4 7.2 8 4.3 8-4.3M12 11.5V21" /><path d="m8 5.1 8 4.3" /></symbol>
+      <symbol id="i-coracao" viewBox="0 0 24 24"><path d="M12 20.5S3.5 15.4 3.5 9.1A4.6 4.6 0 0 1 12 6.6a4.6 4.6 0 0 1 8.5 2.5c0 6.3-8.5 11.4-8.5 11.4Z" /></symbol>
+      <symbol id="i-implante" viewBox="0 0 24 24"><path d="M7 3.5h10c.8 0 1.2.8.9 1.5l-1 2.5H7.1l-1-2.5c-.3-.7.1-1.5.9-1.5Z" /><path d="M8 7.5h8M8.4 10.5h7.2M8.8 13.5h6.4M9.4 16.5h5.2M10.2 19.5h3.6" /><path d="M8 7.5c0 4 1.2 9.5 4 13 2.8-3.5 4-9 4-13" /></symbol>
+      <symbol id="i-brilho" viewBox="0 0 24 24"><path d="M9.5 6.5c.6 3.4 2.1 4.9 5.5 5.5-3.4.6-4.9 2.1-5.5 5.5-.6-3.4-2.1-4.9-5.5-5.5 3.4-.6 4.9-2.1 5.5-5.5ZM17.5 2.5c.3 1.7 1 2.4 2.7 2.7-1.7.3-2.4 1-2.7 2.7-.3-1.7-1-2.4-2.7-2.7 1.7-.3 2.4-1 2.7-2.7Z" /></symbol>
+      <symbol id="i-alinhador" viewBox="0 0 24 24"><path d="M3.5 9c2.5-2.5 14.5-2.5 17 0M3.5 9v3.4c3 2.6 14 2.6 17 0V9" /><path d="M7.5 8v5.6M12 7.6v6.4M16.5 8v5.6" /></symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M4 20l1.2-3.7A8.3 8.3 0 1 1 8.2 19Z" /><path d="M9 8.6c0 3.2 2.5 6 5.9 6.4l1-1.2-1.7-1-1 .8c-1-.5-1.8-1.3-2.3-2.3l.8-1-1-1.7Z" /></symbol>
+      <symbol id="i-relogio" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" /></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.3 4.3L19 7.2" /></symbol>
+      <symbol id="i-mais" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+      <symbol id="i-fechar" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10" /></symbol>
+    </svg>
+
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+    <aside class="lateral" aria-label="Navegação principal">
+      <a class="marca" href="#inicio" aria-label="Início">
+        <svg class="marca-simbolo" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-dente" /></svg>
+        <span class="marca-nome"><strong data-marca="inicio">Sorriso</strong><span data-marca="destaque">Viva</span></span>
+        <span class="marca-sub" data-marca="subtitulo">Odontologia</span>
+      </a>
+      <span class="lateral-traco" aria-hidden="true"></span>
+      <button class="alternar-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><svg aria-hidden="true"><use href="#i-menu" /></svg></button>
+      <nav class="menu" id="menu">
+        <a href="#inicio" class="ativo"><span class="menu-icone"><svg aria-hidden="true"><use href="#i-casa" /></svg></span>Início</a>
+        <a href="#tratamentos"><span class="menu-icone"><svg aria-hidden="true"><use href="#i-dente" /></svg></span>Tratamentos</a>
+        <a href="#agendamentos"><span class="menu-icone"><svg aria-hidden="true"><use href="#i-calendario" /></svg></span>Agendamentos</a>
+        <a href="#equipe"><span class="menu-icone"><svg aria-hidden="true"><use href="#i-pessoas" /></svg></span>Equipe</a>
+        <a href="#localizacao"><span class="menu-icone"><svg aria-hidden="true"><use href="#i-local" /></svg></span>Localização</a>
+      </nav>
+      <div class="lateral-onda" aria-hidden="true">
+        <svg viewBox="0 0 150 240" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="g-lateral" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bcd0ff" /><stop offset=".45" stop-color="#4f6ff2" /><stop offset="1" stop-color="#0d24b8" /></linearGradient>
+          </defs>
+          <path d="M150 0V240H40C64 205 30 178 38 140 46 100 100 96 112 56 120 30 130 12 150 0Z" fill="url(#g-lateral)" />
+          <path d="M150 0C130 12 120 30 112 56 100 96 46 100 38 140" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2" />
+        </svg>
+        <span class="lateral-pino"></span>
+      </div>
+    </aside>
+
+    <main id="conteudo">
+      <section class="abertura" id="inicio" aria-labelledby="titulo-principal">
+        <div class="abertura-fundo" aria-hidden="true">
+          <span class="bolha bolha-a"></span><span class="bolha bolha-b"></span><span class="bolha bolha-c"></span><span class="bolha bolha-d"></span>
+          <svg class="fundo-formas" viewBox="0 0 1476 941" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="g-azul-topo" x1="0" y1="0" x2="1" y2=".6"><stop offset="0" stop-color="#2d4cf0" /><stop offset=".55" stop-color="#0a22b6" /><stop offset="1" stop-color="#011580" /></linearGradient>
+              <linearGradient id="g-brilho-topo" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0" /><stop offset=".5" stop-color="#fff" stop-opacity=".75" /><stop offset="1" stop-color="#fff" stop-opacity="0" /></linearGradient>
+              <linearGradient id="g-coral" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb393" /><stop offset=".6" stop-color="#ff8a66" /><stop offset="1" stop-color="#f7694d" /></linearGradient>
+              <linearGradient id="g-azul-base" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3c5cf4" /><stop offset=".5" stop-color="#0d27bd" /><stop offset="1" stop-color="#021370" /></linearGradient>
+            </defs>
+            <path class="forma-azul-topo" d="M660 0C700 40 760 84 860 96 990 112 1060 60 1130 0Z" fill="url(#g-azul-topo)" />
+            <path class="brilho-topo" d="M680 6C720 46 770 84 862 92 980 104 1050 56 1112 4" fill="none" stroke="url(#g-brilho-topo)" stroke-width="3" />
+            <path class="linha linha-1" d="M500 0C560 120 640 150 700 120 780 80 860 130 900 220" />
+            <path class="linha linha-2" d="M1476 640C1300 600 1160 650 1060 740 980 812 860 860 760 941" />
+            <path class="linha linha-3" d="M0 820C160 760 300 830 420 880 520 920 600 930 700 941" />
+            <path class="forma-coral" d="M0 760C70 760 140 800 200 850 250 892 300 925 360 941H0Z" fill="url(#g-coral)" />
+          </svg>
+        </div>
+
+        <div class="abertura-texto">
+          <p class="rotulo"><span data-texto="inicio.rotulo">Odontologia moderna</span></p>
+          <h1 id="titulo-principal">
+            <span class="linha-fina" data-texto="inicio.tituloLinha1">Cuidado</span>
+            <span class="linha-fina" data-texto="inicio.tituloLinha2">com o seu</span>
+            <em class="destaque" data-texto="inicio.tituloDestaque">sorriso</em>
+          </h1>
+          <p class="descricao" data-texto="inicio.descricao"></p>
+          <div class="acoes">
+            <button class="botao botao-azul" type="button" data-agendar><span data-texto="inicio.botaoPrincipal">Agende sua consulta</span><svg aria-hidden="true"><use href="#i-seta" /></svg></button>
+            <a class="botao-tour" href="#clinica"><span class="tour-circulo"><svg aria-hidden="true"><use href="#i-play" /></svg></span><span class="tour-texto" data-lista="tour"></span></a>
+          </div>
+        </div>
+
+        <div class="cena-dente" id="cena-dente" aria-hidden="true">
+          <svg class="dente" viewBox="-34 -34 548 592">
+            <defs>
+              <path id="forma-dente" d="M240 92C200 40 140 18 90 24 40 30 6 80 8 150 10 220 44 280 66 350 86 420 100 480 124 506 138 520 154 512 158 490 166 440 176 380 196 320 204 296 228 292 236 318 254 372 272 430 296 488 306 512 330 524 342 506 366 470 384 400 410 320 432 250 474 190 476 130 478 60 440 6 380 6 320 6 270 46 240 92Z" />
+              <linearGradient id="g-aro" x1="0" y1="1" x2="1" y2=".05" gradientUnits="objectBoundingBox">
+                <stop offset="0" stop-color="#ff6a45" />
+                <stop offset=".3" stop-color="#ff9a7e" />
+                <stop offset=".47" stop-color="#ffe9e2" />
+                <stop offset=".56" stop-color="#ffffff" />
+                <stop offset=".68" stop-color="#8ea2ff" />
+                <stop offset=".84" stop-color="#2f55ff" />
+                <stop offset="1" stop-color="#1031e6" />
+              </linearGradient>
+              <linearGradient id="g-camada" x1=".2" y1="0" x2=".8" y2="1">
+                <stop offset="0" stop-color="#ffffff" />
+                <stop offset=".55" stop-color="#f8ecea" />
+                <stop offset="1" stop-color="#efdcd8" />
+              </linearGradient>
+              <radialGradient id="g-miolo" cx=".45" cy=".35" r=".7">
+                <stop offset="0" stop-color="#ffffff" />
+                <stop offset=".7" stop-color="#f6e8e5" />
+                <stop offset="1" stop-color="#ead5d1" />
+              </radialGradient>
+              <filter id="f-sombra-camada" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="-2" dy="7" stdDeviation="8" flood-color="#b98f88" flood-opacity=".22" />
+              </filter>
+              <filter id="f-brilho" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="9" />
+              </filter>
+              <clipPath id="c-dente"><use href="#forma-dente" /></clipPath>
+            </defs>
+            <g class="dente-sombra"><use href="#forma-dente" /></g>
+            <g class="dente-aura"><use href="#forma-dente" /></g>
+            <g class="dente-corpo">
+              <use href="#forma-dente" class="corpo-base" />
+              <g class="camadas" clip-path="url(#c-dente)" data-camadas></g>
+              <g class="reflexo-varredura" clip-path="url(#c-dente)"><rect class="faixa-luz" x="-200" y="-40" width="120" height="560" /></g>
+            </g>
+            <use href="#forma-dente" class="aro-brilho" />
+            <use href="#forma-dente" class="aro" />
+            <use href="#forma-dente" class="aro-fio" />
+          </svg>
+        </div>
+
+        <ul class="destaques" data-lista="destaques"></ul>
+
+        <ul class="garantias" data-lista="garantias"></ul>
+
+        <button class="chamada-final" type="button" data-agendar>
+          <svg class="chamada-forma" viewBox="0 0 480 300" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M60 300C20 250 10 180 60 130 110 82 190 96 250 60 320 18 380 0 480 0V300Z" fill="url(#g-azul-chamada)" />
+            <defs><linearGradient id="g-azul-chamada" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3d5df5" /><stop offset=".45" stop-color="#0c27bf" /><stop offset="1" stop-color="#011272" /></linearGradient></defs>
+            <path d="M62 296C24 248 16 182 64 134 112 88 190 100 250 64 320 22 380 4 480 4" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2" />
+          </svg>
+          <span class="chamada-conteudo">
+            <svg class="chamada-icone" aria-hidden="true"><use href="#i-calendario" /></svg>
+            <span class="chamada-texto" data-lista="chamada"></span>
+            <span class="chamada-seta"><svg aria-hidden="true"><use href="#i-seta" /></svg></span>
+          </span>
+          <span class="chamada-traco" aria-hidden="true"></span>
+        </button>
+      </section>
+
+      <section class="tratamentos" id="tratamentos" aria-labelledby="titulo-tratamentos">
+        <div class="largura">
+          <div class="cabecalho revelar">
+            <p class="rotulo">Tratamentos</p>
+            <h2 id="titulo-tratamentos">Tudo para o seu sorriso, <em>em um só lugar.</em></h2>
+            <p class="texto-secao">Escolha um tratamento para ver o que está incluído e já agendar a sua avaliação.</p>
+          </div>
+          <div class="tratamentos-grade" data-lista="tratamentos"></div>
+        </div>
+      </section>
+
+      <section class="clinica" id="clinica" aria-labelledby="titulo-clinica">
+        <div class="largura clinica-grade">
+          <div class="clinica-arte revelar" aria-hidden="true">
+            <div class="cadeira">
+              <span class="cadeira-luz"></span><span class="cadeira-braco"></span><span class="cadeira-assento"></span><span class="cadeira-encosto"></span><span class="cadeira-base"></span>
+            </div>
+            <span class="clinica-selo"><svg><use href="#i-escudo" /></svg>Biossegurança</span>
+          </div>
+          <div class="revelar">
+            <p class="rotulo">A clínica</p>
+            <h2 id="titulo-clinica" data-texto="sobre.titulo"></h2>
+            <p class="texto-secao" data-texto="sobre.texto"></p>
+            <ul class="pontos" data-lista="pontos"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="equipe" id="equipe" aria-labelledby="titulo-equipe">
+        <div class="largura">
+          <div class="cabecalho revelar">
+            <p class="rotulo">Equipe</p>
+            <h2 id="titulo-equipe">Profissionais que <em>cuidam de perto.</em></h2>
+            <p class="texto-secao">Cada paciente é acompanhado pelo mesmo time do início ao fim. <span class="aviso-demo" data-aviso-equipe>Nomes ilustrativos</span></p>
+          </div>
+          <div class="equipe-grade" data-lista="equipe"></div>
+        </div>
+      </section>
+
+      <section class="agendamentos" id="agendamentos" aria-labelledby="titulo-agenda">
+        <div class="largura agenda-grade">
+          <div class="revelar">
+            <p class="rotulo">Agendamentos</p>
+            <h2 id="titulo-agenda">Agende sua avaliação <em>em poucos passos.</em></h2>
+            <p class="texto-secao">Preencha os dados e continue pelo WhatsApp com a mensagem pronta. A equipe confirma o melhor horário.</p>
+            <ol class="passos">
+              <li><span>1</span>Escolha o tratamento</li>
+              <li><span>2</span>Informe o melhor período</li>
+              <li><span>3</span>Confirme pelo WhatsApp</li>
+            </ol>
+          </div>
+          <form class="formulario revelar" novalidate>
+            <label>Seu nome<input name="nome" autocomplete="name" required /></label>
+            <label>Telefone<input name="telefone" type="tel" autocomplete="tel" inputmode="tel" required /></label>
+            <label>Tratamento<select name="tratamento" required data-opcoes-tratamento><option value="">Selecione</option></select></label>
+            <fieldset class="periodos">
+              <legend>Melhor período</legend>
+              <label><input type="radio" name="periodo" value="Manhã" checked />Manhã</label>
+              <label><input type="radio" name="periodo" value="Tarde" />Tarde</label>
+              <label><input type="radio" name="periodo" value="Noite" />Noite</label>
+            </fieldset>
+            <label class="campo-largo">Observações<textarea name="observacao" rows="3" placeholder="Opcional"></textarea></label>
+            <p class="erro" role="alert" hidden></p>
+            <button class="botao botao-azul campo-largo" type="submit"><svg aria-hidden="true"><use href="#i-whatsapp" /></svg>Continuar no WhatsApp</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="duvidas" id="duvidas" aria-labelledby="titulo-duvidas">
+        <div class="largura duvidas-grade">
+          <div class="revelar">
+            <p class="rotulo">Dúvidas</p>
+            <h2 id="titulo-duvidas">Perguntas <em>frequentes.</em></h2>
+          </div>
+          <div class="perguntas revelar" data-lista="perguntas"></div>
+        </div>
+      </section>
+
+      <section class="localizacao" id="localizacao" aria-labelledby="titulo-local">
+        <div class="largura local-grade">
+          <div class="mapa revelar" aria-hidden="true">
+            <span class="rua rua-1"></span><span class="rua rua-2"></span><span class="rua rua-3"></span><span class="quadra q1"></span><span class="quadra q2"></span><span class="quadra q3"></span>
+            <span class="pino"><svg><use href="#i-dente" /></svg></span>
+          </div>
+          <div class="revelar">
+            <p class="rotulo">Localização</p>
+            <h2 id="titulo-local">Venha nos <em>visitar.</em></h2>
+            <ul class="contato-lista">
+              <li><svg aria-hidden="true"><use href="#i-local" /></svg><span><strong data-endereco="rua"></strong><span data-endereco="cidade"></span><small data-endereco="referencia"></small></span></li>
+              <li><svg aria-hidden="true"><use href="#i-relogio" /></svg><span class="horarios" data-lista="horarios"></span></li>
+            </ul>
+            <div class="acoes">
+              <button class="botao botao-azul" type="button" data-agendar><svg aria-hidden="true"><use href="#i-whatsapp" /></svg>Falar no WhatsApp</button>
+              <a class="botao botao-contorno" href="#localizacao" data-mapa><svg aria-hidden="true"><use href="#i-local" /></svg>Como chegar</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <div class="largura rodape-interno">
+        <a class="marca marca-rodape" href="#inicio">
+          <svg class="marca-simbolo" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-dente" /></svg>
+          <span class="marca-nome"><strong data-marca="inicio">Sorriso</strong><span data-marca="destaque">Viva</span></span>
+        </a>
+        <p class="rodape-nota"><span data-texto="responsavelTecnico"></span><br />© <span data-ano></span> <span data-texto="nomeEmpresa"></span>. Site demonstrativo — conteúdos ilustrativos, sem promessa de resultados.</p>
+      </div>
+    </footer>
+
+    <dialog class="aviso" id="aviso" aria-labelledby="aviso-titulo">
+      <button class="aviso-fechar" type="button" aria-label="Fechar"><svg><use href="#i-fechar" /></svg></button>
+      <p class="rotulo">Demonstração</p>
+      <h3 id="aviso-titulo">Contato ainda não configurado</h3>
+      <p class="aviso-texto"></p>
+      <button class="botao botao-azul aviso-ok" type="button">Entendi</button>
+    </dialog>
+  </body>
+</html>
