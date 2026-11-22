@@ -8,6 +8,13 @@
   const escapar = (texto) => String(texto).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
   const ajustes = config.animacao ?? {};
+  const escalaReplica = () => {
+    const largura = document.documentElement.clientWidth;
+    if (largura >= 1280) document.documentElement.style.setProperty("--u", `${largura / 1672}px`);
+    else document.documentElement.style.removeProperty("--u");
+  };
+  escalaReplica();
+  addEventListener("resize", escalaReplica);
   document.documentElement.style.setProperty("--flutuacao", ajustes.flutuacao ?? 1);
   document.documentElement.style.setProperty("--velocidade-brilho", ajustes.velocidadeBrilho ?? 1);
 

@@ -25,7 +25,7 @@ window.configuracaoEmpresa = {
     tituloLinha1: "Cuidado",
     tituloLinha2: "com o seu",
     tituloDestaque: "sorriso",
-    descricao: "Tratamentos completos, tecnologia avançada e um atendimento humanizado para você sorrir com mais confiança.",
+    descricao: "Tratamentos completos, tecnologia\navançada e um atendimento\nhumanizado para você sorrir\ncom mais confiança.",
     botaoPrincipal: "Agende sua consulta",
     botaoSecundario: ["Conheça", "nossa clínica"],
     chamadaFinal: ["Agende agora", "sua avaliação"],
