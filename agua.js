@@ -11,7 +11,6 @@
   const reduzir = matchMedia("(prefers-reduced-motion:reduce)");
   const foto = new Image();
   const doisPi = Math.PI * 2;
-  const centro = [750, 202];
   const limiteGotas = 96;
   const gotas = [];
   const ondas = new Float32Array(24);
@@ -36,12 +35,91 @@
   const limitar = (valor, minimo, maximo) => Math.max(minimo, Math.min(maximo, valor));
   for (let i = 2; i < ondas.length; i += 4) ondas[i] = -30;
 
-  // A órbita está inclinada tanto em relação à câmera quanto ao horizonte.
+  // Eixo medido na referência. Cada estação guarda x, y, profundidade óptica
+  // e meia largura em pixels. A spline periódica preserva a tangente na emenda.
+  const estacoes = [
+    [956, 260, 48, 16],
+    [932, 279, 113, 15],
+    [859, 278, 164, 10],
+    [775, 266, 202, 9],
+    [689, 249, 212, 9],
+    [611, 226, 187, 12],
+    [561, 202, 139, 16],
+    [544, 174, 78, 20],
+    [550, 145, 9, 19],
+    [575, 119, -76, 16],
+    [623, 105, -141, 15],
+    [673, 105, -196, 10],
+    [751, 125, -212, 9],
+    [823, 153, -187, 9],
+    [891, 193, -129, 9],
+    [938, 230, -49, 13],
+  ];
   function orbita(angulo) {
-    const c = Math.cos(angulo),
-      s = Math.sin(angulo);
-    return [centro[0] + 214 * c - 23 * s, centro[1] + 69 * c + 73 * s, 212 * s];
+    const u = ((((angulo / doisPi) % 1) + 1) % 1) * estacoes.length;
+    const i = Math.floor(u),
+      f = u - i;
+    const ponto = (deslocamento) => estacoes[(i + deslocamento + estacoes.length) % estacoes.length];
+    const a = ponto(-1),
+      b = ponto(0),
+      c = ponto(1),
+      d = ponto(2);
+    return b.map(
+      (valor, k) =>
+        0.5 *
+        (2 * valor +
+          (-a[k] + c[k]) * f +
+          (2 * a[k] - 5 * valor + 4 * c[k] - d[k]) * f * f +
+          (-a[k] + 3 * valor - 3 * c[k] + d[k]) * f * f * f),
+    );
   }
+
+  // Mapa de velocidade em coordenadas da fotografia. Só cobre a região molhada.
+  // B é a cobertura. R e G transportam a direção tangente das cristas reais.
+  const origemFluxo = [510, 70],
+    larguraFluxo = 482,
+    alturaFluxo = 245;
+  const campo = new Uint8Array(larguraFluxo * alturaFluxo * 4);
+  const pontos = Array.from({ length: 321 }, (_, i) => orbita((i * doisPi) / 320));
+  const cristasVisiveis = pontos.filter(
+    ([x, y, z]) => z >= 0 || ((x - 751) / 124) ** 2 + ((y - 202) / 115) ** 2 >= 1,
+  );
+  function construirCampo() {
+    for (let i = 0; i < 320; i++) {
+      const [x, y, z, largura] = pontos[i],
+        seguinte = pontos[i + 1];
+      const vx = seguinte[0] - x,
+        vy = seguinte[1] - y,
+        comprimento = Math.hypot(vx, vy);
+      const tx = vx / comprimento,
+        ty = vy / comprimento;
+      const margem = largura + 4;
+      const x0 = Math.max(0, Math.floor(x - origemFluxo[0] - margem));
+      const y0 = Math.max(0, Math.floor(y - origemFluxo[1] - margem));
+      const x1 = Math.min(larguraFluxo, Math.ceil(x - origemFluxo[0] + margem));
+      const y1 = Math.min(alturaFluxo, Math.ceil(y - origemFluxo[1] + margem));
+      for (let linha = y0; linha < y1; linha++)
+        for (let coluna = x0; coluna < x1; coluna++) {
+          const px = coluna + origemFluxo[0],
+            py = linha + origemFluxo[1];
+          const dx = px - x,
+            dy = py - y,
+            passo = limitar(dx * tx + dy * ty, 0, comprimento);
+          const bordo = Math.hypot(dx - passo * tx, dy - passo * ty) / largura;
+          const disco = ((px - 751) / 124) ** 2 + ((py - 202) / 115) ** 2;
+          if (bordo >= 1.1 || (z < 0 && disco < 0.998)) continue;
+          const perfil = limitar((1.1 - bordo) / 0.42, 0, 1);
+          const peso = Math.round(255 * perfil * perfil * (3 - 2 * perfil));
+          const k = (linha * larguraFluxo + coluna) * 4;
+          if (peso <= campo[k + 2]) continue;
+          campo[k] = Math.round((tx * 0.5 + 0.5) * 255);
+          campo[k + 1] = Math.round((ty * 0.5 + 0.5) * 255);
+          campo[k + 2] = peso;
+          campo[k + 3] = Math.round(255 * limitar(0.5 + (dx * -ty + dy * tx) / (2 * largura), 0, 1));
+        }
+    }
+  }
+  construirCampo();
 
   function onda(x, y, forca) {
     ondas.set([x, y, presente.tempo, forca], indiceOnda * 4);
@@ -115,6 +193,8 @@
     luzAmbiente +
     `
     uniform vec4 ondas[6];
+    uniform sampler2D mapaFluxo;
+    uniform vec3 impacto;
     varying vec2 posicao;
     // Derivadas de ondas com direções e velocidades distintas no plano d'água.
     vec2 inclinacao(vec2 p,float t){
@@ -144,6 +224,11 @@
       float molhado=smoothstep(309.,330.,p.y)*margemE*margemD;
       vec2 normal=vec2(0.);
       float reflexo=0.;
+      vec4 fluxo=vec4(0.);
+      vec2 uvFluxo=(p-vec2(510.,70.))/vec2(482.,245.);
+      if(all(greaterThan(uvFluxo,vec2(0.))) && all(lessThan(uvFluxo,vec2(1.))))
+        fluxo=texture2D(mapaFluxo,uvFluxo);
+      float caustica=0.;
       if(molhado>.001) {
         normal=inclinacao(p,t);
         for(int i=0;i<6;i++){
@@ -155,10 +240,31 @@
           float amplitude=origem.w*exp(-abs(fase)*.039-idade*1.4);
           normal+=delta/max(dist,1.)*sin(fase*.27)*amplitude*4.4;
         }
-        q+=molhado*normal*vec2(2.1,1.35);
-        reflexo=normal.y*.047;
+        float profundidade=smoothstep(313.,605.,p.y);
+        q+=molhado*normal*mix(vec2(2.4,1.6),vec2(5.5,2.6),profundidade);
+        reflexo=normal.y*.061;
+        vec2 vizinha=inclinacao(p+vec2(1.3,1.8),t);
+        caustica=clamp((normal.y-vizinha.y)*.68+(normal.x-vizinha.x)*.38,-.35,.9);
       }
       vec3 cor=amostra(q);
+      if(fluxo.b>.002) {
+        vec2 tangente=normalize(fluxo.rg*2.-1.+.0001);
+        vec2 transversal=vec2(-tangente.y,tangente.x);
+        float cisalhamento=1.-abs(fluxo.a-.48)*.64;
+        float relogio=t*.71+.11*sin(t*.63)+.07*sin(t*1.27);
+        float fase=fract(relogio+.32*fluxo.a+.07*sin(dot(p,vec2(.018,.009))));
+        float outra=fract(fase+.5);
+        float mistura=abs(2.*fase-1.);
+        mistura=mistura*mistura*(3.-2.*mistura);
+        float batida=estado.w*exp(-abs(length(impacto.xy-p)-(t-impacto.z)*61.)*.044);
+        vec2 desvio=transversal*(sin(dot(p,vec2(.074,.013))-t*2.53)*1.12+
+          cos(dot(p,vec2(.019,.081))+t*1.31)*.53+batida*2.4)*fluxo.b;
+        vec2 vazao=tangente*(19.+4.2*sin(dot(p,vec2(.011,-.017))-t*.48))*cisalhamento*fluxo.b;
+        vec3 movel=mix(amostra(p+desvio-vazao*(fase-.5)),amostra(p+desvio-vazao*(outra-.5)),mistura);
+        cor=mix(cor,movel,fluxo.b);
+        float borda=pow(abs(2.*fluxo.a-1.),2.);
+        cor+=cor*cor*(.08+.15*batida)*sin(dot(p,tangente)*.19-t*3.)*borda*fluxo.b;
+      }
       if(molhado>.001){
         // A amostragem oblíqua reflete fontes da metade superior e mistura as
         // caústicas da chapa real junto à linha d'água.
@@ -166,7 +272,7 @@
         float angulo=exp(-max(0.,p.y-320.)*.011);
         vec3 ceu=amostra(espelho);
         cor=mix(cor,ceu,angulo*.085*molhado)*(1.+reflexo*molhado);
-        cor+=cor*cor*.05*max(normal.y,0.)*molhado;
+        cor+=cor*cor*(.10*max(normal.y,0.)+.38*caustica)*molhado;
       }
       vec3 n=normalize(vec3(d.x,-d.y,z)+vec3(0.,0.,.001));
       cor+=iluminacao(n,p)*.035*disco*livre*(.7+.3*cos(t*.27));
@@ -208,6 +314,8 @@
   const verticeCorrente = `
     precision highp float;
     attribute vec3 parametro;
+    attribute vec3 eixo;
+    attribute vec3 derivada;
     uniform vec4 janela;
     uniform vec4 estado;
     uniform vec3 impacto;
@@ -224,10 +332,10 @@
       float espessura=1.+.21*nervura+.19*torcao+.085*miudo;
       float lateral=fio==0.?0.:(fio==1.?-7.:6.7);
       float camada=fio==0.?1.:(.23+.085*sin(a*4.-t*2.));
-      vec3 ponto=vec3(750.+214.*cos(a)-23.*sin(a),
-        202.+69.*cos(a)+73.*sin(a),212.*sin(a));
-      vec3 radial=normalize(vec3(.952*cos(a)-.101*sin(a),.306*cos(a)+.325*sin(a),.945*sin(a)));
-      vec3 transversal=vec3(.29,-.90,.33);
+      vec3 ponto=eixo+derivada*(a-parametro.x);
+      vec3 alongada=normalize(derivada);
+      vec3 radial=normalize(cross(alongada,vec3(.29,-.90,.33)));
+      vec3 transversal=normalize(cross(radial,alongada));
       float idade=t-impacto.z;
       float distancia=length(ponto.xy-impacto.xy);
       float pulso=estado.w*exp(-abs(distancia-idade*72.)*.045)*cos((distancia-idade*72.)*.39);
@@ -286,7 +394,8 @@
       cor+=vec3(1.,.72,.42)*pow(max(dot(n,meio),0.),160.)*2.4;
       cor+=vec3(.75,.97,1.)*pow(max(dot(n,meio2),0.),180.)*2.;
       float frente=smoothstep(-40.,125.,lugar.z);
-      float opacidade=mix(.26,.58,frente)+fresnel*.34+espuma*.4;
+      // O relevo complementa as cristas advectadas; não desenha um segundo contorno.
+      float opacidade=mix(.045,.13,frente)+fresnel*.16+crista*.12+espuma*.16;
       if(fio>.5) opacidade*=.69;
       if(espelho>.5) {
         cor*=vec3(.66,.85,.87);
@@ -336,10 +445,14 @@
     const parametros = [],
       indices = [];
     for (let fio = 0; fio < fios; fio++) {
-      const inicio = parametros.length / 3;
+      const inicio = parametros.length / 9;
       for (let i = 0; i <= segmentos; i++) {
+        const angulo = (i * doisPi) / segmentos;
+        const eixo = orbita(angulo),
+          seguinte = orbita(angulo + 0.0005);
+        const derivada = eixo.slice(0, 3).map((valor, k) => (seguinte[k] - valor) / 0.0005);
         for (let j = 0; j <= secoes; j++) {
-          parametros.push((i * doisPi) / segmentos, (j * doisPi) / secoes, fio);
+          parametros.push(angulo, (j * doisPi) / secoes, fio, ...eixo.slice(0, 3), ...derivada);
           if (i === segmentos || j === secoes) continue;
           const a = inicio + i * (secoes + 1) + j,
             b = a + secoes + 1;
@@ -380,7 +493,7 @@
       return bloco;
     }
     const chao = material(verticePlano, piso, ["canto"]);
-    const liquido = material(verticeCorrente, corrente, ["parametro"]);
+    const liquido = material(verticeCorrente, corrente, ["parametro", "eixo", "derivada"]);
     const spray = material(verticeGota, gota, ["lugar", "aspecto", "rumo"]);
     const cantos = memoria(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]));
     const malhas = [
@@ -403,6 +516,16 @@
       gl.texParameteri(gl.TEXTURE_2D, eixo, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, foto);
+    const mapa = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, mapa);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, larguraFluxo, alturaFluxo, 0, gl.RGBA, gl.UNSIGNED_BYTE, campo);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    for (const eixo of [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T])
+      gl.texParameteri(gl.TEXTURE_2D, eixo, gl.CLAMP_TO_EDGE);
+    gl.useProgram(chao.programa);
+    gl.uniform1i(gl.getUniformLocation(chao.programa, "mapaFluxo"), 1);
+    gl.activeTexture(gl.TEXTURE0);
     const habilitados = new Set();
     function preparar(m) {
       for (const indice of habilitados) gl.disableVertexAttribArray(indice);
@@ -420,6 +543,7 @@
       gl.viewport(0, 0, tela.width, tela.height);
       gl.disable(gl.BLEND);
       preparar(chao);
+      gl.uniform3fv(chao.valores.impacto, impacto);
       gl.bindBuffer(gl.ARRAY_BUFFER, cantos);
       atributo(chao.atributos.canto, 2);
       gl.uniform4fv(chao.valores["ondas[0]"], ondas);
@@ -432,7 +556,9 @@
       gl.uniform3fv(liquido.valores.impacto, impacto);
       const malha = malhas[detalhe];
       gl.bindBuffer(gl.ARRAY_BUFFER, malha.pontos);
-      atributo(liquido.atributos.parametro, 3);
+      atributo(liquido.atributos.parametro, 3, 36);
+      atributo(liquido.atributos.eixo, 3, 36, 12);
+      atributo(liquido.atributos.derivada, 3, 36, 24);
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, malha.faces);
       if (!compacto.matches && detalhe > 0) {
         gl.uniform1f(liquido.valores.espelho, 1);
@@ -467,6 +593,25 @@
   function criarMotorLeve(tinta) {
     const escalaX = foto.naturalWidth / 1280,
       escalaY = foto.naturalHeight / 720;
+    // A mesma máscara de cobertura e as mesmas tangentes alimentam a versão
+    // leve, que transporta pequenos trechos da cor original entre duas fases.
+    const faixa = document.createElement("canvas"),
+      mascara = document.createElement("canvas");
+    faixa.width = mascara.width = larguraFluxo;
+    faixa.height = mascara.height = alturaFluxo;
+    const agua = faixa.getContext("2d"),
+      pincel = mascara.getContext("2d");
+    const cobertura = pincel.createImageData(larguraFluxo, alturaFluxo);
+    for (let k = 0; k < campo.length; k += 4) cobertura.data[k + 3] = campo[k + 2];
+    pincel.putImageData(cobertura, 0, 0);
+    const partes = [];
+    const passo = 8;
+    for (let y = 0; y < alturaFluxo - passo / 2; y += passo)
+      for (let x = 0; x < larguraFluxo - passo / 2; x += passo) {
+        const k = ((y + passo / 2) * larguraFluxo + x + passo / 2) * 4;
+        if (!campo[k + 2]) continue;
+        partes.push([x, y, campo[k] / 127.5 - 1, campo[k + 1] / 127.5 - 1, campo[k + 3] / 255]);
+      }
     return () => {
       const [x, y, w, h] = recorte,
         t = presente.tempo;
@@ -495,18 +640,36 @@
           4.1,
         );
       }
-      for (let i = 0; i < 16 + detalhe * 5; i++) {
-        const a = t * (0.27 + 0.013 * (i % 3)) + i * 2.399963;
-        const [px, py, z] = orbita(a);
-        if (z < 0 && ((px - 751) / 124) ** 2 + ((py - 202) / 115) ** 2 < 1) continue;
-        const [ox, oy] = orbita(a + 0.022);
-        tinta.strokeStyle = "rgba(175,234,240," + (0.16 + 0.12 * Math.sin(a * 4)) + ")";
-        tinta.lineWidth = 0.7 + Math.abs(Math.cos(a * 3)) * 0.6;
-        tinta.beginPath();
-        tinta.moveTo(px, py);
-        tinta.lineTo(ox, oy);
-        tinta.stroke();
+      agua.clearRect(0, 0, larguraFluxo, alturaFluxo);
+      const relogio = t * 0.71 + 0.11 * Math.sin(t * 0.63) + 0.07 * Math.sin(t * 1.27);
+      for (const [px, py, tx, ty, offset] of partes) {
+        const fase = (relogio + 0.32 * offset) % 1;
+        const outra = (fase + 0.5) % 1;
+        const mistura = Math.abs(2 * fase - 1);
+        const origemX = px + origemFluxo[0],
+          origemY = py + origemFluxo[1];
+        const forca = 16 * (1 - Math.abs(offset - 0.48) * 0.64);
+        const copiar = (faseLocal) =>
+          agua.drawImage(
+            foto,
+            (origemX - tx * forca * (faseLocal - 0.5)) * escalaX,
+            (origemY - ty * forca * (faseLocal - 0.5)) * escalaY,
+            passo * escalaX,
+            passo * escalaY,
+            px,
+            py,
+            passo,
+            passo,
+          );
+        copiar(fase);
+        agua.globalAlpha = mistura * mistura * (3 - 2 * mistura);
+        copiar(outra);
+        agua.globalAlpha = 1;
       }
+      agua.globalCompositeOperation = "destination-in";
+      agua.drawImage(mascara, 0, 0);
+      agua.globalCompositeOperation = "source-over";
+      tinta.drawImage(faixa, ...origemFluxo);
       for (let i = 0; i < ondas.length; i += 4) {
         const idade = t - ondas[i + 2];
         if (idade >= 2 || ondas[i + 1] < 308) continue;
@@ -605,9 +768,16 @@
     if (!sobrePiso) {
       // Uma colisão no globo agita a corrente mais próxima em vez de emitir
       // gotas a partir da superfície sólida da marca.
-      const dx = x - centro[0],
-        dy = y - centro[1];
-      const [a, b, z] = orbita(Math.atan2((-0.306 * dx + 0.952 * dy) / 77, (0.952 * dx + 0.306 * dy) / 225));
+      let crista = cristasVisiveis[0],
+        distancia = Infinity;
+      for (const ponto of cristasVisiveis) {
+        const d = (ponto[0] - x) ** 2 + (ponto[1] - y) ** 2;
+        if (d < distancia) {
+          crista = ponto;
+          distancia = d;
+        }
+      }
+      const [a, b, z] = crista;
       x = a;
       y = b;
       for (let i = 0; i < Math.ceil(7 * forca); i++) desprender(x, y, z, forca);
@@ -650,10 +820,15 @@
       (evento.target.closest("a,button") && !controle.contains(evento.target))
     )
       return;
-    const dx = x - centro[0],
-      dy = y - centro[1];
-    const distancia = Math.hypot((0.952 * dx + 0.306 * dy) / 225, (-0.306 * dx + 0.952 * dy) / 77);
-    if (Math.abs(distancia - 1) < 0.16 || (y > 316 && y < 700 && x > 90 && x < 1190)) {
+    const coluna = Math.floor(x - origemFluxo[0]),
+      linha = Math.floor(y - origemFluxo[1]);
+    const naCorrente =
+      coluna >= 0 &&
+      linha >= 0 &&
+      coluna < larguraFluxo &&
+      linha < alturaFluxo &&
+      campo[(linha * larguraFluxo + coluna) * 4 + 2] > 16;
+    if (naCorrente || (y > 316 && y < 700 && x > 90 && x < 1190)) {
       ultimoRastro = presente.tempo;
       tocar(x, y, arrasto === null ? 0.23 : 0.48, evento);
     }

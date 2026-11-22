@@ -516,6 +516,11 @@ function iniciar() {
   function laco(agora) {
     const duracao = agora - anterior;
     desenhar(agora);
+    if (falhou || renderizador.getContext().isContextLost()) {
+      pausar();
+      cena3d.classList.remove("webgl-ativo");
+      return;
+    }
     if (duracao > 0 && duracao < 200) mediaQuadro += (duracao - mediaQuadro) * 0.08;
     if (mediaQuadro > 22 && razaoMaxima > 0.6 && agora - ultimaAdaptacao > 900) {
       razaoMaxima = Math.max(0.6, razaoMaxima - 0.2);
