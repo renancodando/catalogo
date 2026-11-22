@@ -80,6 +80,7 @@ html {
 }
 body {
   margin: 0;
+  overflow-x: clip;
   background: var(--cor-fundo);
   color: var(--cor-texto);
   font-family: var(--fonte);
