@@ -34,6 +34,7 @@ const fragmentoVidro = `
   uniform vec3 uCorBorda;
   uniform vec3 uCorMiolo;
   uniform float uBrilho;
+  uniform float uTempo;
   varying vec3 vNormal;
   varying vec3 vVista;
   varying vec3 vPosicao;
@@ -46,8 +47,11 @@ const fragmentoVidro = `
     float altura = smoothstep(-1.0, 1.0, vPosicao.y);
     vec3 cor = mix(uCorMiolo, uCorBorda, fresnel);
     cor = mix(cor, vec3(1.0), 0.18 * altura);
-    cor += (especular * 1.3 + especular2 * 0.6) * uBrilho;
-    float alfa = clamp(0.3 + fresnel * 0.85 + especular, 0.0, 1.0);
+    vec3 irisado = 0.5 + 0.5 * cos(6.2831 * (fresnel * 1.4 + vPosicao.y * 0.35 + vPosicao.x * 0.2 + uTempo * 0.04 + vec3(0.0, 0.33, 0.67)));
+    cor = mix(cor, cor * 0.7 + irisado * 0.5, 0.22 * smoothstep(0.25, 0.9, fresnel));
+    float faixa = smoothstep(0.035, 0.0, abs(fract(vPosicao.x * 0.45 - vPosicao.y * 0.25 - uTempo * 0.11) - 0.5));
+    cor += (especular * 1.3 + especular2 * 0.6) * uBrilho + faixa * 0.55 * uBrilho;
+    float alfa = clamp(0.3 + fresnel * 0.85 + especular + faixa * 0.4, 0.0, 1.0);
     gl_FragColor = vec4(cor, alfa);
   }`;
 
@@ -71,11 +75,75 @@ const fragmentoOrbita = `
   }`;
 
 const fragmentoCorpo = `
+  uniform float uTempo;
   varying vec3 vPosicao;
   void main() {
     float diagonal = clamp((vPosicao.y - vPosicao.x) * 0.35 + 0.5, 0.0, 1.0);
     vec3 cor = mix(vec3(0.33, 0.6, 0.95), vec3(0.85, 0.94, 1.0), diagonal);
     gl_FragColor = vec4(cor, 0.03 + 0.1 * diagonal);
+  }`;
+
+const fragmentoCausticas = `
+  uniform float uTempo;
+  varying vec3 vPosicao;
+  void main() {
+    vec2 p = vPosicao.xy * 3.6 - 250.0;
+    vec2 i = p;
+    float c = 0.0;
+    float t = uTempo * 0.3;
+    for (int n = 0; n < 3; n++) {
+      float tt = t * (1.0 - 3.5 / float(n + 1));
+      i = p + vec2(cos(tt - i.x) + sin(tt + i.y), sin(tt - i.y) + cos(tt + i.x));
+      c += 1.0 / length(vec2(p.x / (sin(i.x + tt) / 0.005), p.y / (cos(i.y + tt) / 0.005)));
+    }
+    c = 1.17 - pow(c / 3.0, 1.4);
+    float luz = smoothstep(1.35, 2.9, pow(abs(c), 8.0));
+    float mascara = smoothstep(-1.0, 0.8, vPosicao.y) * smoothstep(1.1, 0.3, length(vPosicao.xy * vec2(0.9, 0.75)));
+    gl_FragColor = vec4(0.8, 0.93, 1.0, luz * mascara * 0.5);
+  }`;
+
+const verticeParticula = `
+  attribute vec4 aDados;
+  uniform float uTempo;
+  uniform float uEscala;
+  varying float vAlfa;
+  void main() {
+    float angulo = aDados.x + uTempo * aDados.z;
+    float raio = 1.36 + aDados.y;
+    vec3 p = vec3(cos(angulo) * raio, sin(angulo) * raio, position.z + sin(uTempo * 0.7 + aDados.w * 6.0) * 0.03);
+    vec4 mv = modelViewMatrix * vec4(p, 1.0);
+    vec4 mundo = modelMatrix * vec4(p, 1.0);
+    float frente = smoothstep(-1.2, 0.8, mundo.z);
+    float cintilar = 0.55 + 0.45 * sin(uTempo * (2.0 + aDados.w * 3.0) + aDados.w * 40.0);
+    vAlfa = (0.25 + 0.75 * frente) * cintilar;
+    gl_PointSize = position.x * uEscala * (0.6 + 0.6 * frente) / -mv.z;
+    gl_Position = projectionMatrix * mv;
+  }`;
+
+const verticePoeira = `
+  attribute vec4 aDados;
+  uniform float uTempo;
+  uniform float uEscala;
+  varying float vAlfa;
+  void main() {
+    float ciclo = fract(aDados.w + uTempo * aDados.z);
+    vec3 p = vec3(position.x + sin(uTempo * 0.5 + aDados.w * 9.0) * 0.12, -1.5 + ciclo * 3.2, position.z);
+    vec4 mv = modelViewMatrix * vec4(p, 1.0);
+    vAlfa = smoothstep(0.0, 0.2, ciclo) * smoothstep(1.0, 0.7, ciclo) * (0.45 + 0.55 * sin(uTempo * 3.0 + aDados.w * 30.0));
+    gl_PointSize = aDados.x * uEscala / -mv.z;
+    gl_Position = projectionMatrix * mv;
+  }`;
+
+const fragmentoParticula = `
+  varying float vAlfa;
+  void main() {
+    vec2 d = gl_PointCoord - 0.5;
+    float r = length(d);
+    float nucleo = exp(-r * r * 60.0);
+    float cruz = exp(-abs(d.x) * 60.0) * exp(-abs(d.y) * 9.0) + exp(-abs(d.y) * 60.0) * exp(-abs(d.x) * 9.0);
+    float a = (nucleo + cruz * 0.45) * vAlfa;
+    if (a < 0.01) discard;
+    gl_FragColor = vec4(mix(vec3(0.6, 0.82, 1.0), vec3(1.0), nucleo), a);
   }`;
 
 function criarContorno() {
@@ -169,6 +237,22 @@ function criarTexturaBrilho() {
   return textura;
 }
 
+function criarTexturaHalo() {
+  const c = document.createElement("canvas");
+  c.width = c.height = 128;
+  const g = c.getContext("2d");
+  const fundo = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  fundo.addColorStop(0, "rgba(235,246,255,0.9)");
+  fundo.addColorStop(0.25, "rgba(150,205,255,0.35)");
+  fundo.addColorStop(0.6, "rgba(90,160,250,0.08)");
+  fundo.addColorStop(1, "rgba(90,160,250,0)");
+  g.fillStyle = fundo;
+  g.fillRect(0, 0, 128, 128);
+  const textura = new THREE.CanvasTexture(c);
+  textura.colorSpace = THREE.SRGBColorSpace;
+  return textura;
+}
+
 function iniciar() {
   let renderizador;
   try {
@@ -177,6 +261,10 @@ function iniciar() {
     return;
   }
   renderizador.setClearColor(0x000000, 0);
+  let falhou = false;
+  renderizador.debug.onShaderError = () => {
+    falhou = true;
+  };
   const cena = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 50);
   camera.position.set(0, 0, 6);
@@ -189,6 +277,7 @@ function iniciar() {
     uCorBorda: { value: new THREE.Color(0xf4fbff) },
     uCorMiolo: { value: new THREE.Color(0x4f97ee) },
     uBrilho: { value: ajustes.intensidadeBrilho ?? 1 },
+    uTempo: { value: 0 },
   };
   const vidro = new THREE.ShaderMaterial({ vertexShader: vertice, fragmentShader: fragmentoVidro, uniforms: uniformesVidro, transparent: true });
   const contornoMalha = new THREE.Mesh(geometria, vidro);
@@ -199,6 +288,19 @@ function iniciar() {
     geometriaCorpo,
     new THREE.ShaderMaterial({ vertexShader: vertice, fragmentShader: fragmentoCorpo, transparent: true, depthWrite: false }),
   );
+  const causticasMalha = new THREE.Mesh(
+    geometriaCorpo,
+    new THREE.ShaderMaterial({
+      vertexShader: vertice,
+      fragmentShader: fragmentoCausticas,
+      uniforms: { uTempo: uniformesVidro.uTempo },
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    }),
+  );
+  causticasMalha.position.z = -0.02;
+  causticasMalha.renderOrder = 4;
   corpo.position.z = -0.03;
   corpo.renderOrder = 3;
   const halo = new THREE.Mesh(
@@ -221,7 +323,7 @@ function iniciar() {
   halo.renderOrder = 5;
   const haloExterno = new THREE.Mesh(criarHalo(geometria), halo.material);
   haloExterno.renderOrder = 5;
-  grupo.add(contornoMalha, dobraMalha, corpo, haloExterno);
+  grupo.add(contornoMalha, dobraMalha, corpo, causticasMalha, haloExterno);
 
   const uniformesOrbita = { uCabeca: { value: 0 }, uBrilho: { value: ajustes.intensidadeBrilho ?? 1 } };
   const orbita = new THREE.Mesh(
@@ -243,6 +345,82 @@ function iniciar() {
   brilho.renderOrder = 4;
   grupo.add(brilho);
 
+  const texturaHalo = criarTexturaHalo();
+  const auraFundo = new THREE.Sprite(
+    new THREE.SpriteMaterial({ map: texturaHalo, transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending, opacity: 0.55 }),
+  );
+  auraFundo.position.set(0, 0.05, -0.6);
+  auraFundo.scale.setScalar(3.6);
+  auraFundo.renderOrder = 0;
+  grupo.add(auraFundo);
+
+  const cometa = new THREE.Sprite(
+    new THREE.SpriteMaterial({ map: texturaHalo, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }),
+  );
+  cometa.scale.setScalar(0.42);
+  cometa.renderOrder = 6;
+  suporteOrbita.add(cometa);
+
+  const compacto = innerWidth < 700;
+  const uniformesParticulas = { uTempo: uniformesVidro.uTempo, uEscala: { value: 1 } };
+  function criarPontos(quantidade, preencher, verticeShader) {
+    const posicoes = new Float32Array(quantidade * 3);
+    const dados = new Float32Array(quantidade * 4);
+    for (let i = 0; i < quantidade; i++) preencher(i, posicoes, dados);
+    const geometriaPontos = new THREE.BufferGeometry();
+    geometriaPontos.setAttribute("position", new THREE.BufferAttribute(posicoes, 3));
+    geometriaPontos.setAttribute("aDados", new THREE.BufferAttribute(dados, 4));
+    const pontos = new THREE.Points(
+      geometriaPontos,
+      new THREE.ShaderMaterial({
+        vertexShader: verticeShader,
+        fragmentShader: fragmentoParticula,
+        uniforms: uniformesParticulas,
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      }),
+    );
+    pontos.frustumCulled = false;
+    pontos.renderOrder = 6;
+    return pontos;
+  }
+  const poeiraOrbita = criarPontos(
+    compacto ? 70 : 140,
+    (i, p, d) => {
+      p[i * 3] = 26 + Math.random() * 60;
+      p[i * 3 + 2] = (Math.random() - 0.5) * 0.14;
+      d[i * 4] = Math.random() * Math.PI * 2;
+      d[i * 4 + 1] = (Math.random() - 0.5) * 0.22 * Math.random();
+      d[i * 4 + 2] = 0.12 + Math.random() * 0.22;
+      d[i * 4 + 3] = Math.random();
+    },
+    verticeParticula,
+  );
+  suporteOrbita.add(poeiraOrbita);
+  const poeiraAscendente = criarPontos(
+    compacto ? 24 : 46,
+    (i, p, d) => {
+      p[i * 3] = (Math.random() - 0.5) * 3.4;
+      p[i * 3 + 2] = (Math.random() - 0.5) * 1.6;
+      d[i * 4] = 30 + Math.random() * 70;
+      d[i * 4 + 2] = 0.03 + Math.random() * 0.05;
+      d[i * 4 + 3] = Math.random();
+    },
+    verticePoeira,
+  );
+  grupo.add(poeiraAscendente);
+
+  const faiscas = Array.from({ length: 3 }, (_, i) => {
+    const faisca = new THREE.Sprite(
+      new THREE.SpriteMaterial({ map: brilho.material.map, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }),
+    );
+    faisca.renderOrder = 6;
+    faisca.userData = { fase: i / 3, ponto: 0 };
+    grupo.add(faisca);
+    return faisca;
+  });
+
   let largura = 0;
   let altura = 0;
   let razaoMaxima = Math.min(devicePixelRatio || 1, innerWidth < 700 ? 1.6 : 2);
@@ -253,6 +431,7 @@ function iniciar() {
     largura = Math.max(1, caixa.width);
     altura = Math.max(1, caixa.height);
     renderizador.setPixelRatio(razaoMaxima);
+    uniformesParticulas.uEscala.value = razaoMaxima * Math.min(1.25, Math.max(0.7, caixa.width / 620));
     renderizador.setSize(largura, altura, false);
     camera.aspect = largura / altura;
     const metade = Math.tan(THREE.MathUtils.degToRad(15));
@@ -277,6 +456,7 @@ function iniciar() {
   addEventListener("pointerup", () => (arraste = null));
   addEventListener("pointercancel", () => (arraste = null));
 
+  const posicaoCometa = new THREE.Vector3();
   const inicio = performance.now();
   let anterior = inicio;
   function desenhar(agora) {
@@ -301,9 +481,36 @@ function iniciar() {
     const pulso = reduzido ? 1 : 0.85 + 0.25 * Math.sin(t * 2.2) + 0.12 * Math.sin(t * 5.1);
     brilho.scale.setScalar(0.52 * pulso);
     brilho.material.rotation = reduzido ? 0 : Math.sin(t * 0.6) * 0.15;
+    uniformesVidro.uTempo.value = reduzido ? 3 : t;
+    const anguloCometa = uniformesOrbita.uCabeca.value * Math.PI * 2;
+    cometa.position.set(Math.cos(anguloCometa) * 1.36, Math.sin(anguloCometa) * 1.36, 0);
+    cometa.getWorldPosition(posicaoCometa);
+    const frenteCometa = THREE.MathUtils.smoothstep(posicaoCometa.z, -1.2, 0.9);
+    cometa.material.opacity = 0.25 + 0.75 * frenteCometa;
+    cometa.scale.setScalar(0.3 + 0.22 * frenteCometa);
+    auraFundo.material.opacity = 0.42 + 0.12 * Math.sin(t * 0.9);
+    for (const faisca of faiscas) {
+      const ciclo = reduzido ? 0.5 : (t * 0.32 + faisca.userData.fase) % 1;
+      const indice = Math.floor((t * 0.32 + faisca.userData.fase) * 7.31 + faisca.userData.fase * 11) % contorno.length;
+      if (indice !== faisca.userData.ponto) {
+        faisca.userData.ponto = indice;
+        const [x, y] = contorno[indice];
+        faisca.position.set(x * 1.04, y * 1.04, -0.16 * x + 0.1);
+      }
+      const intensidade = Math.sin(ciclo * Math.PI) ** 3;
+      faisca.material.opacity = intensidade;
+      faisca.material.rotation = ciclo * 1.4;
+      faisca.scale.setScalar(0.05 + 0.24 * intensidade);
+    }
     renderizador.render(cena, camera);
   }
 
+  let nivelEconomia = 0;
+  const economias = [
+    () => (auraFundo.visible = false),
+    () => (causticasMalha.visible = false),
+    () => (poeiraAscendente.visible = false),
+  ];
   let quadro = 0;
   let ativo = false;
   function laco(agora) {
@@ -314,6 +521,9 @@ function iniciar() {
       razaoMaxima = Math.max(0.6, razaoMaxima - 0.2);
       ultimaAdaptacao = agora;
       ajustar();
+    } else if (mediaQuadro > 24 && razaoMaxima <= 0.6 && nivelEconomia < economias.length && agora - ultimaAdaptacao > 1200) {
+      economias[nivelEconomia++]();
+      ultimaAdaptacao = agora;
     }
     quadro = requestAnimationFrame(laco);
   }
@@ -328,7 +538,15 @@ function iniciar() {
     cancelAnimationFrame(quadro);
   }
 
-  ajustar();
+  try {
+    ajustar();
+  } catch (erro) {
+    falhou = true;
+  }
+  if (falhou || renderizador.getContext().isContextLost()) {
+    renderizador.dispose();
+    return;
+  }
   new ResizeObserver(ajustar).observe(cena3d);
   cena3d.classList.add("webgl-ativo");
   tela.addEventListener("webglcontextlost", (evento) => {

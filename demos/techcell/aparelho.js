@@ -34,9 +34,9 @@
     { x: 32, y: 34, w: 74, h: 74, alt: 13, tipo: "camera" },
     { x: 118, y: 36, w: 124, h: 68, alt: 5, tipo: "peca-blindagem" },
     { x: 106, y: 122, w: 70, h: 70, alt: 9, tipo: "processador peca-chip" },
-    { x: 184, y: 128, w: 54, h: 40, alt: 4, tipo: "peca-chip" },
+    { x: 184, y: 128, w: 54, h: 40, alt: 4, tipo: "peca-chip", rotulo: "LP5X\n8GB · 24" },
     { x: 36, y: 126, w: 62, h: 92, alt: 6, tipo: "peca-blindagem" },
-    { x: 184, y: 180, w: 30, h: 24, alt: 3, tipo: "peca-chip" },
+    { x: 184, y: 180, w: 30, h: 24, alt: 3, tipo: "peca-chip", rotulo: "PMU\n3A2" },
     { x: 220, y: 180, w: 20, h: 24, alt: 3, tipo: "peca-chip" },
     { x: 112, y: 200, w: 58, h: 13, alt: 3, tipo: "peca-ouro" },
     { x: 40, y: 236, w: 50, h: 12, alt: 3, tipo: "peca-ouro" },
@@ -47,7 +47,7 @@
     { x: 46, y: 262, w: 7, h: 5, alt: 2, tipo: "peca-capacitor" },
     { x: 60, y: 262, w: 7, h: 5, alt: 2, tipo: "peca-capacitor" },
     { x: 74, y: 262, w: 7, h: 5, alt: 2, tipo: "peca-capacitor" },
-    { x: 72, y: 532, w: 70, h: 32, alt: 7, tipo: "peca-chip" },
+    { x: 72, y: 532, w: 70, h: 32, alt: 7, tipo: "peca-chip", rotulo: "ALTO-FALANTE" },
     { x: 152, y: 546, w: 42, h: 18, alt: 5, tipo: "peca-blindagem" },
     { x: 200, y: 532, w: 20, h: 32, alt: 6, tipo: "peca-chip" },
   ];
@@ -120,19 +120,75 @@
     caixa.innerHTML = pecas
       .map(
         (p) => `<span class="componente ${p.tipo}" style="--x:${p.x};--y:${p.y};--w:${p.w};--h:${p.h};--alt:${p.alt}">
-          <span class="frente-peca"></span><span class="lado-peca"></span><span class="topo-peca"></span></span>`,
+          <span class="frente-peca"></span><span class="lado-peca"></span><span class="topo-peca"${p.rotulo ? ` data-rotulo="${p.rotulo}"` : ""}></span></span>`,
       )
       .join("");
   }
 
   const camadas = [
-    { montado: 0, explodido: 0, amplitude: 0, fase: 0, dx: 0, dy: 0 },
-    { montado: 22, explodido: 46, amplitude: 0.5, fase: 0.6, dx: 0, dy: 8 },
-    { montado: 5, explodido: 26, amplitude: 0.35, fase: 1.4, dx: 0, dy: 0 },
-    { montado: 8, explodido: 64, amplitude: 1, fase: 2.3, dx: 0, dy: 10 },
-    { montado: 24, explodido: 140, amplitude: 0.8, fase: 3.1, dx: -30, dy: -40 },
-    { montado: 27, explodido: 206, amplitude: 1.25, fase: 4, dx: -88, dy: -64 },
+    { montado: 0, explodido: 0, amplitude: 0, fase: 0, dx: 0, dy: 0, atraso: 0 },
+    { montado: 22, explodido: 46, amplitude: 0.5, fase: 0.6, dx: 0, dy: 8, atraso: 0.5 },
+    { montado: 5, explodido: 26, amplitude: 0.35, fase: 1.4, dx: 0, dy: 0, atraso: 0.46 },
+    { montado: 8, explodido: 64, amplitude: 1, fase: 2.3, dx: 0, dy: 10, atraso: 0.4 },
+    { montado: 24, explodido: 140, amplitude: 0.8, fase: 3.1, dx: -30, dy: -40, atraso: 0.08 },
+    { montado: 27, explodido: 206, amplitude: 1.25, fase: 4, dx: -88, dy: -64, atraso: 0 },
   ].map((definicao, indice) => ({ ...definicao, elemento: aparelho.querySelector(`[data-camada="${indice}"]`) }));
+
+  function etapa(valor, atraso, fim = 1) {
+    const t = Math.min(1, Math.max(0, (valor - atraso) / (fim - atraso)));
+    return t * t * (3 - 2 * t);
+  }
+
+  const parafusos = [
+    [40, 30, 96], [240, 30, 104], [40, 292, 88], [240, 292, 92], [140, 516, 80], [66, 566, 84], [214, 566, 90],
+  ].map(([x, y, altura], indice) => {
+    const elemento = document.createElement("span");
+    elemento.className = "parafuso";
+    elemento.style.setProperty("--x", x);
+    elemento.style.setProperty("--y", y);
+    elemento.innerHTML = "<i style='--i:0'></i><i style='--i:1'></i><i style='--i:2'></i><i style='--i:3'></i><i style='--i:4'></i><b></b>";
+    aparelho.querySelector(".parafusos").append(elemento);
+    return { elemento, x, y, altura, fase: indice * 1.7 };
+  });
+  const cabos = [...aparelho.querySelectorAll(".cabo")];
+  function ligarCabo(cabo, origem, [x0, y0, z0], destino, [x1, y1, z1], largura) {
+    const ax = x0 + origem.x;
+    const ay = y0 + origem.y;
+    const az = origem.z + z0;
+    const bx = x1 + destino.x;
+    const by = y1 + destino.y;
+    const bz = destino.z + z1;
+    let dx = bx - ax;
+    let dy = by - ay;
+    let dz = bz - az;
+    const comprimento = Math.hypot(dx, dy, dz);
+    if (comprimento < 2) {
+      cabo.style.visibility = "hidden";
+      return;
+    }
+    cabo.style.visibility = "visible";
+    dx /= comprimento;
+    dy /= comprimento;
+    dz /= comprimento;
+    let ex = 1 - dx * dx;
+    let ey = -dx * dy;
+    let ez = -dx * dz;
+    const n = Math.hypot(ex, ey, ez) || 1;
+    ex /= n;
+    ey /= n;
+    ez /= n;
+    const zx = ey * dz - ez * dy;
+    const zy = ez * dx - ex * dz;
+    const zz = ex * dy - ey * dx;
+    const ox = ax - ex * largura * 0.5;
+    const oy = ay - ey * largura * 0.5;
+    const oz = az - ez * largura * 0.5;
+    cabo.style.setProperty("--comprimento", `${comprimento.toFixed(2)}px`);
+    cabo.style.setProperty(
+      "--matriz",
+      `matrix3d(${[ex, ey, ez, 0, dx, dy, dz, 0, zx, zy, zz, 0, ox, oy, oz, 1].map((v) => +v.toFixed(4)).join(",")})`,
+    );
+  }
 
   let explosao = 0;
   let alvoExplosao = 1;
@@ -170,14 +226,32 @@
     const amplitude = ajustes.amplitudeFlutuacao * (reduzido.matches ? 0 : 1);
     const distancia = ajustes.distanciaCamadas;
     for (const camada of camadas) {
-      const flutua = Math.sin(tempo * 1.1 + camada.fase) * amplitude * camada.amplitude * explosao;
-      const z = camada.montado + (camada.explodido * distancia - camada.montado) * explosao + flutua;
-      const x = camada.dx * explosao + Math.cos(tempo * 0.7 + camada.fase) * camada.amplitude * 1.4 * explosao;
-      const y = camada.dy * explosao + Math.sin(tempo * 0.6 + camada.fase) * camada.amplitude * 2 * explosao;
+      const p = etapa(explosao, camada.atraso);
+      const flutua = Math.sin(tempo * 1.1 + camada.fase) * amplitude * camada.amplitude * p;
+      const z = camada.montado + (camada.explodido * distancia - camada.montado) * p + flutua;
+      const x = camada.dx * p + Math.cos(tempo * 0.7 + camada.fase) * camada.amplitude * 1.4 * p;
+      const y = camada.dy * p + Math.sin(tempo * 0.6 + camada.fase) * camada.amplitude * 2 * p;
+      camada.atual = { x, y, z, p };
       camada.elemento.style.setProperty("--cz", `${z.toFixed(2)}px`);
       camada.elemento.style.setProperty("--cx", `${x.toFixed(2)}px`);
       camada.elemento.style.setProperty("--cy", `${y.toFixed(2)}px`);
     }
+    const [, , placa, bateria, telaCamada] = camadas;
+    telaCamada.elemento.style.setProperty("--luz-tela", (1 - telaCamada.atual.p).toFixed(3));
+    aparelho.style.setProperty("--abertura", explosao.toFixed(3));
+    aparelho.style.setProperty("--giro-luz", `${(giroY * 2.5).toFixed(1)}deg`);
+    const q = etapa(explosao, 0.16, 0.62);
+    const parafusosVisiveis = telaCamada.atual.p > 0.18;
+    for (const parafuso of parafusos) {
+      parafuso.elemento.style.visibility = parafusosVisiveis ? "visible" : "hidden";
+      const flutua = Math.sin(tempo * 1.3 + parafuso.fase) * amplitude * 0.6 * q;
+      parafuso.elemento.style.setProperty("--pz", `${(placa.atual.z + 2 + q * parafuso.altura * distancia + flutua).toFixed(2)}px`);
+      parafuso.elemento.style.setProperty("--px", `${(placa.atual.x + (parafuso.x - 140) * 0.22 * q).toFixed(2)}px`);
+      parafuso.elemento.style.setProperty("--py", `${(placa.atual.y + (parafuso.y - 300) * 0.08 * q).toFixed(2)}px`);
+      parafuso.elemento.style.setProperty("--giro", `${(q * 900 + parafuso.fase * 40).toFixed(1)}deg`);
+    }
+    ligarCabo(cabos[0], placa.atual, [150, 108, 3], telaCamada.atual, [150, 108, -1], 22);
+    ligarCabo(cabos[1], bateria.atual, [200, 340, 12], placa.atual, [200, 304, 3], 20);
     const ciclo = (tempo * 0.16) % 1;
     aparelho.style.setProperty("--reflexo", `${(-55 + ciclo * 110 + giroY * 3).toFixed(1)}%`);
     aparelho.style.setProperty("--angulo-metal", `${(125 + giroY * 6 + Math.sin(tempo * 0.5) * 14).toFixed(1)}deg`);
@@ -248,6 +322,13 @@
 
   criarParedes();
   criarPlaca();
+  const relogio = () => {
+    const agora = new Date();
+    const texto = `${String(agora.getHours()).padStart(2, "0")}:${String(agora.getMinutes()).padStart(2, "0")}`;
+    aparelho.querySelectorAll("[data-relogio],[data-relogio-curto]").forEach((el) => (el.textContent = texto));
+  };
+  relogio();
+  setInterval(relogio, 30000);
   ajustarEscala();
   new ResizeObserver(ajustarEscala).observe(cena);
 

@@ -2754,3 +2754,281 @@ h2 {
     scroll-behavior: auto !important;
   }
 }
+
+/* realismo do aparelho */
+.sombra-contato {
+  position: absolute;
+  left: -14%;
+  right: -14%;
+  top: -6%;
+  bottom: -6%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.35) 55%, transparent);
+  transform: translateZ(-46px) scale(calc(0.92 + var(--abertura, 1) * 0.12));
+  opacity: calc(0.55 + (1 - var(--abertura, 1)) * 0.35);
+  filter: blur(14px);
+  pointer-events: none;
+}
+.tela {
+  background:
+    radial-gradient(70% 45% at 50% 30%, rgba(24, 226, 239, calc(0.05 + var(--luz-tela, 0) * 0.12)), transparent 70%),
+    linear-gradient(160deg, rgba(4, 14, 18, calc(0.3 + var(--luz-tela, 0) * 0.66)), rgba(1, 6, 9, calc(0.22 + var(--luz-tela, 0) * 0.74)));
+  border: 1px solid rgba(24, 226, 239, calc(0.28 - var(--luz-tela, 0) * 0.18));
+}
+.tela-interface {
+  position: absolute;
+  inset: 22px 18px;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr auto auto;
+  justify-items: center;
+  border-radius: 0;
+  background: none;
+  -webkit-mask: none;
+  mask: none;
+  color: #e9fbff;
+  font-family: var(--fonte);
+  opacity: calc(0.1 + var(--luz-tela, 0) * 0.9);
+  filter: drop-shadow(0 0 calc(var(--luz-tela, 0) * 6px) rgba(24, 226, 239, 0.7));
+}
+.tela-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 14px;
+  font-size: 11px;
+}
+.tela-icones {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.sinal {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5px;
+  height: 9px;
+}
+.sinal i {
+  width: 2.5px;
+  border-radius: 1px;
+  background: #e9fbff;
+}
+.sinal i:nth-child(1) { height: 3px; }
+.sinal i:nth-child(2) { height: 5px; }
+.sinal i:nth-child(3) { height: 7px; }
+.sinal i:nth-child(4) { height: 9px; }
+.carga {
+  position: relative;
+  width: 19px;
+  height: 9px;
+  border-radius: 2.5px;
+  border: 1.2px solid #e9fbff;
+}
+.carga::after {
+  content: "";
+  position: absolute;
+  inset: 1.2px;
+  border-radius: 1px;
+  background: var(--cor-principal);
+}
+.tela-relogio {
+  margin-top: 38px;
+  font-size: 62px;
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.tela-data {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--cor-principal);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.tela-anel {
+  position: relative;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  width: 128px;
+  height: 128px;
+}
+.tela-anel svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.tela-anel circle {
+  fill: none;
+  stroke: rgba(24, 226, 239, 0.15);
+  stroke-width: 5;
+}
+.tela-anel .anel-progresso {
+  stroke: var(--cor-principal);
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc(100 - var(--luz-tela, 0) * 100);
+  filter: drop-shadow(0 0 4px var(--cor-principal));
+}
+.tela-anel b {
+  margin-top: 26px;
+  font-size: 26px;
+  font-weight: 700;
+}
+.tela-anel small {
+  margin-top: -34px;
+  font-size: 10px;
+  color: var(--cor-texto-suave);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.tela-aviso {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 16px;
+  background: rgba(30, 60, 70, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(170, 248, 255, 0.12);
+  font-size: 10.5px;
+  line-height: 1.35;
+  color: #c9dde3;
+  transform: translateY(calc((1 - var(--luz-tela, 0)) * 18px));
+}
+.tela-aviso b {
+  display: block;
+  color: #fff;
+  font-size: 11.5px;
+}
+.tela-aviso-icone {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--cor-principal), var(--cor-secundaria));
+  box-shadow: 0 0 10px rgba(24, 226, 239, 0.5);
+}
+.tela-barra {
+  width: 34%;
+  height: 4px;
+  margin-top: 14px;
+  border-radius: 4px;
+  background: rgba(233, 251, 255, 0.75);
+}
+.vidro-reflexo-2 {
+  background: linear-gradient(100deg, transparent 58%, rgba(170, 248, 255, 0.12) 62%, transparent 66%);
+  transform: translateX(calc(var(--reflexo, -30%) * -0.6));
+}
+.vidro {
+  background: linear-gradient(calc(130deg + var(--giro-luz, 0deg)), rgba(220, 250, 255, 0.16), rgba(120, 220, 240, 0.035) 38%, rgba(255, 255, 255, 0.01) 62%, rgba(170, 245, 255, 0.11));
+}
+
+/* parafusos */
+.parafusos {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+.parafuso {
+  position: absolute;
+  left: calc(var(--x) * 1px - 6px);
+  top: calc(var(--y) * 1px - 6px);
+  width: 15px;
+  height: 15px;
+  transform-style: preserve-3d;
+  transform: translate3d(var(--px, 0px), var(--py, 0px), var(--pz, 0px));
+}
+.parafuso i {
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: repeating-linear-gradient(0deg, #6c7a82 0 1px, #b9c6cc 1px 2px);
+  transform: translateZ(calc(var(--i) * 2px));
+}
+.parafuso b {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffffff, #c9d4da 35%, #75848c 75%, #4a575f);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+  transform: translateZ(11px) rotate(var(--giro, 0deg));
+}
+.parafuso b::before,
+.parafuso b::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 1.6px;
+  margin: -0.8px 0 0 -3.5px;
+  background: #303b42;
+  border-radius: 1px;
+}
+.parafuso b::after {
+  transform: rotate(90deg);
+}
+
+/* cabos flex */
+.cabo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--largura-cabo, 30px);
+  height: var(--comprimento, 0px);
+  transform-origin: 0 0;
+  transform: var(--matriz, none);
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 215, 150, 0.6) 0 1px, transparent 1px 3.4px),
+    linear-gradient(90deg, rgba(150, 80, 16, 0.75), rgba(226, 154, 58, 0.62) 45%, rgba(243, 180, 89, 0.7) 55%, rgba(170, 96, 24, 0.75));
+  opacity: 0.8;
+  box-shadow: 0 0 6px rgba(255, 170, 70, 0.25);
+  backface-visibility: visible;
+}
+.cabo-bateria {
+  --largura-cabo: 20px;
+}
+.cabo-conector {
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  top: -3px;
+  height: 8px;
+  border-radius: 2px;
+  background: linear-gradient(#1a2329, #3b474e);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+.cabo-conector-fim {
+  top: auto;
+  bottom: -3px;
+}
+
+/* marcações e lentes */
+.componente[data-rotulo] .topo-peca::after {
+  content: attr(data-rotulo);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font: 600 6.5px/1.15 var(--fonte);
+  letter-spacing: 0.06em;
+  color: rgba(200, 230, 236, 0.55);
+  text-align: center;
+  white-space: pre;
+}
+.camera .topo-peca::before,
+.camera .topo-peca::after {
+  background:
+    radial-gradient(circle at 36% 32%, rgba(255, 255, 255, 0.95) 0 5%, transparent 9%),
+    conic-gradient(from 210deg, rgba(120, 90, 255, 0.55), rgba(24, 226, 239, 0.5), rgba(255, 150, 220, 0.4), rgba(120, 90, 255, 0.55)) center / 46% 46% no-repeat,
+    radial-gradient(circle, #02080b 0 22%, #0c2a33 30%, #01070a 46%, #5d6d76 52%, #1a252b 58%, #8695a0 64%, #2b363d 72%);
+  box-shadow:
+    0 0 0 2px #56656e,
+    0 0 0 3.5px #1b252b,
+    inset 0 0 6px rgba(0, 0, 0, 0.8);
+}

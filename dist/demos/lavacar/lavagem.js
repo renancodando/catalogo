@@ -145,7 +145,68 @@
     c.fillRect(0, 0, m * 2, m * 2);
   });
 
+  const spriteEspumaBolhas = criarSprite(192, (c, m) => {
+    const g = c.createRadialGradient(m * 0.8, m * 0.72, m * 0.1, m, m, m);
+    g.addColorStop(0, "rgba(255,255,255,1)");
+    g.addColorStop(0.6, "rgba(244,250,255,0.97)");
+    g.addColorStop(0.88, "rgba(206,228,252,0.9)");
+    g.addColorStop(1, "rgba(196,222,252,0)");
+    c.fillStyle = g;
+    c.beginPath();
+    c.arc(m, m, m * 0.97, 0, Math.PI * 2);
+    c.fill();
+    for (let i = 0; i < 70; i++) {
+      const angulo = Math.random() * Math.PI * 2;
+      const distancia = Math.sqrt(Math.random()) * m * 0.82;
+      const x = m + Math.cos(angulo) * distancia;
+      const y = m + Math.sin(angulo) * distancia;
+      const r = 1.5 + Math.random() * (i < 12 ? 9 : 4);
+      const sombra = (y - m) / m;
+      c.strokeStyle = `rgba(${150 - sombra * 30},${185 - sombra * 25},${230},${0.32 + Math.random() * 0.28})`;
+      c.lineWidth = 0.8 + Math.random() * 0.8;
+      c.beginPath();
+      c.arc(x, y, r, 0, Math.PI * 2);
+      c.stroke();
+      c.fillStyle = "rgba(255,255,255,0.95)";
+      c.beginPath();
+      c.arc(x - r * 0.35, y - r * 0.4, Math.max(0.6, r * 0.22), 0, Math.PI * 2);
+      c.fill();
+    }
+    const sombra = c.createLinearGradient(0, m * 0.9, 0, m * 2);
+    sombra.addColorStop(0, "rgba(120,160,215,0)");
+    sombra.addColorStop(1, "rgba(120,160,215,0.28)");
+    c.globalCompositeOperation = "source-atop";
+    c.fillStyle = sombra;
+    c.fillRect(0, 0, m * 2, m * 2);
+  });
+  const spriteCintila = criarSprite(48, (c, m) => {
+    const g = c.createRadialGradient(m, m, 0, m, m, m * 0.5);
+    g.addColorStop(0, "rgba(255,255,255,1)");
+    g.addColorStop(1, "rgba(255,255,255,0)");
+    c.fillStyle = g;
+    c.fillRect(0, 0, m * 2, m * 2);
+    c.fillStyle = "rgba(255,255,255,0.95)";
+    for (const [l, a] of [[m * 0.95, 1.6], [m * 0.55, 1.2]]) {
+      c.save();
+      c.translate(m, m);
+      for (let k = 0; k < 2; k++) {
+        c.rotate(Math.PI / 2);
+        c.beginPath();
+        c.moveTo(-l, 0);
+        c.quadraticCurveTo(0, -a, l, 0);
+        c.quadraticCurveTo(0, a, -l, 0);
+        c.fill();
+      }
+      c.restore();
+      c.rotate?.(0);
+    }
+  });
+
   const aleatorio = (min, max) => min + Math.random() * (max - min);
+  const molhado = new Float32Array(92);
+  const indiceMolhado = (x) => Math.max(0, Math.min(91, Math.floor((x - 200) / 10)));
+  const gotasParadas = [];
+  const linhasPelicula = Array.from({ length: 30 }, (_, i) => ({ x: 440 + i * 15 + Math.random() * 8, fase: Math.random() * 40, velocidade: 30 + Math.random() * 40 }));
   const jatos = [];
   const respingos = [];
   const escorridos = [];
@@ -155,8 +216,8 @@
   const nevoas = [];
   const ondas = [];
   const LIMITES = innerWidth < 700
-    ? { jatos: 520, respingos: 200, escorridos: 40, espumas: 110, nevoas: 22 }
-    : { jatos: 1100, respingos: 380, escorridos: 80, espumas: 200, nevoas: 40 };
+    ? { jatos: 520, respingos: 200, escorridos: 40, espumas: 110, nevoas: 22, gotasParadas: 60 }
+    : { jatos: 1100, respingos: 380, escorridos: 80, espumas: 200, nevoas: 40, gotasParadas: 150 };
 
   const montesEspuma = [];
   function criarMontes() {
@@ -240,6 +301,29 @@
 
   function impactar(p, nx, ny, naCarroceria) {
     const forca = Math.hypot(p.vx, p.vy);
+    if (naCarroceria) {
+      const indice = indiceMolhado(p.x);
+      for (let k = -2; k <= 2; k++) {
+        const vizinho = indice + k;
+        if (vizinho >= 0 && vizinho < molhado.length) molhado[vizinho] = Math.min(1, molhado[vizinho] + 0.035 / (1 + Math.abs(k)));
+      }
+      if (Math.random() < 0.09 && gotasParadas.length < LIMITES.gotasParadas) {
+        const x = p.x + aleatorio(-46, 46);
+        const topo = topoDoCarro(x);
+        if (Number.isFinite(topo)) {
+          const y = topo + aleatorio(5, 95);
+          if (y < limiteDaFace(x) - 8) gotasParadas.push({ x, y, r: aleatorio(1.1, 2.9), idade: 0, vida: aleatorio(6, 14), escorre: Math.random() < 0.35 ? aleatorio(1.5, 6) : Infinity });
+        }
+      }
+      if (Math.random() < 0.035 && respingos.length < LIMITES.respingos - 6) {
+        const base = Math.atan2(ny, nx);
+        for (let k = 0; k < 6; k++) {
+          const angulo = base + aleatorio(-1.15, 1.15);
+          const velocidade = aleatorio(200, 430);
+          respingos.push({ x: p.x, y: p.y - 2, vx: Math.cos(angulo) * velocidade, vy: Math.sin(angulo) * velocidade, r: aleatorio(1.6, 3.6), vida: aleatorio(0.5, 0.9), idade: 0, cintila: Math.random() < 0.4 });
+        }
+      }
+    }
     if (Math.random() < (naCarroceria ? 0.3 : 0.45) && respingos.length < LIMITES.respingos) {
       const produto = p.vx * nx + p.vy * ny;
       let rx = p.vx - 2 * produto * nx;
@@ -247,7 +331,7 @@
       const perda = aleatorio(0.06, 0.2);
       rx = rx * perda + aleatorio(-90, 90);
       ry = ry * perda + aleatorio(-160, 10);
-      respingos.push({ x: p.x, y: p.y - 2, vx: rx, vy: ry, r: aleatorio(1.8, 4.6), vida: aleatorio(0.45, 1.1), idade: 0 });
+      respingos.push({ x: p.x, y: p.y - 2, vx: rx, vy: ry, r: aleatorio(1.8, 4.6), vida: aleatorio(0.45, 1.1), idade: 0, cintila: Math.random() < 0.18 });
     }
     if (naCarroceria && Math.random() < 0.05 && escorridos.length < LIMITES.escorridos) {
       escorridos.push({ x: p.x + aleatorio(-6, 6), y: p.y + 3, vy: aleatorio(25, 60), deriva: aleatorio(-14, 6), r: aleatorio(1.6, 3.2), trilha: [], idade: 0, vida: aleatorio(3, 6) });
@@ -349,6 +433,17 @@
       if (r.idade >= r.vida) respingos.splice(i, 1);
     }
 
+    for (let i = 0; i < molhado.length; i++) molhado[i] = Math.max(0, molhado[i] - dt * 0.035);
+    for (let i = gotasParadas.length - 1; i >= 0; i--) {
+      const g = gotasParadas[i];
+      g.idade += dt;
+      if (g.idade > g.escorre && escorridos.length < LIMITES.escorridos) {
+        escorridos.push({ x: g.x, y: g.y, vy: aleatorio(20, 45), deriva: aleatorio(-8, 4), r: g.r, trilha: [], idade: 0, vida: aleatorio(2, 5) });
+        gotasParadas.splice(i, 1);
+        continue;
+      }
+      if (g.idade >= g.vida) gotasParadas.splice(i, 1);
+    }
     for (let i = escorridos.length - 1; i >= 0; i--) {
       const e = escorridos[i];
       e.idade += dt;
@@ -412,8 +507,8 @@
 
     const chao = ctx.createLinearGradient(0, SOLO - 30, 0, ALTURA);
     chao.addColorStop(0, "rgba(220,236,255,0)");
-    chao.addColorStop(0.3, "rgba(226,240,255,0.55)");
-    chao.addColorStop(1, "rgba(244,249,255,0.92)");
+    chao.addColorStop(0.3, "rgba(226,240,255,0.32)");
+    chao.addColorStop(1, "rgba(244,249,255,0.74)");
     ctx.fillStyle = chao;
     ctx.fillRect(visao.x - 10, SOLO - 30, visao.w + 20, ALTURA - SOLO + 60);
     ctx.strokeStyle = "rgba(255,255,255,0.5)";
@@ -443,6 +538,53 @@
       ctx.globalAlpha = 0.22 * Math.sin(t * Math.PI);
       const r = n.r * (0.6 + t * 0.8);
       ctx.drawImage(spriteNevoa, n.x - r, n.y - r, r * 2, r * 2);
+    }
+    ctx.globalAlpha = 1;
+
+    ctx.globalCompositeOperation = "lighter";
+    ctx.lineCap = "round";
+    for (let i = 1; i < contorno.length; i++) {
+      const [x0, y0] = contorno[i - 1];
+      const [x1, y1] = contorno[i];
+      const umidade = (molhado[indiceMolhado(x0)] + molhado[indiceMolhado(x1)]) / 2;
+      if (umidade < 0.02) continue;
+      ctx.strokeStyle = `rgba(235,246,255,${(umidade * 0.22).toFixed(3)})`;
+      ctx.lineWidth = 7 + umidade * 7;
+      ctx.beginPath();
+      ctx.moveTo(x0, y0 + 3);
+      ctx.lineTo(x1, y1 + 3);
+      ctx.stroke();
+      ctx.strokeStyle = `rgba(255,255,255,${(umidade * 0.65).toFixed(3)})`;
+      ctx.lineWidth = 1.3;
+      ctx.beginPath();
+      ctx.moveTo(x0, y0 + 1.5);
+      ctx.lineTo(x1, y1 + 1.5);
+      ctx.stroke();
+    }
+    ctx.setLineDash([10, 26]);
+    for (const linha of linhasPelicula) {
+      const umidade = molhado[indiceMolhado(linha.x)];
+      if (umidade < 0.05) continue;
+      const topo = topoDoCarro(linha.x);
+      const fundo = Math.min(limiteDaFace(linha.x), topo + 150);
+      ctx.lineDashOffset = -(tempo * linha.velocidade + linha.fase);
+      ctx.strokeStyle = `rgba(230,244,255,${(umidade * 0.3).toFixed(3)})`;
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.moveTo(linha.x, topo + 4);
+      ctx.quadraticCurveTo(linha.x - 6, (topo + fundo) / 2, linha.x - 10, fundo);
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    ctx.globalCompositeOperation = "source-over";
+
+    for (const g of gotasParadas) {
+      const entrada = Math.min(1, g.idade / 0.3);
+      const saida = Math.min(1, (g.vida - g.idade) / 1.2);
+      ctx.globalAlpha = Math.min(entrada, saida) * 0.95;
+      ctx.drawImage(spriteGota, g.x - g.r * 1.3, g.y - g.r * 1.3, g.r * 2.6, g.r * 2.8);
+      ctx.fillStyle = "rgba(255,255,255,0.9)";
+      ctx.fillRect(g.x - g.r * 0.45, g.y - g.r * 0.5, Math.max(0.8, g.r * 0.4), Math.max(0.8, g.r * 0.4));
     }
     ctx.globalAlpha = 1;
 
@@ -530,10 +672,21 @@
       ctx.restore();
     }
     ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "lighter";
+    for (const r of respingos) {
+      if (!r.cintila) continue;
+      const brilho = Math.max(0, Math.sin(tempo * 18 + r.x * 0.3)) * (1 - r.idade / r.vida);
+      if (brilho < 0.15) continue;
+      const tamanho = r.r * 4.5 * brilho;
+      ctx.globalAlpha = brilho;
+      ctx.drawImage(spriteCintila, r.x - tamanho, r.y - tamanho, tamanho * 2, tamanho * 2);
+    }
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "source-over";
 
     for (const f of espumas) {
       if (f.r < 0.5) continue;
-      ctx.drawImage(spriteEspuma, f.x - f.r, f.y - f.r, f.r * 2, f.r * 2);
+      ctx.drawImage(f.alvo > 11 ? spriteEspumaBolhas : spriteEspuma, f.x - f.r, f.y - f.r, f.r * 2, f.r * 2);
       ctx.drawImage(spriteEspuma, f.x - f.r * 1.3, f.y - f.r * 0.1, f.r * 1.2, f.r * 1.2);
     }
 
@@ -550,7 +703,7 @@
       if (presenca <= 0) continue;
       const r = m.raio * presenca * (1 + Math.sin(tempo * 0.9 + m.fase) * 0.035);
       const y = m.y + (1 - presenca) * 12;
-      ctx.drawImage(spriteEspuma, m.x - r, y - r, r * 2, r * 2);
+      ctx.drawImage(m.raio > 16 ? spriteEspumaBolhas : spriteEspuma, m.x - r, y - r, r * 2, r * 2);
     }
 
     ctx.strokeStyle = "rgba(255,255,255,0.8)";
@@ -618,6 +771,7 @@
   new ResizeObserver(ajustarVisao).observe(cena);
 
   if (reduzido) {
+    arte.pauseAnimations?.();
     for (let i = 0; i < 300; i++) simular(1 / 60);
     pausadoEstatico = true;
     desenhar(0);

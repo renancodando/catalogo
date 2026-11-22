@@ -285,6 +285,10 @@ function animarMesa() {
     prato.style.setProperty("--luz-y", `${30 - atual.y * 10}%`);
     prato.style.setProperty("--brilho-x", `${30 + atual.x * 14 + Math.sin(t * 0.3) * 4 * balanco}%`);
     prato.style.setProperty("--brilho-y", `${16 + atual.y * 8}%`);
+    prato.style.setProperty("--janela-x", `${(atual.x * 5 + Math.sin(t * 0.3) * 1.5 * balanco).toFixed(2)}%`);
+    prato.style.setProperty("--janela-y", `${(atual.y * 4).toFixed(2)}%`);
+    camadas.style.setProperty("--sombra-x", `${(-atual.x * 9 - iy * 0.6).toFixed(1)}px`);
+    camadas.style.setProperty("--sombra-y", `${(-atual.y * 7 + ix * 0.6).toFixed(1)}px`);
     prato.style.setProperty("--giro-filete", `${((t * 12 * ajustes.velocidadeReflexo) % 360).toFixed(1)}deg`);
     const ciclo = ((t * 0.16 * ajustes.velocidadeReflexo) % 1.4) - 0.2;
     reflexos.forEach((faixa, i) => faixa.setAttribute("y", (ciclo * 440 - 60 + i * 40 + atual.y * 30).toFixed(1)));

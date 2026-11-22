@@ -28,6 +28,7 @@ const fragmentoBronze = `
   uniform vec3 uCorBorda;
   uniform float uVarredura;
   uniform float uBrilho;
+  uniform float uReflexo;
   varying vec3 vNormal;
   varying vec3 vVista;
   varying vec3 vMundo;
@@ -51,11 +52,17 @@ const fragmentoBronze = `
     cor += vec3(1.0, 0.8, 0.6) * risco * 0.55 * uBrilho;
     cor += vec3(1.0, 0.78, 0.55) * faixa * 0.22 * (0.2 + borda) * uBrilho;
     gl_FragColor = vec4(cor, 1.0);
+    if (uReflexo > 0.5) {
+      float desvanecer = exp(vMundo.y * 4.5) * 0.6;
+      gl_FragColor.rgb *= 0.8;
+      gl_FragColor.a *= desvanecer;
+    }
   }`;
 
 const fragmentoVidro = `
   uniform vec3 uLuz;
   uniform float uBrilho;
+  uniform float uReflexo;
   varying vec3 vNormal;
   varying vec3 vVista;
   varying vec3 vMundo;
@@ -66,10 +73,16 @@ const fragmentoVidro = `
     float especular = pow(clamp(dot(reflect(-normalize(uLuz), n), normalize(vVista)), 0.0, 1.0), 40.0);
     vec3 cor = vec3(1.0, 0.7, 0.42) * borda * 1.8 * uBrilho + vec3(1.0, 0.95, 0.85) * especular;
     gl_FragColor = vec4(cor, clamp(borda * 0.95 + especular + 0.03, 0.0, 1.0));
+    if (uReflexo > 0.5) {
+      float desvanecer = exp(vMundo.y * 3.2) * 0.26;
+      gl_FragColor.rgb *= 0.8;
+      gl_FragColor.a *= desvanecer;
+    }
   }`;
 
 const fragmentoVinho = `
   uniform float uBrilho;
+  uniform float uReflexo;
   varying vec3 vNormal;
   varying vec3 vVista;
   varying vec3 vMundo;
@@ -82,6 +95,11 @@ const fragmentoVinho = `
     cor = mix(cor, vec3(1.0, 0.72, 0.42), topo * 0.7);
     cor += vec3(1.0, 0.6, 0.3) * pow(1.0 - frente, 2.0) * 0.5 * uBrilho;
     gl_FragColor = vec4(cor, 0.62 + topo * 0.2);
+    if (uReflexo > 0.5) {
+      float desvanecer = exp(vMundo.y * 3.2) * 0.26;
+      gl_FragColor.rgb *= 0.8;
+      gl_FragColor.a *= desvanecer;
+    }
   }`;
 
 const fragmentoVapor = `
@@ -89,12 +107,30 @@ const fragmentoVapor = `
   uniform float uIntensidade;
   uniform float uSemente;
   varying vec2 vUv;
+  float acaso(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+  float ruido(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    return mix(mix(acaso(i), acaso(i + vec2(1.0, 0.0)), f.x), mix(acaso(i + vec2(0.0, 1.0)), acaso(i + vec2(1.0, 1.0)), f.x), f.y);
+  }
+  float fbm(vec2 p) {
+    float v = 0.0;
+    float a = 0.5;
+    for (int i = 0; i < 4; i++) {
+      v += a * ruido(p);
+      p = p * 2.03 + vec2(1.7, 9.2);
+      a *= 0.5;
+    }
+    return v;
+  }
   void main() {
     float lado = 1.0 - pow(abs(vUv.x - 0.5) * 2.0, 1.6);
     float subida = smoothstep(0.0, 0.14, vUv.y) * pow(1.0 - vUv.y, 1.25);
-    float fios = 0.65 + 0.35 * sin(vUv.y * 24.0 - uTempo * 2.2 + vUv.x * 6.0 + uSemente);
-    fios *= 0.8 + 0.2 * sin(vUv.y * 9.0 + uTempo * 1.3 + uSemente * 2.0);
-    float alfa = lado * subida * fios * 0.62 * uIntensidade;
+    vec2 q = vec2(vUv.x * 2.4 + uSemente, vUv.y * 3.2 - uTempo * 0.42);
+    float volume = fbm(q + vec2(fbm(q * 1.4 + uTempo * 0.12), 0.0) * 1.3);
+    float fios = smoothstep(0.28, 0.78, volume) * (0.75 + 0.25 * sin(vUv.y * 22.0 - uTempo * 2.0 + vUv.x * 5.0 + uSemente));
+    float alfa = lado * subida * (0.25 + fios * 0.95) * 0.66 * uIntensidade;
     gl_FragColor = vec4(vec3(1.0, 0.9, 0.8), alfa);
   }`;
 
@@ -166,7 +202,7 @@ function iniciar() {
   const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 60);
   const alvo = new THREE.Vector3(0.75, 1.55, 0);
 
-  const uniformesComuns = { uLuz: { value: new THREE.Vector3(-2.6, 1.3, 0.4) }, uBrilho: { value: ajustes.intensidadeBrilho ?? 1 }, uVarredura: { value: 0 } };
+  const uniformesComuns = { uLuz: { value: new THREE.Vector3(-2.6, 1.3, 0.4) }, uBrilho: { value: ajustes.intensidadeBrilho ?? 1 }, uVarredura: { value: 0 }, uReflexo: { value: 0 } };
   const bronze = (base, alta, borda) =>
     new THREE.ShaderMaterial({
       vertexShader: vertice,
@@ -289,6 +325,111 @@ function iniciar() {
     return { sprite, vida: Math.random(), velocidade: 0.12 + Math.random() * 0.1, desvio: Math.random() * 6.28 };
   });
 
+  const texturaAura = (() => {
+    const c = document.createElement("canvas");
+    c.width = c.height = 128;
+    const g = c.getContext("2d");
+    const r = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    r.addColorStop(0, "rgba(255,170,90,0.55)");
+    r.addColorStop(0.35, "rgba(230,110,45,0.2)");
+    r.addColorStop(1, "rgba(200,80,30,0)");
+    g.fillStyle = r;
+    g.fillRect(0, 0, 128, 128);
+    const textura = new THREE.CanvasTexture(c);
+    textura.colorSpace = THREE.SRGBColorSpace;
+    return textura;
+  })();
+  const aura = new THREE.Sprite(new THREE.SpriteMaterial({ map: texturaAura, transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending, opacity: 0.5 }));
+  aura.position.set(0.2, 1.1, -2.2);
+  aura.scale.set(7.5, 5.2, 1);
+  aura.renderOrder = -1;
+  cena.add(aura);
+
+  const QUANTIDADE_FAGULHAS = innerWidth < 700 ? 26 : 48;
+  const dadosFagulhas = new Float32Array(QUANTIDADE_FAGULHAS * 4);
+  const posicoesFagulhas = new Float32Array(QUANTIDADE_FAGULHAS * 3);
+  for (let i = 0; i < QUANTIDADE_FAGULHAS; i++) {
+    posicoesFagulhas[i * 3] = -2.6 + Math.random() * 6.4;
+    posicoesFagulhas[i * 3 + 2] = -1.8 + Math.random() * 3;
+    dadosFagulhas.set([18 + Math.random() * 42, Math.random(), 0.025 + Math.random() * 0.05, Math.random() * 6.28], i * 4);
+  }
+  const geometriaFagulhas = new THREE.BufferGeometry();
+  geometriaFagulhas.setAttribute("position", new THREE.BufferAttribute(posicoesFagulhas, 3));
+  geometriaFagulhas.setAttribute("aDados", new THREE.BufferAttribute(dadosFagulhas, 4));
+  const uniformesFagulhas = { uTempo: { value: 0 }, uEscala: { value: 1 } };
+  const fagulhas = new THREE.Points(
+    geometriaFagulhas,
+    new THREE.ShaderMaterial({
+      vertexShader: `
+        attribute vec4 aDados;
+        uniform float uTempo;
+        uniform float uEscala;
+        varying float vAlfa;
+        void main() {
+          float ciclo = fract(aDados.y + uTempo * aDados.z);
+          vec3 p = position + vec3(sin(uTempo * 0.4 + aDados.w) * 0.35, 0.2 + ciclo * 4.2, cos(uTempo * 0.3 + aDados.w) * 0.2);
+          vec4 mv = modelViewMatrix * vec4(p, 1.0);
+          vAlfa = smoothstep(0.0, 0.15, ciclo) * smoothstep(1.0, 0.6, ciclo) * (0.5 + 0.5 * sin(uTempo * 2.5 + aDados.w * 7.0));
+          gl_PointSize = aDados.x * uEscala / -mv.z;
+          gl_Position = projectionMatrix * mv;
+        }`,
+      fragmentShader: `
+        varying float vAlfa;
+        void main() {
+          float r = length(gl_PointCoord - 0.5);
+          float a = exp(-r * r * 40.0) * vAlfa;
+          if (a < 0.01) discard;
+          gl_FragColor = vec4(1.0, 0.72, 0.42, a * 0.85);
+        }`,
+      uniforms: uniformesFagulhas,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    }),
+  );
+  fagulhas.frustumCulled = false;
+  fagulhas.renderOrder = 6;
+  cena.add(fagulhas);
+
+  const materiaisRefletidos = [];
+  const cascasContorno = [];
+  conjunto.traverse((objeto) => {
+    if (!objeto.isMesh) return;
+    if (objeto.material.uniforms?.uReflexo) materiaisRefletidos.push(objeto.material);
+    else cascasContorno.push(objeto);
+  });
+  const transparenciaOriginal = materiaisRefletidos.map((material) => material.transparent);
+  const mesclaOriginal = materiaisRefletidos.map((material) => material.blending);
+  const soltos = [aura, fagulhas, ...fitas.map((fita) => fita.malha), ...bufos.map((bufo) => bufo.sprite)];
+  renderizador.autoClear = false;
+  let refletir = true;
+  function renderizar() {
+    renderizador.clear();
+    if (!refletir) {
+      renderizador.render(cena, camera);
+      return;
+    }
+    uniformesComuns.uReflexo.value = 1;
+    conjunto.scale.y = -1;
+    for (const material of materiaisRefletidos) {
+      material.transparent = true;
+      material.blending = THREE.AdditiveBlending;
+    }
+    for (const objeto of cascasContorno) objeto.visible = false;
+    for (const objeto of soltos) objeto.visible = false;
+    renderizador.render(cena, camera);
+    renderizador.clearDepth();
+    uniformesComuns.uReflexo.value = 0;
+    conjunto.scale.y = 1;
+    materiaisRefletidos.forEach((material, i) => {
+      material.transparent = transparenciaOriginal[i];
+      material.blending = mesclaOriginal[i];
+    });
+    for (const objeto of cascasContorno) objeto.visible = true;
+    for (const objeto of soltos) objeto.visible = objeto.userData.oculto !== true;
+    renderizador.render(cena, camera);
+  }
+
   const topoPegador = new THREE.Vector3();
   const lateral = new THREE.Vector3();
   const centro = new THREE.Vector3();
@@ -340,6 +481,7 @@ function iniciar() {
     largura = Math.max(1, caixa.width);
     altura = Math.max(1, caixa.height);
     renderizador.setPixelRatio(razao);
+    uniformesFagulhas.uEscala.value = razao * Math.min(1.3, Math.max(0.7, caixa.width / 700));
     renderizador.setSize(largura, altura, false);
     camera.aspect = largura / altura;
     const metade = Math.tan(THREE.MathUtils.degToRad(15));
@@ -399,13 +541,23 @@ function iniciar() {
     for (const material of brilhosContorno) material.uniforms.uForca.value = material.userData.base * (1 + vela * 0.8);
     uniformesComuns.uBrilho.value = (ajustes.intensidadeBrilho ?? 1) * (1 + vela * 0.6);
     atualizarVapor(reduzido ? 2.5 : t, dt, 0.85 + impulsoVapor * 0.9 + tampaAberta * 0.4);
-    renderizador.render(cena, camera);
+    uniformesFagulhas.uTempo.value = reduzido ? 4 : t;
+    aura.material.opacity = 0.42 + vela * 0.9 + tampaAberta * 0.12;
+    renderizar();
   }
 
   let quadro = 0;
   let ativo = false;
   let media = 16;
   let ultimaAdaptacao = 0;
+  let nivelEconomia = 0;
+  const economias = [
+    () => (refletir = false),
+    () => {
+      aura.userData.oculto = true;
+      aura.visible = false;
+    },
+  ];
   function laco(agora) {
     const duracao = agora - anterior;
     desenhar(agora);
@@ -414,6 +566,9 @@ function iniciar() {
       razao = Math.max(0.6, razao - 0.2);
       ultimaAdaptacao = agora;
       ajustar();
+    } else if (media > 24 && razao <= 0.6 && nivelEconomia < economias.length && agora - ultimaAdaptacao > 1200) {
+      economias[nivelEconomia++]();
+      ultimaAdaptacao = agora;
     }
     quadro = requestAnimationFrame(laco);
   }
