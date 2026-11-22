@@ -49,9 +49,9 @@ const fragmentoVidro = `
     cor = mix(cor, vec3(1.0), 0.18 * altura);
     vec3 irisado = 0.5 + 0.5 * cos(6.2831 * (fresnel * 1.4 + vPosicao.y * 0.35 + vPosicao.x * 0.2 + uTempo * 0.04 + vec3(0.0, 0.33, 0.67)));
     cor = mix(cor, cor * 0.7 + irisado * 0.5, 0.22 * smoothstep(0.25, 0.9, fresnel));
-    float faixa = 1.0 - smoothstep(0.0, 0.035, abs(fract(vPosicao.x * 0.45 - vPosicao.y * 0.25 - uTempo * 0.11) - 0.5));
+    float faixa = smoothstep(0.035, 0.0, abs(fract(vPosicao.x * 0.45 - vPosicao.y * 0.25 - uTempo * 0.11) - 0.5));
     cor += (especular * 1.3 + especular2 * 0.6) * uBrilho + faixa * 0.55 * uBrilho;
-    float alfa = clamp(0.72 + fresnel * 0.45 + especular + faixa * 0.4, 0.0, 1.0);
+    float alfa = clamp(0.3 + fresnel * 0.85 + especular + faixa * 0.4, 0.0, 1.0);
     gl_FragColor = vec4(cor, alfa);
   }`;
 
@@ -79,8 +79,8 @@ const fragmentoCorpo = `
   varying vec3 vPosicao;
   void main() {
     float diagonal = clamp((vPosicao.y - vPosicao.x) * 0.35 + 0.5, 0.0, 1.0);
-    vec3 cor = mix(vec3(0.74, 0.84, 0.93), vec3(0.99, 0.99, 1.0), diagonal);
-    gl_FragColor = vec4(cor, 0.76 + 0.21 * diagonal);
+    vec3 cor = mix(vec3(0.33, 0.6, 0.95), vec3(0.85, 0.94, 1.0), diagonal);
+    gl_FragColor = vec4(cor, 0.03 + 0.1 * diagonal);
   }`;
 
 const fragmentoCausticas = `
@@ -275,7 +275,7 @@ function iniciar() {
   const uniformesVidro = {
     uLuz: { value: new THREE.Vector3(1, 1, 1) },
     uCorBorda: { value: new THREE.Color(0xf4fbff) },
-    uCorMiolo: { value: new THREE.Color(0xe1edf8) },
+    uCorMiolo: { value: new THREE.Color(0x4f97ee) },
     uBrilho: { value: ajustes.intensidadeBrilho ?? 1 },
     uTempo: { value: 0 },
   };

@@ -1527,7 +1527,9 @@ h2 em {
   }
   .cena-dente {
     min-height: 0;
-    aspect-ratio: 1.5;
+    /* A linha do grid precisa de altura mesmo com os dois desenhos absolutos. */
+    height: 66.6667vw;
+    max-height: 56vh;
     max-height: 56svh;
     margin: 0 calc(var(--margem) * -1) clamp(4px, 2vw, 18px);
   }
@@ -1585,7 +1587,7 @@ h2 em {
     flex: 1 1 100%;
   }
   .cena-dente {
-    aspect-ratio: 1.18;
+    height: 84.7458vw;
   }
   .garantias {
     display: grid;
