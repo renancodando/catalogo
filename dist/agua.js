@@ -65,7 +65,7 @@
   }
 
   function simularGotas(dt) {
-    emissao += dt * (4 + detalhe * 2 + presente.energia * 7);
+    emissao += dt * (6 + detalhe * 3 + presente.energia * 9);
     while (emissao >= 1) {
       emissao--;
       const a = Math.random() < 0.55 ? 3.3 + Math.random() * 0.6 : 0.07 + Math.random() * 0.56;
@@ -170,6 +170,36 @@
       }
       vec3 n=normalize(vec3(d.x,-d.y,z)+vec3(0.,0.,.001));
       cor+=iluminacao(n,p)*.035*disco*livre*(.7+.3*cos(t*.27));
+      if(disco>.001&&qualidade>1.5){
+        vec2 esferica=d/max(z,.25)*2.6+vec2(t*.05+estado.y*.6+40.,40.);
+        vec2 iq=esferica;
+        float c=0.;
+        for(int k=0;k<3;k++){
+          float tt=t*.35*(1.-3.5/float(k+1));
+          iq=esferica+vec2(cos(tt-iq.x)+sin(tt+iq.y),sin(tt-iq.y)+cos(tt+iq.x));
+          c+=1./length(vec2(esferica.x/(sin(iq.x+tt)/.03),esferica.y/(cos(iq.y+tt)/.03)));
+        }
+        c=1.17-pow(c/3.,1.4);
+        float causticas=smoothstep(.9,2.5,pow(abs(c),8.));
+        float faixa=(.35+.65*smoothstep(-.5,.7,-d.y+.25*d.x))*(1.-smoothstep(.6,1.,r));
+        cor+=vec3(.42,.86,1.)*causticas*faixa*.42*livre*disco*(.75+.25*sin(t*.9));
+        float borda=smoothstep(.62,.97,r)*(1.-smoothstep(.97,1.04,r));
+        float lado=.5+.5*dot(normalize(d+vec2(.0001)),normalize(vec2(-.7,-.45)));
+        cor+=mix(vec3(.15,.55,.75),vec3(1.,.55,.2),lado)*borda*.32;
+        vec2 brilho=d-vec2(-.42+.06*sin(t*.31),-.5+.04*cos(t*.23));
+        cor+=vec3(1.,.82,.6)*exp(-dot(brilho,brilho)*22.)*.09*livre*disco;
+      }
+      float halo=sqrt(r);
+      if(qualidade>.5) cor+=vec3(.22,.62,.86)*exp(-pow(max(halo-1.,0.)*9.,1.4))*step(1.,halo)*.07*(1.-molhado);
+      if(molhado>.001&&qualidade>.5){
+        float coluna=exp(-pow((p.x-751.-normal.x*9.)/95.,2.))*exp(-max(0.,p.y-325.)*.006);
+        vec3 ns=normalize(vec3(normal*2.6,1.));
+        float especular=pow(max(dot(ns,normalize(vec3(0.,-.42,.91))),0.),140.);
+        float cintila=step(.55,fract(sin(dot(floor(p*.5),vec2(12.9898,78.233))+floor(t*9.))*43758.5453));
+        cor+=vec3(1.,.66,.3)*especular*coluna*molhado*(1.6+cintila*2.2);
+        float azul=pow(max(dot(ns,normalize(vec3(.35,-.5,.8))),0.),90.);
+        cor+=vec3(.35,.82,1.)*azul*molhado*.25*(1.-coluna);
+      }
       gl_FragColor=vec4(cor,1.);
     }`;
 
@@ -240,15 +270,23 @@
       float fresnel=.0204+.9796*pow(1.-incidencia,5.);
       float caminho=mix(1.3,7.7,incidencia)*(1.+.22*sin(11.*a-t*2.3));
       vec3 raio=refract(vec3(0.,0.,-1.),n,.7502);
-      vec3 base=amostra(lugar.xy+raio.xy*caminho);
+      vec2 desvio=raio.xy*caminho;
+      vec3 base=vec3(amostra(lugar.xy+desvio*.9).r,amostra(lugar.xy+desvio).g,amostra(lugar.xy+desvio*1.12).b);
       vec3 absorcao=exp(-vec3(.047,.011,.006)*caminho);
       vec3 refletida=amostra(lugar.xy+n.xy*vec2(98.,56.)+vec2(0.,-11.));
       vec3 especular=iluminacao(n,lugar.xy);
       float crista=smoothstep(.91,1.,faceta)*smoothstep(.65,.94,1.-incidencia);
       vec3 cor=mix(base*absorcao,refletida+vec3(.03,.085,.10),fresnel)+especular*.39;
       cor+=vec3(.63,.9,.95)*crista*.28;
+      float aerado=sin(83.*a+5.*b-t*15.)*sin(37.*a-3.*b+t*9.+fio*2.);
+      float espuma=smoothstep(.55,.95,aerado)*smoothstep(.35,.85,1.-incidencia)*(.6+.4*crista);
+      cor=mix(cor,vec3(.88,.97,1.),espuma*.75);
+      vec3 meio=normalize(normalize(vec3(-.71,-.43,.57))+vec3(0.,0.,1.));
+      vec3 meio2=normalize(normalize(vec3(.46,-.39,.79))+vec3(0.,0.,1.));
+      cor+=vec3(1.,.72,.42)*pow(max(dot(n,meio),0.),160.)*2.4;
+      cor+=vec3(.75,.97,1.)*pow(max(dot(n,meio2),0.),180.)*2.;
       float frente=smoothstep(-40.,125.,lugar.z);
-      float opacidade=mix(.20,.46,frente)+fresnel*.31;
+      float opacidade=mix(.26,.58,frente)+fresnel*.34+espuma*.4;
       if(fio>.5) opacidade*=.69;
       if(espelho>.5) {
         cor*=vec3(.66,.85,.87);
@@ -259,14 +297,20 @@
   const verticeGota = `
     attribute vec3 lugar;
     attribute vec2 aspecto;
+    attribute vec2 rumo;
     uniform vec4 janela;
     uniform float densidade;
     varying float opacidade;
     varying vec3 mundo;
+    varying vec2 direcao;
+    varying float estiramento;
     void main(){
       vec2 uv=(lugar.xy-janela.xy)/janela.zw;
       gl_Position=vec4(uv*vec2(2.,-2.)+vec2(-1.,1.),0.,1.);
-      gl_PointSize=max(1.,aspecto.x*densidade*2.8);
+      float velocidade=length(rumo);
+      estiramento=clamp(1.+velocidade*.045,1.,3.6);
+      direcao=velocidade>.01?rumo/velocidade:vec2(1.,0.);
+      gl_PointSize=max(1.,aspecto.x*densidade*2.8*estiramento);
       opacidade=aspecto.y;
       mundo=lugar;
     }`;
@@ -275,14 +319,17 @@
     `
     varying float opacidade;
     varying vec3 mundo;
+    varying vec2 direcao;
+    varying float estiramento;
     void main(){
-      vec2 d=gl_PointCoord*2.-1.;
+      vec2 c=gl_PointCoord*2.-1.;
+      vec2 d=vec2(dot(c,direcao),dot(c,vec2(-direcao.y,direcao.x))*estiramento);
       float r=dot(d,d);
       if(r>=1. || oculto(mundo)>.5) discard;
       vec3 n=vec3(d,sqrt(1.-r));
       vec3 cor=amostra(mundo.xy+n.xy*2.7)*.84+iluminacao(n,mundo.xy);
       cor+=vec3(.22,.49,.56)*pow(r,2.);
-      gl_FragColor=vec4(cor,(1.-smoothstep(.65,1.,r))*opacidade);
+      gl_FragColor=vec4(cor,(1.-smoothstep(.65,1.,r))*opacidade*mix(1.,.75,(estiramento-1.)/2.6));
     }`;
 
   function malhaOrbital(segmentos, secoes, fios) {
@@ -334,7 +381,7 @@
     }
     const chao = material(verticePlano, piso, ["canto"]);
     const liquido = material(verticeCorrente, corrente, ["parametro"]);
-    const spray = material(verticeGota, gota, ["lugar", "aspecto"]);
+    const spray = material(verticeGota, gota, ["lugar", "aspecto", "rumo"]);
     const cantos = memoria(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]));
     const malhas = [
       [100, 7, 1],
@@ -348,7 +395,7 @@
         total: i.length,
       };
     });
-    const pontos = new Float32Array(limiteGotas * 5);
+    const pontos = new Float32Array(limiteGotas * 7);
     const dispersao = memoria(gl.ARRAY_BUFFER, pontos, gl.DYNAMIC_DRAW);
     const textura = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, textura);
@@ -398,18 +445,21 @@
       preparar(spray);
       for (let i = 0; i < gotas.length; i++) {
         const g = gotas[i];
-        const k = i * 5;
+        const k = i * 7;
         pontos[k] = g.x;
         pontos[k + 1] = g.y;
         pontos[k + 2] = g.z;
         pontos[k + 3] = g.raio;
         pontos[k + 4] = Math.min(1, g.idade * 12, (g.vida - g.idade) * 6);
+        pontos[k + 5] = g.vx;
+        pontos[k + 6] = g.vy;
       }
       gl.uniform1f(spray.valores.densidade, tela.width / recorte[2]);
       gl.bindBuffer(gl.ARRAY_BUFFER, dispersao);
-      gl.bufferSubData(gl.ARRAY_BUFFER, 0, pontos.subarray(0, gotas.length * 5));
-      atributo(spray.atributos.lugar, 3, 20);
-      atributo(spray.atributos.aspecto, 2, 20, 12);
+      gl.bufferSubData(gl.ARRAY_BUFFER, 0, pontos.subarray(0, gotas.length * 7));
+      atributo(spray.atributos.lugar, 3, 28);
+      atributo(spray.atributos.aspecto, 2, 28, 12);
+      if (spray.atributos.rumo >= 0) atributo(spray.atributos.rumo, 2, 28, 20);
       gl.drawArrays(gl.POINTS, 0, gotas.length);
     };
   }
