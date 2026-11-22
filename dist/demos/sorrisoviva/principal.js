@@ -78,17 +78,8 @@
   });
   void entrada;
 
-  const svgNS = "http://www.w3.org/2000/svg";
-  const grupoCamadas = $("[data-camadas]");
-  const camadas = [];
-  for (let i = 1; i <= 6; i++) {
-    const escala = 1 - i * 0.105;
-    const uso = document.createElementNS(svgNS, "use");
-    uso.setAttribute("href", "#forma-dente");
-    grupoCamadas.append(uso);
-    camadas.push({ uso, escala, profundidade: i });
-  }
   const cena = $("#cena-dente");
+  const dente = $(".dente", cena);
   const alvo = { x: 0, y: 0 };
   const atual = { x: 0, y: 0 };
   addEventListener(
@@ -103,23 +94,9 @@
   const parallax = ajustes.parallax ?? 1;
   function posicionar(t) {
     const balanco = movimentoReduzido.matches ? 0 : 1;
-    const ox = (atual.x * 10 + Math.sin(t * 0.45) * 3 * balanco) * parallax;
-    const oy = (atual.y * 8 + Math.cos(t * 0.38) * 2 * balanco) * parallax;
-    for (const c of camadas) {
-      const dx = ox * c.profundidade * 0.35 - (1 - c.escala) * 14;
-      const dy = oy * c.profundidade * 0.3 + (1 - c.escala) * 118;
-      c.uso.setAttribute("transform", `translate(${(240 * (1 - c.escala) + dx).toFixed(2)} ${(230 * (1 - c.escala) + dy).toFixed(2)}) scale(${c.escala})`);
-    }
-    cena.style.setProperty("--giro-y", `${(atual.x * 8 * parallax).toFixed(2)}deg`);
-    cena.style.setProperty("--giro-x", `${(-atual.y * 6 * parallax).toFixed(2)}deg`);
-    const dente = $(".dente", cena);
-    dente.style.setProperty("--giro-y", `${(atual.x * 8 * parallax).toFixed(2)}deg`);
-    dente.style.setProperty("--giro-x", `${(-atual.y * 6 * parallax).toFixed(2)}deg`);
-    const ciclo = ((t * 0.12 * (ajustes.velocidadeBrilho ?? 1)) % 1.6) - 0.3;
-    dente.style.setProperty("--varredura", `${(ciclo * 760 - 120).toFixed(1)}px`);
-    const aro = $("#g-aro");
-    const giro = Math.sin(t * 0.3) * 8 * balanco + atual.x * 6;
-    aro.setAttribute("gradientTransform", `rotate(${giro.toFixed(2)} .5 .5)`);
+    const giroY = (atual.x * 9 + Math.sin(t * 0.45) * 2.5 * balanco) * parallax;
+    const giroX = (-atual.y * 7 + Math.cos(t * 0.38) * 1.5 * balanco) * parallax;
+    dente.style.transform = `rotateY(${giroY.toFixed(2)}deg) rotateX(${giroX.toFixed(2)}deg)`;
   }
   let quadro = 0;
   let ativo = false;

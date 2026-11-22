@@ -570,18 +570,16 @@ h1 > em {
   position: relative;
   z-index: 2;
   align-self: start;
-  margin: 0 -2% -40px -16%;
-  aspect-ratio: 548 / 592;
+  margin: -4px -11.5% -60px -27%;
+  aspect-ratio: 600 / 618;
   perspective: 900px;
 }
 .dente {
   width: 100%;
   height: 100%;
   overflow: visible;
-  rotate: 4deg;
   animation: boiar calc(7s / var(--flutuacao, 1)) ease-in-out infinite alternate;
-  transform: rotateY(var(--giro-y, 0deg)) rotateX(var(--giro-x, 0deg));
-  transition: transform 0.2s linear;
+  will-change: transform;
 }
 @keyframes boiar {
   from {
@@ -591,53 +589,93 @@ h1 > em {
     translate: 0 10px;
   }
 }
-.dente-sombra use {
-  fill: #c79d95;
+.dente-sombra {
+  fill: #b98a82;
   opacity: 0.32;
-  filter: url(#f-brilho);
-  transform: translate(10px, 30px) scale(0.95);
-  transform-origin: 240px 260px;
-}
-.dente-aura use {
-  fill: none;
-  stroke: url(#g-aro);
-  stroke-width: 26;
-  opacity: 0.38;
-  filter: url(#f-brilho);
+  filter: url(#f-desfoque);
+  transform: translate(8px, 16px);
 }
 .corpo-base {
-  fill: url(#g-miolo);
+  fill: url(#g-corpo);
 }
-.camadas use {
-  fill: url(#g-camada);
-  stroke: rgba(255, 255, 255, 0.75);
-  stroke-width: 1.1;
-  filter: url(#f-sombra-camada);
+.corpo-luz {
+  fill: url(#g-corpo-luz);
+}
+.bisel-sombra {
+  fill: none;
+  stroke: #bf958f;
+  stroke-width: 40;
+  opacity: 0.5;
+  filter: url(#f-desfoque);
+}
+.bisel-luz {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 20;
+  opacity: 0.95;
+  filter: url(#f-desfoque-leve);
+}
+.bisel-brilho {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 11;
+}
+.ondas-dente {
+  transition: transform 0.2s linear;
+}
+.onda-sombra {
+  fill: none;
+  stroke: #b08680;
+  stroke-width: 28;
+  opacity: 0.16;
+  filter: url(#f-desfoque);
+  transform: translate(3px, 15px);
+}
+.onda-luz {
+  fill: none;
+  stroke-width: 2.2;
+  opacity: 0.98;
+  filter: drop-shadow(0 1.5px 1px rgba(170, 120, 112, 0.35));
 }
 .faixa-luz {
-  fill: url(#g-faixa);
-  fill: rgba(255, 255, 255, 0.55);
-  filter: url(#f-brilho);
+  display: none;
+  fill: rgba(255, 255, 255, 0.5);
+  filter: url(#f-desfoque);
   transform: skewX(-18deg) translateX(var(--varredura, -200px));
 }
-.aro-brilho {
-  fill: none;
-  stroke: url(#g-aro);
-  stroke-width: 14;
-  opacity: 0.55;
-  filter: url(#f-brilho);
-}
-.aro {
-  fill: none;
-  stroke: url(#g-aro);
-  stroke-width: 7;
-  stroke-linejoin: round;
-}
-.aro-fio {
+.contorno-fio {
   fill: none;
   stroke: rgba(255, 255, 255, 0.95);
-  stroke-width: 1.4;
-  transform: translate(-1.5px, -1.5px);
+  stroke-width: 2.4;
+}
+.aro-branco {
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+  opacity: 0.95;
+}
+.aro,
+.aro-brilho,
+.aro-fio {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.aro {
+  stroke-width: 11;
+}
+.aro-brilho {
+  stroke-width: 26;
+  opacity: 0.45;
+  filter: url(#f-desfoque);
+}
+.aro-fio {
+  stroke-width: 2.6;
+  opacity: 0.9;
+  transform: translate(-2.5px, -2px);
+}
+.faixa-camada {
+  fill: url(#g-camada-sombra);
 }
 
 /* cartões de destaque */
