@@ -53,6 +53,14 @@ const demonstracoes = {
       miniatura: "recursos/demos/sabor-da-casa.webp",
     },
   ],
+  escritorio: [
+    {
+      nome: "Alvarenga Escritório — Gestão e Estratégia",
+      descricao: "Escritório de vidro com luz cobre, água com reflexos e ondas animadas, serviços e apresentação em etapas.",
+      endereco: "demos/alvarenga/",
+      miniatura: "recursos/demos/alvarenga.webp",
+    },
+  ],
   lavajato: [
     {
       nome: "LavaCar Premium — Estética Automotiva",

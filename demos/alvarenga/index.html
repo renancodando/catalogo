@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a1914" />
+    <meta name="description" content="Gestão, estratégia e resultado para o seu negócio: rotinas administrativas, financeiras e organizacionais." />
+    <title>Alvarenga Escritório</title>
+    <link rel="preload" href="fontes/montserrat-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fontes/montserrat-500-italic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="estilo.css" />
+    <script src="configuracao.js" defer></script>
+    <script src="principal.js" defer></script>
+    <script src="../rncweb/assinatura.js" defer></script>
+  </head>
+  <body>
+    <svg class="simbolos" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g-cobre" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffd59a" /><stop offset=".45" stop-color="#e9a05a" /><stop offset="1" stop-color="#b8682c" /></linearGradient>
+      </defs>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M4 20l1.2-3.7A8.3 8.3 0 1 1 8.2 19Z" /><path d="M9 8.6c0 3.2 2.5 6 5.9 6.4l1-1.2-1.7-1-1 .8c-1-.5-1.8-1.3-2.3-2.3l.8-1-1-1.7Z" /></symbol>
+      <symbol id="i-seta" viewBox="0 0 24 24"><path d="M4.5 12h15M13.5 6l6 6-6 6" /></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M9 6.5v11l9-5.5Z" /></symbol>
+      <symbol id="i-camadas" viewBox="0 0 24 24"><path d="m12 3.5 9 4.6-9 4.6-9-4.6Z" /><path d="m3 12.2 9 4.6 9-4.6M3 16.2l9 4.6 9-4.6" /></symbol>
+      <symbol id="i-barras" viewBox="0 0 24 24"><rect x="3.5" y="13" width="4" height="7.5" rx=".6" /><rect x="10" y="9" width="4" height="11.5" rx=".6" /><rect x="16.5" y="4" width="4" height="16.5" rx=".6" /></symbol>
+      <symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.6c0 4.5 3.1 8 7.5 9.4 4.4-1.4 7.5-4.9 7.5-9.4V6Z" /><path d="m8.6 12 2.4 2.4 4.6-4.8" /></symbol>
+      <symbol id="i-moeda" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" /><path d="M14.8 9.2c-.6-.9-1.6-1.3-2.8-1.3-1.6 0-2.8.8-2.8 2.1 0 3 5.8 1.6 5.8 4.4 0 1.3-1.3 2.1-3 2.1-1.3 0-2.4-.5-3-1.4M12 6.2v1.7M12 16.5v1.6" /></symbol>
+      <symbol id="i-pessoas" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5" /><path d="M2.8 20c.6-3.6 3-5.5 6.2-5.5s5.6 1.9 6.2 5.5" /><path d="M15.5 4.8a3.3 3.3 0 0 1 0 6.4M17.6 14.8c2 .6 3.3 2.3 3.6 5.2" /></symbol>
+      <symbol id="i-lupa" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m15.5 15.5 5 5" /></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.3 4.3L19 7.2" /></symbol>
+      <symbol id="i-local" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z" /><circle cx="12" cy="10" r="2.4" /></symbol>
+      <symbol id="i-relogio" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" /></symbol>
+      <symbol id="i-mais" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+      <symbol id="i-fechar" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M8 17h12" /></symbol>
+      <symbol id="i-anterior" viewBox="0 0 24 24"><path d="M14.5 6 8.5 12l6 6" /></symbol>
+      <symbol id="i-proximo" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6" /></symbol>
+    </svg>
+
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="topo">
+      <div class="topo-interno">
+        <a class="marca" href="#inicio" aria-label="Início">
+          <svg class="marca-a" viewBox="0 0 96 78" aria-hidden="true">
+            <path d="M6 74C20 60 34 34 46 6c1-2 3-2 4 0 9 26 18 50 30 68" fill="none" stroke="url(#g-cobre)" stroke-width="4.2" stroke-linecap="round" />
+            <path d="M2 50c22-10 56-14 92-8" fill="none" stroke="url(#g-cobre)" stroke-width="3.2" stroke-linecap="round" />
+            <path d="M49 14c-4 14-9 30-17 46" fill="none" stroke="#ffe2b4" stroke-width="1.2" stroke-linecap="round" opacity=".8" />
+          </svg>
+          <span class="marca-texto"><strong data-marca="nome">Alvarenga</strong><small data-marca="subtitulo">Escritório</small></span>
+        </a>
+        <nav class="menu" id="menu" aria-label="Navegação principal">
+          <a href="#inicio" class="ativo">Início</a>
+          <a href="#servicos">Serviços</a>
+          <a href="#sobre">Sobre</a>
+          <a href="#contato">Contato</a>
+          <button class="botao-contorno menu-acao" type="button" data-whatsapp><svg aria-hidden="true"><use href="#i-whatsapp" /></svg>Fale Conosco</button>
+        </nav>
+        <button class="botao-contorno topo-acao" type="button" data-whatsapp><svg aria-hidden="true"><use href="#i-whatsapp" /></svg>Fale Conosco</button>
+        <button class="alternar-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><svg aria-hidden="true"><use href="#i-menu" /></svg></button>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <section class="abertura" id="inicio" aria-labelledby="titulo-principal">
+        <div class="palco">
+          <div class="fundo" aria-hidden="true"></div>
+          <canvas class="agua" aria-hidden="true"></canvas>
+
+          <svg class="cena" viewBox="0 0 1536 1024" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="g-anel" x1="0" y1=".2" x2="1" y2=".75">
+                <stop offset="0" stop-color="#ffcf8e" />
+                <stop offset=".35" stop-color="#f09a4c" />
+                <stop offset=".75" stop-color="#b75d22" stop-opacity=".6" />
+                <stop offset="1" stop-color="#7a3a12" stop-opacity="0" />
+              </linearGradient>
+              <radialGradient id="g-halo" cx=".5" cy=".5" r=".5">
+                <stop offset=".72" stop-color="#1f3a2c" stop-opacity="0" />
+                <stop offset=".93" stop-color="#e48b42" stop-opacity=".12" />
+                <stop offset="1" stop-color="#e48b42" stop-opacity="0" />
+              </radialGradient>
+              <linearGradient id="g-ripa" x1="0" y1="0" x2="0" y2="720" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#3b1a06" stop-opacity="0" />
+                <stop offset=".25" stop-color="#a24f15" stop-opacity=".55" />
+                <stop offset=".7" stop-color="#ff9a3c" />
+                <stop offset="1" stop-color="#ffb760" stop-opacity=".9" />
+              </linearGradient>
+              <linearGradient id="g-ripas-mascara" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#fff" stop-opacity=".1" />
+                <stop offset=".45" stop-color="#fff" stop-opacity=".75" />
+                <stop offset="1" stop-color="#fff" />
+              </linearGradient>
+              <mask id="m-ripas" maskUnits="userSpaceOnUse" x="1290" y="0" width="260" height="760"><rect x="1290" y="0" width="260" height="760" fill="url(#g-ripas-mascara)" /></mask>
+              <linearGradient id="g-parede" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7a3510" stop-opacity="0" /><stop offset=".5" stop-color="#8f4412" stop-opacity=".45" /><stop offset="1" stop-color="#c4621c" stop-opacity=".7" /></linearGradient>
+              <linearGradient id="g-parede-v" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".15" /><stop offset=".55" stop-color="#fff" stop-opacity=".7" /><stop offset="1" stop-color="#fff" /></linearGradient>
+              <mask id="m-parede" maskUnits="userSpaceOnUse" x="1240" y="0" width="300" height="760"><rect x="1240" y="0" width="300" height="760" fill="url(#g-parede-v)" /></mask>
+              <mask id="m-anel" maskUnits="userSpaceOnUse" x="700" y="60" width="760" height="560"><rect x="700" y="60" width="760" height="500" fill="#fff" /><rect x="1300" y="60" width="200" height="560" fill="#000" /></mask>
+              <linearGradient id="g-vidro" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#8fbca0" stop-opacity=".42" />
+                <stop offset=".45" stop-color="#3f6c54" stop-opacity=".32" />
+                <stop offset="1" stop-color="#1d3a29" stop-opacity=".45" />
+              </linearGradient>
+              <linearGradient id="g-vidro-borda" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#e4fbe9" stop-opacity=".85" />
+                <stop offset=".5" stop-color="#8fbca0" stop-opacity=".4" />
+                <stop offset="1" stop-color="#f0a860" stop-opacity=".55" />
+              </linearGradient>
+              <linearGradient id="g-mesa" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#9cc7a8" stop-opacity=".55" />
+                <stop offset="1" stop-color="#284a36" stop-opacity=".25" />
+              </linearGradient>
+              <linearGradient id="g-perna" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#5f8f74" stop-opacity=".32" />
+                <stop offset="1" stop-color="#173022" stop-opacity=".18" />
+              </linearGradient>
+              <linearGradient id="g-folha" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ffd08a" />
+                <stop offset=".6" stop-color="#e08a3e" />
+                <stop offset="1" stop-color="#9c4d17" />
+              </linearGradient>
+              <linearGradient id="g-tela" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#2a3f33" />
+                <stop offset=".6" stop-color="#16271e" />
+                <stop offset="1" stop-color="#3c2a18" />
+              </linearGradient>
+              <linearGradient id="g-reflexo-vidro" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#fff" stop-opacity="0" />
+                <stop offset=".5" stop-color="#e9fff1" stop-opacity=".22" />
+                <stop offset="1" stop-color="#fff" stop-opacity="0" />
+              </linearGradient>
+              <filter id="f-brilho" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7" /></filter>
+              <filter id="f-brilho-forte" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="16" /></filter>
+              <clipPath id="c-painel-1"><path d="M1035 560V276c0-26 14-42 40-48l170-78c22-6 40 8 40 34v376Z" /></clipPath>
+              <clipPath id="c-painel-2"><path d="M1185 560V300c0-24 12-38 36-45l128-42c20-5 36 8 36 30v317Z" /></clipPath>
+            </defs>
+
+            <g class="camada-fundo" data-profundidade="0.25">
+              <circle cx="1060" cy="390" r="320" fill="url(#g-halo)" />
+              <rect x="1250" y="0" width="290" height="720" fill="url(#g-parede)" mask="url(#m-parede)" />
+              <g class="ripas" mask="url(#m-ripas)" data-ripas></g>
+              <g class="anel" mask="url(#m-anel)">
+                <circle class="anel-brilho" cx="1060" cy="392" r="278" fill="none" stroke="url(#g-anel)" stroke-width="7" filter="url(#f-brilho)" />
+                <circle cx="1060" cy="392" r="278" fill="none" stroke="url(#g-anel)" stroke-width="2.6" />
+              </g>
+            </g>
+
+            <g class="camada-vidros" data-profundidade="0.5">
+              <path class="painel" d="M1035 560V276c0-26 14-42 40-48l170-78c22-6 40 8 40 34v376Z" fill="url(#g-vidro)" stroke="url(#g-vidro-borda)" stroke-width="2" />
+              <g clip-path="url(#c-painel-1)"><rect class="varredura" x="900" y="100" width="90" height="520" fill="url(#g-reflexo-vidro)" /></g>
+              <path class="painel" d="M1185 560V300c0-24 12-38 36-45l128-42c20-5 36 8 36 30v317Z" fill="url(#g-vidro)" stroke="url(#g-vidro-borda)" stroke-width="2" />
+              <g clip-path="url(#c-painel-2)"><rect class="varredura varredura-2" x="1050" y="150" width="70" height="460" fill="url(#g-reflexo-vidro)" /></g>
+              <path class="painel painel-curvo" d="M864 560V440c4-60 52-92 150-98l4 218Z" fill="url(#g-vidro)" stroke="url(#g-vidro-borda)" stroke-width="2" />
+              <path d="M866 438c6-56 52-90 150-96" fill="none" stroke="#ffbf74" stroke-width="2.4" opacity=".8" filter="url(#f-brilho)" />
+              <path d="M866 438c6-56 52-90 150-96" fill="none" stroke="#ffd8a0" stroke-width="1.4" />
+            </g>
+
+            <g class="camada-mesa" data-profundidade="0.7">
+              <path d="M826 562h710v128H826Z" fill="#0c1d15" opacity=".55" />
+              <path d="M826 568h136v122H826Z" fill="url(#g-perna)" stroke="#7fae93" stroke-opacity=".35" />
+              <path d="M962 568h560v6H962Z" fill="#7fae93" opacity=".18" />
+              <path d="M836 546c-6 0-10 4-10 8v12c0 4 4 6 10 6h700v-26Z" fill="url(#g-mesa)" stroke="#a9d3b6" stroke-opacity=".45" />
+              <path class="mesa-luz" d="M832 549H1536" stroke="#ffc583" stroke-width="2.2" />
+              <path class="mesa-luz-brilho" d="M832 549H1536" stroke="#ff9c4a" stroke-width="9" filter="url(#f-brilho)" opacity=".7" />
+
+              <g class="copo">
+                <path d="M942 508h38l-2 40h-34Z" fill="#14231a" stroke="#c99059" stroke-width="1.6" />
+                <path d="M948 508l-5-26M956 508l-1-30M964 508l4-24" stroke="#f2b36a" stroke-width="2.6" stroke-linecap="round" />
+                <path d="M948 508l-5-26" stroke="#ffe0b0" stroke-width=".8" />
+              </g>
+
+              <g class="notebook">
+                <path class="tela" d="M1127 458l108-6c4 0 6 3 5 6l-24 86-114 3Z" fill="url(#g-tela)" stroke="#d99a5c" stroke-width="1.5" />
+                <path class="tela-brilho" d="M1127 458l108-6c4 0 6 3 5 6l-24 86-114 3Z" fill="none" stroke="#ff9d4c" stroke-width="5" filter="url(#f-brilho)" opacity=".22" />
+                <path d="M1135 470l90-5-6 22" fill="none" stroke="#ffe2b8" stroke-width="1" opacity=".55" />
+                <path d="M1048 546h170c4 0 6 2 4 4h-178c-2-2 0-4 4-4Z" fill="#c78a50" />
+              </g>
+
+              <g class="planta" data-planta>
+                <path class="vaso" d="M1330 456h54l18 40-14 50h-62l-14-50Z" fill="#20160c" fill-opacity=".55" stroke="#e8a35c" stroke-width="1.8" />
+                <path d="M1330 456l14 40-12 50M1384 456l-14 40 12 50M1316 496h86M1344 496h26" fill="none" stroke="#e8a35c" stroke-width="1" opacity=".8" />
+                <path class="vaso-brilho" d="M1330 456h54l18 40-14 50h-62l-14-50Z" fill="none" stroke="#ff9a45" stroke-width="5" filter="url(#f-brilho)" opacity=".25" />
+              </g>
+            </g>
+          </svg>
+
+          <svg class="ondas" viewBox="0 0 1536 1024" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="g-onda" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c3b2c" /><stop offset="1" stop-color="#03100a" /></linearGradient>
+              <linearGradient id="g-onda-borda" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffb764" stop-opacity=".1" /><stop offset=".35" stop-color="#ffc47a" /><stop offset=".8" stop-color="#e08a3c" /><stop offset="1" stop-color="#ffb764" stop-opacity=".2" /></linearGradient>
+              <filter id="f-onda" x="-10%" y="-50%" width="120%" height="200%"><feGaussianBlur stdDeviation="5" /></filter>
+            </defs>
+            <g data-ondas></g>
+          </svg>
+
+          <div class="abertura-texto">
+            <p class="rotulo" data-texto="inicio.rotulo">Soluções que organizam</p>
+            <h1 id="titulo-principal"><span data-texto="inicio.tituloAntes">Gestão, estratégia e resultado para o seu</span> <em data-texto="inicio.tituloDestaque">negócio.</em></h1>
+            <p class="descricao" data-texto="inicio.descricao"></p>
+            <div class="acoes">
+              <a class="botao botao-cobre" href="#servicos"><svg aria-hidden="true"><use href="#i-seta" /></svg><span data-texto="inicio.botaoPrincipal">Conheça nossos serviços</span></a>
+              <button class="botao-play" type="button" data-apresentacao><span class="play-circulo"><svg aria-hidden="true"><use href="#i-play" /></svg></span><span data-texto="inicio.botaoSecundario">Ver apresentação</span></button>
+            </div>
+          </div>
+
+          <ul class="pilares" data-lista="pilares"></ul>
+        </div>
+      </section>
+
+      <section class="servicos" id="servicos" aria-labelledby="titulo-servicos">
+        <div class="largura">
+          <div class="cabecalho revelar">
+            <p class="rotulo">Serviços</p>
+            <h2 id="titulo-servicos">Rotina organizada, <em>decisões seguras.</em></h2>
+            <p class="texto-secao">Escolha um serviço para ver o que está incluído e falar com o escritório.</p>
+          </div>
+          <div class="servicos-grade" data-lista="servicos"></div>
+        </div>
+      </section>
+
+      <section class="sobre" id="sobre" aria-labelledby="titulo-sobre">
+        <div class="largura sobre-grade">
+          <div class="revelar">
+            <p class="rotulo">Sobre</p>
+            <h2 id="titulo-sobre" data-texto="sobre.titulo"></h2>
+            <p class="texto-secao" data-texto="sobre.texto"></p>
+            <ul class="pontos" data-lista="pontos"></ul>
+          </div>
+          <ol class="etapas revelar" data-lista="etapas"></ol>
+        </div>
+      </section>
+
+      <section class="duvidas" id="duvidas" aria-labelledby="titulo-duvidas">
+        <div class="largura duvidas-grade">
+          <div class="revelar">
+            <p class="rotulo">Dúvidas</p>
+            <h2 id="titulo-duvidas">Perguntas <em>frequentes.</em></h2>
+          </div>
+          <div class="perguntas revelar" data-lista="perguntas"></div>
+        </div>
+      </section>
+
+      <section class="contato" id="contato" aria-labelledby="titulo-contato">
+        <div class="largura contato-grade">
+          <div class="revelar">
+            <p class="rotulo">Contato</p>
+            <h2 id="titulo-contato">Vamos organizar <em>o seu negócio?</em></h2>
+            <p class="texto-secao">Conte um pouco sobre a sua empresa e continue a conversa pelo WhatsApp com a mensagem pronta.</p>
+            <ul class="contato-lista">
+              <li><svg aria-hidden="true"><use href="#i-local" /></svg><span><strong data-endereco="rua"></strong><span data-endereco="cidade"></span><small data-endereco="referencia"></small></span></li>
+              <li><svg aria-hidden="true"><use href="#i-relogio" /></svg><span class="horarios" data-lista="horarios"></span></li>
+            </ul>
+            <a class="botao botao-contorno" href="#contato" data-mapa><svg aria-hidden="true"><use href="#i-local" /></svg>Como chegar</a>
+          </div>
+          <form class="formulario revelar" novalidate>
+            <label>Seu nome<input name="nome" autocomplete="name" required /></label>
+            <label>Empresa<input name="empresa" autocomplete="organization" /></label>
+            <label class="campo-largo">Serviço de interesse<select name="servico" required data-opcoes-servico><option value="">Selecione</option></select></label>
+            <label class="campo-largo">Como podemos ajudar?<textarea name="mensagem" rows="3" placeholder="Opcional"></textarea></label>
+            <p class="erro campo-largo" role="alert" hidden>Preencha o nome e o serviço de interesse.</p>
+            <button class="botao botao-cobre campo-largo" type="submit"><svg aria-hidden="true"><use href="#i-whatsapp" /></svg>Continuar no WhatsApp</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <div class="largura rodape-interno">
+        <a class="marca" href="#inicio">
+          <svg class="marca-a" viewBox="0 0 96 78" aria-hidden="true">
+            <path d="M6 74C20 60 34 34 46 6c1-2 3-2 4 0 9 26 18 50 30 68" fill="none" stroke="url(#g-cobre)" stroke-width="4.2" stroke-linecap="round" />
+            <path d="M2 50c22-10 56-14 92-8" fill="none" stroke="url(#g-cobre)" stroke-width="3.2" stroke-linecap="round" />
+          </svg>
+          <span class="marca-texto"><strong data-marca="nome">Alvarenga</strong><small data-marca="subtitulo">Escritório</small></span>
+        </a>
+        <p class="rodape-nota">© <span data-ano></span> <span data-texto="nomeEmpresa"></span>. Site demonstrativo — conteúdos ilustrativos.</p>
+      </div>
+    </footer>
+
+    <dialog class="janela apresentacao" id="apresentacao" aria-labelledby="apresentacao-titulo">
+      <button class="janela-fechar" type="button" aria-label="Fechar"><svg><use href="#i-fechar" /></svg></button>
+      <p class="rotulo">Apresentação</p>
+      <h3 id="apresentacao-titulo">Como trabalhamos</h3>
+      <div class="slides" aria-live="polite" data-slides></div>
+      <div class="slides-controles">
+        <button type="button" class="slide-anterior" aria-label="Etapa anterior"><svg><use href="#i-anterior" /></svg></button>
+        <div class="slides-pontos" data-pontos></div>
+        <button type="button" class="slide-proximo" aria-label="Próxima etapa"><svg><use href="#i-proximo" /></svg></button>
+      </div>
+    </dialog>
+
+    <dialog class="janela aviso" id="aviso" aria-labelledby="aviso-titulo">
+      <button class="janela-fechar" type="button" aria-label="Fechar"><svg><use href="#i-fechar" /></svg></button>
+      <p class="rotulo">Demonstração</p>
+      <h3 id="aviso-titulo">Contato ainda não configurado</h3>
+      <p class="aviso-texto"></p>
+      <button class="botao botao-cobre aviso-ok" type="button">Entendi</button>
+    </dialog>
+  </body>
+</html>
