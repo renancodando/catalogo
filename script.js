@@ -58,6 +58,12 @@ const demonstracoes = {
       endereco: "demos/sabor-da-casa/",
       miniatura: "recursos/demos/sabor-da-casa.webp",
     },
+    {
+      nome: "RNCWEB Gourmet — Gastronomia Autoral",
+      descricao: "Frigideira em chamas com fumaça viva, ingredientes no ar, painel do cardápio e destaques em cloches no carrossel.",
+      endereco: "demos/gourmet/",
+      miniatura: "recursos/demos/gourmet.webp",
+    },
   ],
   escritorio: [
     {

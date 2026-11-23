@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#050302" />
+    <title>RNCWEB Gourmet</title>
+    <meta name="description" content="Gastronomia autoral: cardápio, ambiente e pedidos." />
+    <link rel="preload" href="arte/placa.webp" as="image" />
+    <link rel="preload" href="fontes/playfair-display-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fontes/inter-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="estilo.css" />
+    <script src="configuracao.js"></script>
+    <script src="principal.js" defer></script>
+    <script src="../rncweb/assinatura.js" defer></script>
+  </head>
+  <body>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+    <section class="abertura" id="inicio" aria-label="Abertura">
+      <div class="palco">
+        <div class="arte" aria-hidden="true">
+          <div class="arte-quadro">
+            <img class="arte-placa" src="arte/placa.webp" alt="" width="1672" height="941" decoding="async" />
+            <canvas class="arte-gl"></canvas>
+            <canvas class="arte-fx"></canvas>
+            <img class="ing ing-anel" data-ing="anel" src="arte/ing-anel.webp" alt="" />
+            <img class="ing ing-folha" data-ing="folha" src="arte/ing-folha.webp" alt="" />
+            <img class="ing ing-gota" data-ing="gota0" src="arte/ing-gota0.webp" alt="" />
+            <img class="ing ing-gota" data-ing="gota1" src="arte/ing-gota1.webp" alt="" />
+            <img class="ing ing-gota" data-ing="gota2" src="arte/ing-gota2.webp" alt="" />
+            <img class="ing ing-gota" data-ing="gota3" src="arte/ing-gota3.webp" alt="" />
+          </div>
+        </div>
+
+        <header class="topo">
+          <a class="marca" href="#inicio" aria-label="Início">
+            <img class="marca-ic" src="arte/ic-chapeu.webp" alt="" />
+            <span class="t" data-k="marca1" data-texto="marca.nome">RNCWEB</span>
+            <span class="t" data-k="marca2" data-texto="marca.subtitulo">Gourmet</span>
+          </a>
+          <button class="menu-movel" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+          <nav class="menu" id="menu" aria-label="Principal"></nav>
+          <div class="acoes">
+            <button class="acao acao-busca" type="button" aria-label="Buscar no cardápio" data-k="h-busca"><img src="arte/ic-busca.webp" alt="" /></button>
+            <button class="acao acao-favoritos" type="button" aria-label="Ver favoritos" data-k="h-fav"><img src="arte/ic-coracao.webp" alt="" /><b class="contador" hidden></b></button>
+            <a class="botao botao-cheio botao-pedir" href="#contato" data-k="h-pedir">
+              <img class="b-ic" src="arte/ic-cloche.webp" alt="" />
+              <span class="t" data-k="pedir" data-texto="botaoPedido">Pedir agora</span>
+              <svg class="b-seta" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" /></svg>
+            </a>
+          </div>
+        </header>
+
+        <nav class="etapas" aria-label="Seções"></nav>
+
+        <div class="heroi" id="conteudo">
+          <p class="t rotulo" data-k="rotulo" data-texto="inicio.rotulo">Gastronomia autoral</p>
+          <h1 class="titulo">
+            <span class="t" data-k="tit1"><span data-texto="inicio.tituloLinha1">Sabores</span> <em data-texto="inicio.tituloLinha1Destaque">que</em></span>
+            <span class="t destaque" data-k="tit2"><em data-texto="inicio.tituloLinha2">contam histórias</em></span>
+          </h1>
+          <p class="t descricao" data-k="desc" data-texto="inicio.descricao"></p>
+          <div class="botoes">
+            <a class="botao botao-cheio" href="#cardapio" data-k="h-btn1">
+              <img class="b-ic" src="arte/ic-cloche.webp" alt="" />
+              <span class="t" data-k="btn1" data-texto="inicio.botaoPrincipal">Ver cardápio</span>
+              <svg class="b-seta" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" /></svg>
+            </a>
+            <a class="botao botao-contorno" href="#ambiente" data-k="h-btn2">
+              <img class="b-ic" src="arte/ic-play.webp" alt="" />
+              <span class="t" data-k="btn2" data-texto="inicio.botaoSecundario">Conhecer o ambiente</span>
+            </a>
+          </div>
+          <ul class="diferenciais"></ul>
+        </div>
+
+        <aside class="painel" aria-labelledby="painel-titulo">
+          <p class="t painel-rotulo" data-k="prot" data-texto="painel.rotulo">Explore o nosso</p>
+          <h2 class="t painel-titulo" id="painel-titulo" data-k="ptit" data-texto="painel.titulo">Cardápio</h2>
+          <ul class="painel-lista"></ul>
+        </aside>
+
+        <section class="destaques" aria-labelledby="destaques-titulo">
+          <p class="t rotulo" data-k="drot" data-texto="destaques.rotulo">Destaques da casa</p>
+          <h2 class="destaques-titulo" id="destaques-titulo">
+            <span class="t" data-k="dtit1" data-texto="destaques.titulo">Experimente</span>
+            <span class="t destaque" data-k="dtit2"><em data-texto="destaques.subtitulo">o especial da semana</em></span>
+          </h2>
+          <div class="carrossel-controles">
+            <button class="seta-carrossel anterior" type="button" aria-label="Prato anterior" data-k="h-ant"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" /></svg></button>
+            <button class="seta-carrossel proximo" type="button" aria-label="Próximo prato" data-k="h-prox"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button>
+            <div class="pontos" role="tablist" aria-label="Pratos em destaque"></div>
+          </div>
+          <div class="carrossel" tabindex="0" aria-roledescription="carrossel" aria-live="polite">
+            <div class="trilho"></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <main>
+      <section class="secao cardapio" id="cardapio" aria-labelledby="cardapio-titulo">
+        <div class="largura">
+          <p class="secao-rotulo">Explore o nosso</p>
+          <h2 class="secao-titulo" id="cardapio-titulo">Cardápio <em>completo</em></h2>
+          <div class="busca-cardapio">
+            <label class="campo-busca"><span class="sr">Buscar prato</span><input type="search" placeholder="Buscar prato ou ingrediente" data-busca /></label>
+            <div class="abas" role="tablist" aria-label="Categorias"></div>
+          </div>
+          <div class="itens" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="secao ambiente" id="ambiente" aria-labelledby="ambiente-titulo">
+        <div class="largura">
+          <p class="secao-rotulo">Ambiente</p>
+          <h2 class="secao-titulo" id="ambiente-titulo" data-texto="ambiente.titulo"></h2>
+          <p class="secao-texto" data-texto="ambiente.texto"></p>
+          <div class="espacos"></div>
+        </div>
+      </section>
+
+      <section class="secao sobre" id="sobre" aria-labelledby="sobre-titulo">
+        <div class="largura sobre-grade">
+          <div>
+            <p class="secao-rotulo">Sobre</p>
+            <h2 class="secao-titulo" id="sobre-titulo" data-texto="sobre.titulo"></h2>
+            <p class="secao-texto" data-texto="sobre.texto"></p>
+          </div>
+          <ul class="pontos-sobre"></ul>
+        </div>
+      </section>
+
+      <section class="secao contato" id="contato" aria-labelledby="contato-titulo">
+        <div class="largura contato-grade">
+          <div>
+            <p class="secao-rotulo">Contato</p>
+            <h2 class="secao-titulo" id="contato-titulo">Faça seu <em>pedido</em></h2>
+            <dl class="horarios"></dl>
+            <p class="endereco"><span data-endereco="rua"></span><br /><span data-endereco="cidade"></span><br /><small data-endereco="referencia"></small></p>
+          </div>
+          <form class="pedido" novalidate>
+            <label>Seu nome<input name="nome" autocomplete="name" required /></label>
+            <label>Pedido ou reserva
+              <select name="tipo"><option>Pedido para entrega</option><option>Retirada no balcão</option><option>Reserva de mesa</option></select>
+            </label>
+            <label>Itens ou observações<textarea name="itens" rows="3" placeholder="Ex.: 1 Massa da Casa, 1 Sobremesa Especial"></textarea></label>
+            <button class="botao botao-cheio" type="submit"><span>Enviar pelo WhatsApp</span><svg class="b-seta" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" /></svg></button>
+            <p class="aviso" role="status" hidden></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <div class="largura rodape-interno">
+        <span class="rodape-marca"><img src="arte/ic-chapeu.webp" alt="" /> <span data-texto="nomeEmpresa"></span></span>
+        <p>© <span data-ano></span> <span data-texto="nomeEmpresa"></span>. Site demonstrativo — cardápio, endereço e horários ilustrativos.</p>
+      </div>
+    </footer>
+
+    <div class="busca-sobreposta" hidden>
+      <div class="busca-caixa" role="dialog" aria-modal="true" aria-label="Buscar no cardápio">
+        <input type="search" placeholder="O que você quer comer hoje?" data-busca-rapida />
+        <ul class="busca-resultados"></ul>
+        <button class="busca-fechar" type="button" aria-label="Fechar busca">×</button>
+      </div>
+    </div>
+  </body>
+</html>
