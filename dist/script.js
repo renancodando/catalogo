@@ -84,6 +84,12 @@ const demonstracoes = {
       endereco: "demos/escritorio/",
       miniatura: "recursos/demos/escritorio.webp",
     },
+    {
+      nome: "RNCWEB Escritório — Estratégia e Gestão",
+      descricao: "Cubo de vidro com painéis de gráficos flutuando, anel de luz cobre, ondas animadas, navegação lateral e contadores.",
+      endereco: "demos/estrategia/",
+      miniatura: "recursos/demos/estrategia.webp",
+    },
   ],
   lavajato: [
     {

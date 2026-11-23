@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0d0d" />
+    <meta name="description" content="Estratégia, gestão e resultados: apoio completo para empresas que buscam organização, crescimento e decisões mais seguras." />
+    <title>RNCWEB Escritório — Estratégia e Gestão</title>
+    <link rel="preload" href="arte/placa.webp" as="image" />
+    <link rel="preload" href="fontes/serif-500-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fontes/inter-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="estilo.css" />
+    <script src="configuracao.js" defer></script>
+    <script src="principal.js" defer></script>
+    <script src="../rncweb/assinatura.js" defer></script>
+  </head>
+  <body>
+    <svg class="simbolos" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-seta" viewBox="0 0 24 24"><path d="M4.5 12h14.5M13.5 6.5 19 12l-5.5 5.5" /></symbol>
+      <symbol id="i-baixo" viewBox="0 0 24 24"><path d="M12 4.5v14.5M6.5 13.5 12 19l5.5-5.5" /></symbol>
+      <symbol id="i-calendario" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5" /><path d="M3.5 9.6h17M8 3v4M16 3v4" /><rect x="7" y="12.6" width="4" height="4" rx=".8" /></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.6v12.8L18.4 12Z" fill="currentColor" stroke="none" /></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></symbol>
+      <symbol id="i-fechar" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.3 4.3L19 7.2" /></symbol>
+      <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M4 20l1.2-3.7A8.3 8.3 0 1 1 8.2 19Z" /><path d="M9 8.6c0 3.2 2.5 6 5.9 6.4l1-1.2-1.7-1-1 .8c-1-.5-1.8-1.3-2.3-2.3l.8-1-1-1.7Z" /></symbol>
+    </svg>
+
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+    <div class="abertura" id="inicio">
+      <div class="placa" aria-hidden="true"></div>
+      <canvas class="fx-lateral" aria-hidden="true"></canvas>
+
+      <header class="topo">
+        <a class="marca" href="#inicio" aria-label="RNCWEB Escritório, início">
+          <img class="marca-simbolo" data-l="marca-simbolo" src="arte/icone-logo.webp" alt="" width="174" height="138" />
+          <span class="marca-nome" data-l="marca-nome" data-c="marca.nome">RNCWEB</span>
+          <span class="marca-sub" data-l="marca-sub" data-c="marca.subtitulo">Escritório</span>
+        </a>
+        <nav class="menu" id="menu" aria-label="Navegação principal">
+          <ul class="menu-lista" data-lista="menu"></ul>
+        </nav>
+        <a class="botao-topo" href="#contato" data-l="botao-topo">
+          <svg class="ic" data-l="cta-ic"><use href="#i-calendario" /></svg>
+          <span data-l="cta" data-c="botaoTopo">Agendar reunião</span>
+          <svg class="ic" data-l="cta-seta"><use href="#i-seta" /></svg>
+        </a>
+        <button class="abrir-menu" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
+          <svg class="ic"><use href="#i-menu" /></svg>
+        </button>
+      </header>
+
+      <main id="conteudo">
+        <section class="chamada" aria-labelledby="titulo-principal">
+          <p class="sobretitulo" data-l="sobretitulo"><span data-c="inicio.sobretitulo">Soluções empresariais</span><i aria-hidden="true"></i></p>
+          <h1 id="titulo-principal" class="titulo">
+            <span class="t1" data-l="titulo-1" data-c="inicio.titulo.0">Estratégia,</span>
+            <span class="t2" data-l="titulo-2" data-c="inicio.titulo.1">Gestão e</span>
+            <em class="t3" data-l="titulo-3" data-c="inicio.titulo.2">Resultados</em>
+          </h1>
+          <p class="descricao">
+            <span data-l="descricao-1" data-c="inicio.descricao.0">Apoio completo para empresas que buscam</span>
+            <span data-l="descricao-2" data-c="inicio.descricao.1">organização, crescimento e decisões mais seguras.</span>
+          </p>
+          <div class="acoes">
+            <a class="botao-principal" href="#contato" data-l="botao-principal">
+              <span data-l="botao" data-c="inicio.botaoPrincipal">Fale com nosso time</span>
+              <svg class="ic" data-l="botao-seta"><use href="#i-seta" /></svg>
+            </a>
+            <a class="botao-abordagem" href="#sobre" data-l="botao-abordagem">
+              <span class="play" data-l="play"><svg class="ic"><use href="#i-play" /></svg></span>
+              <span class="abordagem-texto">
+                <span data-l="abordagem-1" data-c="inicio.botaoSecundario.0">Conheça</span>
+                <span data-l="abordagem-2" data-c="inicio.botaoSecundario.1">nossa abordagem</span>
+              </span>
+            </a>
+          </div>
+        </section>
+
+        <div class="cena" aria-hidden="true">
+          <div class="cena-fundo"></div>
+          <canvas class="fx-anel"></canvas>
+          <div class="grupo">
+            <img src="arte/grupo.webp" alt="" width="682" height="406" />
+            <canvas class="fx-grupo"></canvas>
+          </div>
+          <canvas class="fx-poeira"></canvas>
+        </div>
+
+        <section class="servicos-rapidos" aria-label="Áreas de atuação">
+          <ul class="cartoes" data-lista="cartoes"></ul>
+        </section>
+
+        <section class="numeros" aria-label="Números do escritório">
+          <ul class="numeros-lista" data-lista="numeros"></ul>
+          <a class="medida" href="#solucoes" data-l="medida">
+            <img data-l="medida-ic" src="arte/icone-medida.webp" alt="" width="114" height="144" />
+            <span class="medida-texto"><span data-l="medida-1" data-c="destaqueSolucoes.0">Soluções sob medida</span> <span data-l="medida-2" data-c="destaqueSolucoes.1">para o seu negócio.</span></span>
+            <svg class="ic" data-l="medida-seta"><use href="#i-seta" /></svg>
+          </a>
+        </section>
+      </main>
+
+      <div class="ondas" aria-hidden="true"><canvas class="fx-ondas"></canvas></div>
+      <a class="descer" href="#areas" data-l="descer" aria-label="Ir para as áreas de atuação"><svg class="ic"><use href="#i-baixo" /></svg></a>
+    </div>
+
+    <nav class="lateral" aria-label="Seções da página">
+      <ol data-lista="lateral"></ol>
+    </nav>
+
+    <section class="secao" id="areas" aria-labelledby="titulo-areas">
+      <p class="rotulo">Áreas de atuação</p>
+      <h2 id="titulo-areas">Como podemos <em>ajudar</em></h2>
+      <div class="areas" data-lista="areas"></div>
+    </section>
+
+    <section class="secao" id="sobre" aria-labelledby="titulo-sobre">
+      <p class="rotulo">Sobre</p>
+      <h2 id="titulo-sobre" data-c="abordagem.titulo">Nossa abordagem</h2>
+      <p class="secao-texto" data-c="abordagem.texto"></p>
+      <ol class="etapas" data-lista="etapas"></ol>
+    </section>
+
+    <section class="secao" id="solucoes" aria-labelledby="titulo-solucoes">
+      <p class="rotulo">Soluções</p>
+      <h2 id="titulo-solucoes">Soluções <em>sob medida</em></h2>
+      <div class="solucoes" data-lista="solucoes"></div>
+    </section>
+
+    <section class="secao" id="contato" aria-labelledby="titulo-contato">
+      <p class="rotulo">Contato</p>
+      <h2 id="titulo-contato">Vamos <em>conversar?</em></h2>
+      <div class="contato">
+        <form class="formulario" novalidate>
+          <label>Seu nome<input name="nome" autocomplete="name" required /></label>
+          <label>Empresa<input name="empresa" autocomplete="organization" /></label>
+          <label>Assunto<select name="assunto" data-lista="assuntos"></select></label>
+          <label class="largo">Mensagem<textarea name="mensagem" rows="4" placeholder="Conte um pouco sobre o momento da sua empresa."></textarea></label>
+          <button class="botao-principal" type="submit"><span>Agendar reunião</span><svg class="ic"><use href="#i-seta" /></svg></button>
+          <p class="aviso" role="status" aria-live="polite"></p>
+        </form>
+        <ul class="contato-info" data-lista="contato"></ul>
+      </div>
+    </section>
+
+    <footer class="rodape">
+      <p><strong data-c="nomeEmpresa">RNCWEB Escritório</strong> · Estratégia, gestão e resultados.</p>
+      <p class="nota" data-nota-numeros>Os números da página inicial são ilustrativos.</p>
+    </footer>
+  </body>
+</html>
