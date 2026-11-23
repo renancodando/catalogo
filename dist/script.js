@@ -24,6 +24,12 @@ const demonstracoes = {
       endereco: "demos/techcell/",
       miniatura: "recursos/demos/techcell.webp",
     },
+    {
+      nome: "RNCWEB Assistência Técnica — Reparo de Celulares",
+      descricao: "Celular em camadas que se abre sobre a plataforma de luz, anel de ícones de vidro, diagnóstico guiado e pedido pelo WhatsApp.",
+      endereco: "demos/assistencia-tecnica/",
+      miniatura: "recursos/demos/assistencia-tecnica.webp",
+    },
   ],
   odontologia: [
     {
