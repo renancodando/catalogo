@@ -74,6 +74,12 @@ const demonstracoes = {
       endereco: "demos/lavacar/",
       miniatura: "recursos/demos/lavacar.webp",
     },
+    {
+      nome: "RNCWEB Estética Automotiva — Lava-jato Premium",
+      descricao: "Redemoinho de água em volta do carro, faróis vivos, carrossel de serviços, nível de cuidado e planos.",
+      endereco: "demos/estetica-automotiva/",
+      miniatura: "recursos/demos/estetica-automotiva.webp",
+    },
   ],
 };
 // As apresentações comerciais possuem identidade própria e orientam o visitante até o orçamento.

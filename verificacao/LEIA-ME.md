@@ -60,5 +60,6 @@ Cada demonstração fica em `demos/<nome>/` com `configuracao.js` (dados da empr
 | SorrisoViva | Odontologia | Dente em relevo de vidro | SVG em camadas com paralaxe |
 | Alvarenga Escritório | Escritório | Escritório de vidro sobre a água | SVG, Canvas 2D e ondas animadas |
 | ESCRITÓRIO_ | Escritório | Cubo isométrico em wireframe | Canvas 2D com projeção 3D |
+| RNCWEB Estética Automotiva | Lava-jato | Carro com redemoinho de água | Arte da referência sem textos, textos medidos em HTML e Canvas 2D (água, gotas, faróis, velocímetro) |
 
 As demos foram verificadas no Chromium em 320, 360, 375, 390, 414, 430, 480, 600, 768, 820, 1024, 1280, 1440, 1920 e 2560 px, sem rolagem horizontal. Os testes cobriram menus, navegação, formulários, mensagens do WhatsApp (com e sem número configurado), teclado, movimento reduzido, quadros sucessivos das animações e, nas cenas WebGL, o funcionamento sem WebGL. As capturas estão em `verificacao/demos/`. Todas as demos exibem no rodapé a assinatura “Site criado por RNC Web”, gerada por um único componente (`demos/rncweb/assinatura.js`) para a marca ficar idêntica em todas. Números, depoimentos, cardápios e endereços das demos são demonstrativos.
