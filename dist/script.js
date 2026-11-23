@@ -38,6 +38,12 @@ const demonstracoes = {
       endereco: "demos/sorrisoviva/",
       miniatura: "recursos/demos/sorrisoviva.webp",
     },
+    {
+      nome: "Vitra — Odontologia Estética",
+      descricao: "Dente de vidro com faixa de luz dourada, água em movimento, sala com anel de luz e agendamento.",
+      endereco: "demos/vitra/",
+      miniatura: "recursos/demos/vitra.webp",
+    },
   ],
   restaurante: [
     {
